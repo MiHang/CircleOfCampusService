@@ -56,7 +56,7 @@ public class WebSocketService extends WebSocketServer {
     @Override
     public void onMessage(WebSocket webSocket, ByteBuffer message) {
 
-    };
+    }
 
 
     @Override
