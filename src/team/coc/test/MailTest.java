@@ -1,5 +1,6 @@
 package team.coc.test;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import team.coc.util.MailUtil;
@@ -8,8 +9,9 @@ import java.util.Date;
 
 public class MailTest {
 
-    public static void main(String[]args) {
-//        String str = MailUtil.sendVerificationCode("jayevip@163.com", 6666);
+    public static void main(String[]args) throws JSONException {
+
+//        String str = MailUtil.sendVerificationCode("610926067@qq.com", "6666");
 //        try {
 //            JSONObject json = new JSONObject(str);
 //            if ("success".equals(json.getString("result"))) {
@@ -20,27 +22,15 @@ public class MailTest {
 //        } catch (JSONException e) {
 //            e.printStackTrace();
 //        }
-        // 随机生成6位验证码
-        String verificationCode = "";
-        for (int i = 0; i < 6; i++) {
-            verificationCode += (int)(Math.random() * 9);
-        }
-        System.out.println("verificationCode - " + verificationCode);
 
-        new Thread(() -> {
+        JSONArray json = new JSONArray();
 
-            try {
-                Long startTime = System.currentTimeMillis();
-                System.out.println("startTime - " + startTime);
-                Thread.sleep(2000);
-                long endTime = System.currentTimeMillis();
-                System.out.println("endTime - startTime" + (endTime - startTime));
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+        JSONObject json1 = new JSONObject();
+        json1.put("campusId", 1);
+        json1.put("campusName", "成都职业技术学院");
+        json.put(json1);
 
-        }).start();
-
+        System.out.println("JSONArray - " + json.toString());
     }
 
 }

@@ -81,8 +81,7 @@ public class MailUtil {
             String msg = "<p>尊敬的用户 <a>" + sendee +"</a> 您好!</p>" +
                     "<p>感谢您注册校园圈，请将验证码填写到注册页面。<p>" +
                     "<p>验证码: <a>" + verificationCode +"</a>，此验证码在5分钟内有效。<p>" +
-                    "<p>这是一张用于测试的图片，请查收。 " +
-                    "<img src='http://www.jayeli.top:8080/test/test.jpg' style='width:auto;height:100px'></p>";
+                    "<p>如果您没有请求注册校园圈，请忽略这封邮件。 </p>";
             message.setContent(msg, "text/html;charset=UTF-8");
 
             // 设置发件时间
