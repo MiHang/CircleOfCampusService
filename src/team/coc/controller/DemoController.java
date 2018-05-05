@@ -22,7 +22,7 @@ public class DemoController {
      * @throws JSONException
      */
     @ResponseBody
-    @RequestMapping(value = {"/test1"})
+    @RequestMapping(value = {"/coc/test"})
     public String test1() throws JSONException {
         JSONObject json = new JSONObject();
         json.put("msg", "success");
@@ -34,7 +34,7 @@ public class DemoController {
      * @return
      */
     @ResponseBody
-    @RequestMapping(value = {"/test2"})
+    @RequestMapping(value = {"/coc/testByte"})
     public byte[] test2() throws JSONException, UnsupportedEncodingException {
 
         /*

@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import team.coc.service.WebSocketService;
 
+import javax.servlet.http.HttpServletRequest;
 import java.net.UnknownHostException;
 
 /**
@@ -13,14 +14,23 @@ import java.net.UnknownHostException;
 @Controller
 public class WebSocketServiceController{
 
+    /**
+     * WebSocket服务是否启动
+     */
+    private static boolean isStartup = false;
+
     @ResponseBody
-    @RequestMapping(value = {"/startWebSocketService"})
-    public String startService() throws UnknownHostException {
-        int port = 8887; // 监听端口8887
-        WebSocketService server = new WebSocketService(port);
-        server.start();
-        System.out.println("------ WebSocket Service Start Success-------");
-        return "WebSocket Service Start Success";
+    @RequestMapping(value = "startWebSocketService")
+    public String startService(HttpServletRequest request) {
+
+        if (!isStartup) {
+            int port = 8887; // 监听端口8887
+            WebSocketService server = new WebSocketService(port);
+            server.start();
+            System.out.println("------ Circle Of Campus Service Start Success-------");
+        }
+
+        return "index.jsp";
     }
 
 }
