@@ -19,10 +19,12 @@ public class MainController {
     private static boolean isInitialized = false;
 
     /**
-     * 初始化coc服务
+     * 初始化coc服务<br>
+     * 部署项目后请手动访问一次该地址以启动WebSocket服务<br>
+     * 服务地址URL：http://ip:8080/coc/startup.do
      * @return
      */
-    @RequestMapping(value = "startup")
+    @RequestMapping(value = "/coc/startup")
     public String startup(HttpServletRequest request) {
 
         if (!isInitialized) {

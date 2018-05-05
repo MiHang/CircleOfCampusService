@@ -19,9 +19,13 @@ public class WebSocketServiceController{
      */
     private static boolean isStartup = false;
 
+    /**
+     * 启动WebSocket服务
+     * @return
+     */
     @ResponseBody
-    @RequestMapping(value = "startWebSocketService")
-    public String startService(HttpServletRequest request) {
+    @RequestMapping(value = "/coc/startWebSocketService")
+    public String startService() {
 
         if (!isStartup) {
             int port = 8887; // 监听端口8887
