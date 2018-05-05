@@ -2,6 +2,9 @@ package team.coc.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
+import team.coc.service.WebSocketService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -14,21 +17,29 @@ import java.io.*;
 public class MainController {
 
     /**
-     * 是否已初始化
+     * WebSocket服务是否启动
      */
-    private static boolean isInitialized = false;
+    private static boolean isStartup = false;
 
     /**
-     * 初始化coc服务<br>
+     * 启动CircleOfCampusService服务<br>
      * 部署项目后请手动访问一次该地址以启动WebSocket服务<br>
      * 服务地址URL：http://ip:8080/coc/startup.do
      * @return
      */
+    @ResponseBody
     @RequestMapping(value = "/coc/startup")
-    public String startup(HttpServletRequest request) {
+    public String startService() {
 
-        if (!isInitialized) {
-            isInitialized = true;
+        if (!isStartup) {
+            isStartup = true;
+
+            int port = 8887; // 监听端口8887
+            WebSocketService server = new WebSocketService(port);
+            server.start();
+
+            String noBug = "";
+            String str = "------ Circle Of Campus Service Startup Success -------";
 
             // 控制台输出banner.txt中的内容
             try {
@@ -45,16 +56,17 @@ public class MainController {
                     bos.write(buffer, 0, len);
                 }
 
-                System.out.println(new String(bos.toByteArray(),"UTF-8"));
-
+                noBug = new String(bos.toByteArray(),"UTF-8");
+                System.out.println(noBug);
+                System.out.println(str);
             } catch (IOException e) {
                 e.printStackTrace();
             }
 
-            return "startWebSocketService.do"; // 启动WebSocket服务
-        } else {
-            request.setAttribute("msg", "------ Circle Of Campus Service Start Success-------");
-            return "index.jsp"; // 访问首页
+            return ("<pre style='font-size:18px;'>" + noBug + "\n\n" + str + "</pre>");
         }
+
+        return "<br/><p>------ Circle Of Campus Service Started. Don't start again! ------</p>";
     }
+
 }
