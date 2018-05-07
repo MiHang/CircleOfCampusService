@@ -15,20 +15,18 @@ public class Faculty implements Serializable {
 
     /**
      * 院系ID
-     * 主键生成策略为自动，如果数据库支持自增长则为自增长
+     * 主键生成策略为自增长
      */
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "f_id")
     private int facultyId;
-
     /**
-     * 院系名称
+     * 院系名
      */
     @NotNull
     @Column(name = "faculty_name", length = 20)
     private String facultyName;
-
     /**
      * 院系所属的学校信息
      * 院系与学校形成双向多对一关系
@@ -36,7 +34,6 @@ public class Faculty implements Serializable {
     @ManyToOne(cascade={CascadeType.ALL}, fetch=FetchType.EAGER)
     @JoinColumn(name="c_id")
     private Campus campus;
-
     /**
      * 用户集合
      * 院系与用户形成双向一对多关系
@@ -45,8 +42,12 @@ public class Faculty implements Serializable {
     @JoinColumn(name="f_id")
     private Set<User> userSet;
 
-
     public Faculty() {}
+
+    public Faculty(String facultyName, Campus campus) {
+        this.facultyName = facultyName;
+        this.campus = campus;
+    }
 
     public Faculty(String facultyName) {
         this.facultyName = facultyName;

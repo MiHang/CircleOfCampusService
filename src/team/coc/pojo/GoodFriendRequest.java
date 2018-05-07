@@ -4,6 +4,7 @@ import com.sun.istack.internal.NotNull;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * 好友申请
@@ -12,22 +13,13 @@ import java.io.Serializable;
 @Table(name = "t_good_friend_request")
 public class GoodFriendRequest implements Serializable {
 
+    /**
+     * 好友申请id
+     * 主键生成策略为自增长
+     */
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-
-    /**
-     * u1_id
-     */
-    @Column(name = "u1_id")
-    private int u1Id;
-
-    /**
-     * u2_id
-     */
-    @Column(name = "u2_id")
-    private int u2Id;
-
 
     /**
      * 申请理由
@@ -40,12 +32,39 @@ public class GoodFriendRequest implements Serializable {
      */
     @NotNull
     @Column(name = "request_time")
-    private String requestTime;
+    @Temporal(TemporalType.TIMESTAMP) // 时间戳 - 'yyyy-MM-dd hh:MM:ss'
+    private Date requestTime;
+
+    /**
+     * 好友申请所属的用户信息
+     * 好友申请与用户形成单向多对一关系
+     */
+    @ManyToOne(cascade={CascadeType.ALL}, fetch=FetchType.EAGER)
+    @JoinColumn(name="u1_id")
+    private User user1;
+
+    /**
+     * 好友申请所属的用户信息
+     * 好友申请与用户形成单向多对一关系
+     */
+    @ManyToOne(cascade={CascadeType.ALL}, fetch=FetchType.EAGER)
+    @JoinColumn(name="u2_id")
+    private User user2;
 
     /**
      * 处理结果 0未处理 1 申请成功 2 申请失败
      */
     private int result;
+
+    public GoodFriendRequest() { }
+
+    public GoodFriendRequest(String requestReason, Date requestTime, User user1, User user2, int result) {
+        this.requestReason = requestReason;
+        this.requestTime = requestTime;
+        this.user1 = user1;
+        this.user2 = user2;
+        this.result = result;
+    }
 
     public Integer getId() {
         return id;
@@ -53,22 +72,6 @@ public class GoodFriendRequest implements Serializable {
 
     public void setId(Integer id) {
         this.id = id;
-    }
-
-    public int getU1Id() {
-        return u1Id;
-    }
-
-    public void setU1Id(int u1Id) {
-        this.u1Id = u1Id;
-    }
-
-    public int getU2Id() {
-        return u2Id;
-    }
-
-    public void setU2Id(int u2Id) {
-        this.u2Id = u2Id;
     }
 
     public String getRequestReason() {
@@ -79,11 +82,11 @@ public class GoodFriendRequest implements Serializable {
         this.requestReason = requestReason;
     }
 
-    public String getRequestTime() {
+    public Date getRequestTime() {
         return requestTime;
     }
 
-    public void setRequestTime(String requestTime) {
+    public void setRequestTime(Date requestTime) {
         this.requestTime = requestTime;
     }
 
@@ -93,5 +96,21 @@ public class GoodFriendRequest implements Serializable {
 
     public void setResult(int result) {
         this.result = result;
+    }
+
+    public User getUser1() {
+        return user1;
+    }
+
+    public void setUser1(User user1) {
+        this.user1 = user1;
+    }
+
+    public User getUser2() {
+        return user2;
+    }
+
+    public void setUser2(User user2) {
+        this.user2 = user2;
     }
 }

@@ -14,20 +14,18 @@ public class Society implements Serializable {
 
     /**
      * 社团ID<br>
-     * 主键生成策略为自动，如果数据库支持自增长则为自增长
+     * 主键生成策略为自增长
      */
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "s_id")
     private int societyId;
-
     /**
      * 社团名称
      */
     @NotNull
     @Column(name = "society_name", length = 20)
     private String societyName;
-
     /**
      * 社团所属的学校信息
      * 社团与学校形成双向多对一关系
@@ -38,8 +36,9 @@ public class Society implements Serializable {
 
     public Society() {}
 
-    public Society(String societyName) {
+    public Society(String societyName, Campus campus) {
         this.societyName = societyName;
+        this.campus = campus;
     }
 
     public int getSocietyId() {

@@ -4,6 +4,7 @@ import com.sun.istack.internal.NotNull;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * 社团权限申请
@@ -13,10 +14,10 @@ import java.io.Serializable;
 public class SocietyRequest implements Serializable {
 
     /**
-     * ID
+     * 社团权限申请ID
      */
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     /**
@@ -31,7 +32,8 @@ public class SocietyRequest implements Serializable {
      */
     @NotNull
     @Column(name = "request_time")
-    private String requestTime;
+    @Temporal(TemporalType.TIMESTAMP) // 时间戳 - 'yyyy-MM-dd hh:MM:ss'
+    private Date requestTime;
 
     /**
      * 处理结果 0未处理 1 申请成功 2 申请失败
@@ -50,10 +52,11 @@ public class SocietyRequest implements Serializable {
      */
     @NotNull
     @Column(name = "deal_time")
-    private String dealTime;
+    @Temporal(TemporalType.TIMESTAMP) // 时间戳 - 'yyyy-MM-dd hh:MM:ss'
+    private Date dealTime;
 
     /**
-     * 社团信息
+     * 社团权限申请
      * 社团与社团权限申请表形成单向一对一
      */
     @OneToOne(cascade = CascadeType.ALL)
@@ -67,6 +70,19 @@ public class SocietyRequest implements Serializable {
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name="u_id")
     private User user;
+
+    public SocietyRequest() { }
+
+    public SocietyRequest(String requestReason, Date requestTime, int result,
+                          String dealReason, Date dealTime, Society society, User user) {
+        this.requestReason = requestReason;
+        this.requestTime = requestTime;
+        this.result = result;
+        this.dealReason = dealReason;
+        this.dealTime = dealTime;
+        this.society = society;
+        this.user = user;
+    }
 
     public int getId() {
         return id;
@@ -82,14 +98,6 @@ public class SocietyRequest implements Serializable {
 
     public void setRequestReason(String requestReason) {
         this.requestReason = requestReason;
-    }
-
-    public String getRequestTime() {
-        return requestTime;
-    }
-
-    public void setRequestTime(String requestTime) {
-        this.requestTime = requestTime;
     }
 
     public int getResult() {
@@ -108,11 +116,19 @@ public class SocietyRequest implements Serializable {
         this.dealReason = dealReason;
     }
 
-    public String getDealTime() {
+    public Date getRequestTime() {
+        return requestTime;
+    }
+
+    public void setRequestTime(Date requestTime) {
+        this.requestTime = requestTime;
+    }
+
+    public Date getDealTime() {
         return dealTime;
     }
 
-    public void setDealTime(String dealTime) {
+    public void setDealTime(Date dealTime) {
         this.dealTime = dealTime;
     }
 

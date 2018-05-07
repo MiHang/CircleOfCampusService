@@ -16,19 +16,23 @@
         <property name="connection.password">123456</property>
 
         <!-- 自动根据JavaBean对象来更新表结构 -->
-        <property name="hbm2ddl.auto">create</property>
+        <!--<property name="hbm2ddl.auto">create</property>-->
 
         <!-- 显示生成的SQL语句 -->
         <property name="hibernate.show_sql">true</property>
 
         <!-- 配置映射信息 -->
         <mapping class="team.coc.pojo.Campus" />
+        <mapping class="team.coc.pojo.CampusCircle" />
         <mapping class="team.coc.pojo.Faculty" />
-        <mapping class="team.coc.pojo.Society" />
-        <mapping class="team.coc.pojo.SocietyRequest" />
-        <mapping class="team.coc.pojo.User" />
         <mapping class="team.coc.pojo.GoodFriend" />
         <mapping class="team.coc.pojo.GoodFriendRequest" />
+        <mapping class="team.coc.pojo.Group" />
+        <mapping class="team.coc.pojo.GroupMember" />
+        <mapping class="team.coc.pojo.Society" />
+        <mapping class="team.coc.pojo.SocietyCircle" />
+        <mapping class="team.coc.pojo.SocietyRequest" />
+        <mapping class="team.coc.pojo.User" />
 
     </session-factory>
 </hibernate-configuration>

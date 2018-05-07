@@ -16,39 +16,34 @@ public class Campus implements Serializable {
 
     /**
      * 学校ID<br>
-     * 主键生成策略为自动，如果数据库支持自增长则为自增长
+     * 主键生成策略为自增长
      */
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "c_id")
     private int campusId;
-
     /**
      * 学校账号， 唯一约束
      */
     @NotNull
     @Column(name = "campus_account", length = 10)
     private String campusAccount;
-
     /**
      * 学校名称， 唯一约束
      */
     @NotNull
     @Column(name = "campus_name", length = 20)
     private String campusName;
-
     /**
      * 学校简介
      */
     @Column(name = "introduction", length = 20)
     private String introduction;
-
     /**
      * 学校管理员密码
      */
     @Column(name = "pwd", length = 16)
     private String password;
-
     /**
      * 院系集合
      * 学校与院系形成双向一对多关系
@@ -58,7 +53,6 @@ public class Campus implements Serializable {
     @OneToMany(cascade= {CascadeType.ALL}, fetch=FetchType.LAZY)
     @JoinColumn(name="c_id")
     private Set<Faculty> facultySet;
-
     /**
      * 社团集合
      * 学校与社团形成双向一对多关系
@@ -66,7 +60,6 @@ public class Campus implements Serializable {
     @OneToMany(cascade= {CascadeType.ALL}, fetch=FetchType.LAZY)
     @JoinColumn(name="c_id")
     private Set<Society> societySet;
-
 
     public Campus(){}
 
