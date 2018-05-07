@@ -8,7 +8,7 @@
         <!-- 方言(连接的数据库类型) -->
         <property name="dialect">org.hibernate.dialect.MySQL5InnoDBDialect</property>
         <!-- 连接的数据库名 -->
-        <property name="connection.url">jdbc:mysql:///hibernatedemo</property>
+        <property name="connection.url">jdbc:mysql:///circle_of_campus</property>
         <!-- 连接数据库的驱动 -->
         <property name="connection.driver_class">com.mysql.jdbc.Driver</property>
         <!-- 用户名及密码 -->
@@ -22,7 +22,13 @@
         <property name="hibernate.show_sql">true</property>
 
         <!-- 配置映射信息 -->
-        <mapping class="team.coc.pojo.Demo" />
+        <mapping class="team.coc.pojo.Campus" />
+        <mapping class="team.coc.pojo.Faculty" />
+        <mapping class="team.coc.pojo.Society" />
+        <mapping class="team.coc.pojo.SocietyRequest" />
+        <mapping class="team.coc.pojo.User" />
+        <mapping class="team.coc.pojo.GoodFriend" />
+        <mapping class="team.coc.pojo.GoodFriendRequest" />
 
     </session-factory>
 </hibernate-configuration>

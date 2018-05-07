@@ -2,22 +2,31 @@ package team.coc.dao;
 
 import org.hibernate.Session;
 import org.hibernate.Transaction;
-import team.coc.pojo.Demo;
 import team.coc.util.HibernateUtils;
 
+import java.lang.reflect.ParameterizedType;
 import java.util.List;
 
-public class DemoDao {
+public class CommonDao<T> {
 
     /**
-     * 保存Demo表数据
-     * @param demo
+     * 获取泛型T的 class
+     * @return
      */
-    public void save(Demo demo) {
+    public Class<T> getTClass() {
+        Class<T> tClass = (Class<T>)((ParameterizedType)getClass().getGenericSuperclass()).getActualTypeArguments()[0];
+        return tClass;
+    }
+
+    /**
+     * 保存table表数据
+     * @param table
+     */
+    public void save(T table) {
         Session session = HibernateUtils.openSession();
         try {
             Transaction tx = session.beginTransaction(); // 开启事务
-            session.save(demo); // 保存数据
+            session.save(table); // 保存数据
             tx.commit(); // 提交事务
         } catch (RuntimeException e) {
             session.getTransaction().rollback(); // 回滚事务
@@ -28,14 +37,14 @@ public class DemoDao {
     }
 
     /*
-     * 更新
+     * 更新table
      */
-    public void update(Demo demo) {
+    public void update(T table) {
         Session session = HibernateUtils.openSession();
         Transaction tx = null;
         try {
             tx = session.beginTransaction(); // 开启事务
-            session.update(demo);// 更新表数据
+            session.update(table);// 更新表数据
             tx.commit(); // 提交事务
         } catch (RuntimeException e) {
             tx.rollback();
@@ -53,8 +62,8 @@ public class DemoDao {
         Transaction tx = null;
         try {
             tx = session.beginTransaction();
-            Demo demo = session.get(Demo.class, id); // 要先获取到这个对象
-            session.delete(demo); // 删除的是实体对象
+            T table = session.get(getTClass(), id); // 要先获取到这个对象
+            session.delete(table); // 删除的是实体对象
             tx.commit();
         } catch (RuntimeException e) {
             tx.rollback();
@@ -65,16 +74,16 @@ public class DemoDao {
     }
 
     /*
-     * 根据id查询一个User数据
+     * 根据id查询一个Table数据
      */
-    public Demo getById(int id) {
+    public T getById(int id) {
         Session session = HibernateUtils.openSession();
         Transaction tx = null;
         try {
             tx = session.beginTransaction();
-            Demo demo = (Demo) session.get(Demo.class, id);// 操作
+            T table = (T) session.get(getTClass(), id);// 操作
             tx.commit();
-            return demo;
+            return table;
         } catch (RuntimeException e) {
             tx.rollback();
             throw e;
@@ -86,12 +95,12 @@ public class DemoDao {
     /*
      * 查询所有
      */
-    public List<Demo> findAll() {
+    public List<T> findAll(Class<T> table) {
         Session session = HibernateUtils.openSession();
         Transaction tx = null;
         try {
             tx = session.beginTransaction();
-            List<Demo> list = session.createQuery("FROM Demo").list(); // 使用HQL查询
+            List<T> list = session.createQuery(("FROM " + table.getName())).list(); // 使用HQL查询
             tx.commit();
             return list;
         } catch (RuntimeException e) {
@@ -109,7 +118,7 @@ public class DemoDao {
      * @return 一页的数据列表
      */
     @SuppressWarnings("unchecked")
-    public List<Demo> findAll(int firstResult, int maxResults) {
+    public List<T> findAll(Class<T> table, int firstResult, int maxResults) {
         Session session = HibernateUtils.openSession();
         Transaction tx = null;
         try {
@@ -123,8 +132,8 @@ public class DemoDao {
             // List<User> list = query.list();
 
             // 方式二：方法链
-            List<Demo> list = session.createQuery( //
-                    "FROM Demo") //
+            List<T> list = session.createQuery( //
+                    ("FROM " + table.getName())) //
                     .setFirstResult(firstResult) //
                     .setMaxResults(maxResults) //
                     .list();
