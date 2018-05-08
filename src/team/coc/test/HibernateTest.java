@@ -83,11 +83,11 @@ public class HibernateTest {
         // 用户表示例数据
         CommonDao<User> userCommonDao = new CommonDao<User>();
         User user1 = new User();
-        user1.setUserName("李华");
-        user1.setEmail("12345678@qq.com");
+        user1.setUserName("jaye");
+        user1.setEmail("jayevip@163.com");
         user1.setPwd("123456");
         user1.setGender(User.MALE);
-        user1.setBirthday("1997-12-12");
+        user1.setBirthday("1997-11-09");
         user1.setFaculty(facultyList.get(0));
 
         User user2 = new User();

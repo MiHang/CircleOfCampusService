@@ -44,19 +44,23 @@ public class CommonDao<T> {
     /*
      * 更新table
      */
-    public void update(T table) {
+    public boolean update(T table) {
+        boolean isSuccess = false;
         Session session = HibernateUtils.openSession();
         Transaction tx = null;
         try {
             tx = session.beginTransaction(); // 开启事务
             session.update(table);// 更新表数据
             tx.commit(); // 提交事务
+            isSuccess = true;
         } catch (RuntimeException e) {
+            isSuccess = false;
             tx.rollback();
             throw e;
         } finally {
             session.close();
         }
+        return isSuccess;
     }
 
     /*

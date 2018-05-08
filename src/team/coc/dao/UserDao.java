@@ -14,6 +14,42 @@ import java.util.List;
 public class UserDao extends CommonDao<User> {
 
     /**
+     * 通过账号获取用户信息
+     * @param account - 账号
+     * @return User
+     */
+    public User getUserByAccount(String account) {
+
+        Session session = HibernateUtils.openSession();
+        Transaction tx = null;
+        List<User> userList;
+        try {
+            tx = session.beginTransaction();
+
+            // 查询数据库
+            String hql = "from User where userName = ? or email = ?";
+            Query query = session.createQuery(hql);
+            query.setParameter(0, account);
+            query.setParameter(1, account);
+            userList = query.list();
+
+            tx.commit();
+        } catch (RuntimeException e) {
+            tx.rollback();
+            throw e;
+        } finally {
+            session.close();
+        }
+
+        // 存在结果
+        if (userList != null && userList.size() > 0) {
+            return userList.get(0);
+        } else {
+            return null;
+        }
+    }
+
+    /**
      * 验证用户身份
      * @param account - 账号（邮箱/用户名）
      * @param pwd - 密码
