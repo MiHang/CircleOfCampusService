@@ -21,19 +21,24 @@ public class CommonDao<T> {
     /**
      * 保存table表数据
      * @param table
+     * @return 保存成功返回true，保存失败返回false
      */
-    public void save(T table) {
+    public boolean save(T table) {
+        boolean isSuccess = false;
         Session session = HibernateUtils.openSession();
         try {
             Transaction tx = session.beginTransaction(); // 开启事务
             session.save(table); // 保存数据
             tx.commit(); // 提交事务
+            isSuccess = true;
         } catch (RuntimeException e) {
+            isSuccess = false;
             session.getTransaction().rollback(); // 回滚事务
             throw e;
         } finally {
             session.close(); // 关闭session
         }
+        return isSuccess;
     }
 
     /*

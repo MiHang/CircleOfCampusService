@@ -11,29 +11,29 @@ import java.util.List;
 /**
  * 用户表操作类
  */
-public class UserDao extends CommonDao {
+public class UserDao extends CommonDao<User> {
 
     /**
      * 验证用户身份
      * @param account - 账号（邮箱/用户名）
      * @param pwd - 密码
-     * @return 验证成功返回User对象， 失败返回null
+     * @return 验证成功返回userId， 失败返回 -1
      */
-    public User isValidity(String account, String pwd) {
+    public int isValidity(String account, String pwd) {
 
         Session session = HibernateUtils.openSession();
         Transaction tx = null;
-        List<User> userList = null;
+        List<Object> objects;
         try {
             tx = session.beginTransaction();
 
             // 查询数据库
-            String hql = "from User where userName = ? or email = ? and pwd = ?";
+            String hql = "select userId from User where userName = ? or email = ? and pwd = ?";
             Query query = session.createQuery(hql);
             query.setParameter(0, account);
             query.setParameter(1, account);
             query.setParameter(2, pwd);
-            userList = query.list();
+            objects = query.list();
 
             tx.commit();
         } catch (RuntimeException e) {
@@ -44,10 +44,10 @@ public class UserDao extends CommonDao {
         }
 
         // 存在结果
-        if (userList != null && userList.size() > 0) {
-            return userList.get(0);
+        if (objects != null && objects.size() > 0) {
+            return (int)objects.get(0);
         } else {
-            return null;
+            return -1;
         }
     }
 
@@ -60,16 +60,16 @@ public class UserDao extends CommonDao {
 
         Session session = HibernateUtils.openSession();
         Transaction tx = null;
-        List<User> userList = null;
+        List<Object> objectList;
         try {
             tx = session.beginTransaction();
 
             // 查询数据库
-            String hql = "from User where userName = ? or email = ?";
+            String hql = "select userId from User where userName = ? or email = ?";
             Query query = session.createQuery(hql);
             query.setParameter(0, account);
             query.setParameter(1, account);
-            userList = query.list();
+            objectList = query.list();
 
             tx.commit();
         } catch (RuntimeException e) {
@@ -80,7 +80,7 @@ public class UserDao extends CommonDao {
         }
 
         // 存在结果
-        if (userList != null && userList.size() > 0) {
+        if (objectList != null && objectList.size() > 0) {
             return true;
         } else {
             return false;

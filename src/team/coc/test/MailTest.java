@@ -11,7 +11,7 @@ public class MailTest {
 
     public static void main(String[]args) throws JSONException {
 
-        String str = MailUtil.sendVerificationCode("610926067@qq.com", "6666");
+        String str = MailUtil.sendEmail("610926067@qq.com", "注册验证码" ,"6666");
         try {
             JSONObject json = new JSONObject(str);
             if ("success".equals(json.getString("result"))) {

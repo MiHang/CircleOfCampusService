@@ -35,15 +35,16 @@ public class MailUtil {
     private static final String SMTP_PORT = "465";
 
     /**
-     * 向指定用户发送验证码
+     * 向指定用户发送验证码 <br/>
      * @param sendee - 收件人邮箱地址
-     * @param verificationCode - 验证码
-     * @return 返回一个json对象, 包括发送结果,验证码和发送时间,
-     * 返回数据示例 <br/>
-     * &emsp;发送成功 - {result:'success'} <br/>
-     * &emsp;发送失败 - {result:"error", code:501}; 其中501为无效的地址
+     * @param subject - 邮件主题
+     * @param content - 邮件内容
+     * @return 返回json数据示例 {result:'success/invalid/error'} <br/>
+     * result : String - success 发送成功 <br>
+     * result : String - invalid 收件人邮箱地址无效 <br>
+     * result : String - error 发送失败 <br>
      */
-    public static String sendVerificationCode(String sendee, String verificationCode) {
+    public static String sendEmail(String sendee, String subject, String content) {
 
         // 创建参数配置, 用于连接邮件服务器的参数配置
         Properties props = new Properties();
@@ -75,14 +76,10 @@ public class MailUtil {
             message.setRecipient(MimeMessage.RecipientType.TO, new InternetAddress(sendee, "UTF-8"));
 
             // 邮件主题（标题如有广告嫌疑会被邮件服务器认为是滥发广告以至发送失败）
-            message.setSubject("注册校园圈邮箱验证", "UTF-8");
+            message.setSubject(subject, "UTF-8");
 
-            // 邮件正文（可以使用html标签）
-            String msg = "<p>尊敬的用户 <a>" + sendee +"</a> 您好!</p>" +
-                    "<p>感谢您注册校园圈，请将验证码填写到注册页面。<p>" +
-                    "<p>验证码: <a>" + verificationCode +"</a>，此验证码在5分钟内有效。<p>" +
-                    "<p>如果您没有请求注册校园圈，请忽略这封邮件。 </p>";
-            message.setContent(msg, "text/html;charset=UTF-8");
+            // 邮件内容
+            message.setContent(content, "text/html;charset=UTF-8");
 
             // 设置发件时间
             message.setSentDate(new Date());
@@ -107,13 +104,14 @@ public class MailUtil {
             try {
                 json.put("result", "error");
                 if ("Invalid Addresses".equals(e.getMessage())) {
-                    json.put("code", 501); // 无效的地址
+                    json.put("result", "invalid"); // 无效的地址
                 }
             } catch (JSONException e1) {
                 e1.printStackTrace();
             }
             e.printStackTrace();
         }
+
         return json.toString();
     }
 

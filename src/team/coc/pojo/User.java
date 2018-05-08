@@ -56,7 +56,6 @@ public class User implements Serializable {
     /**
      * 出生日期
      */
-    @NotNull
     @Column(name = "birthday", length = 10)
     private String birthday;
     /**

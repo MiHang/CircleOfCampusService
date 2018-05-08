@@ -1,6 +1,8 @@
 package team.coc.test;
 
+import team.coc.dao.CampusDao;
 import team.coc.dao.CommonDao;
+import team.coc.dao.FacultyDao;
 import team.coc.pojo.*;
 
 import java.util.Date;
@@ -9,6 +11,49 @@ import java.util.List;
 public class HibernateTest {
 
     public static void main(String[]args) {
+
+        FacultyDao facultyDao = new FacultyDao();
+        Faculty faculty = facultyDao.getById(1);
+
+        System.out.println(faculty.getFacultyId() + ", " + faculty.getFacultyName());
+    }
+
+    private void scu() {
+        //校园表示例数据
+        CommonDao<Campus> campusCommonDao = new CommonDao<Campus>();
+        Campus campus = new Campus();
+        campus.setCampusAccount("scu");
+        campus.setCampusName("四川大学");
+        campus.setIntroduction("简介");
+        campus.setPassword("123456");
+        campusCommonDao.save(campus);
+
+        // 查询list
+        List<Campus> campusList = campusCommonDao.findAll(Campus.class);
+
+        //院系表示例数据
+        CommonDao<Faculty> facultyCommonDao = new CommonDao<Faculty>();
+        Faculty faculty1 = new Faculty("材料科学与工程学院", campusList.get(1));
+        facultyCommonDao.save(faculty1);
+        Faculty faculty2 = new Faculty("电气信息学院", campusList.get(1));
+        facultyCommonDao.save(faculty2);
+        Faculty faculty3 = new Faculty("电子信息学院", campusList.get(1));
+        facultyCommonDao.save(faculty3);
+        Faculty faculty4 = new Faculty("法学院", campusList.get(1));
+        facultyCommonDao.save(faculty4);
+        Faculty faculty5 = new Faculty("高分子科学与工程学院", campusList.get(1));
+        facultyCommonDao.save(faculty5);
+        Faculty faculty6 = new Faculty("公共管理学院", campusList.get(1));
+        facultyCommonDao.save(faculty6);
+        Faculty faculty7 = new Faculty("化学工程学院", campusList.get(1));
+        facultyCommonDao.save(faculty7);
+        Faculty faculty8 = new Faculty("计算机学院", campusList.get(1));
+        facultyCommonDao.save(faculty8);
+        Faculty faculty9 = new Faculty("艺术学院", campusList.get(1));
+        facultyCommonDao.save(faculty9);
+    }
+
+    private void init() {
 
         //校园表示例数据
         CommonDao<Campus> campusCommonDao = new CommonDao<Campus>();

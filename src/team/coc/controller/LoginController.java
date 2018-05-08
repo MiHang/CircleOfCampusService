@@ -29,20 +29,20 @@ public class LoginController {
      * 请求地址URL: http://ip:8080/coc/login.do<br>
      * 请求方式: POST<br>
      * @param strJson - json数据<br>
-     *      请求参数：account : String - 账号(邮箱/用户名)<br>
-     *      请求参数：pwd : String - 密码<br>
-     *      示例：{"account":"jayevip@163.com", "pwd":"123456"}<br>
+     * 请求参数：account : String - 账号(邮箱/用户名)<br>
+     * 请求参数：pwd : String - 密码<br>
+     * 示例：{"account":"jayevip@163.com", "pwd":"123456"}<br>
      * @return 返回的json数据示例 {result:'success/error/unknown', id: 1, type:"admin/user"}
-     *      result : String - success 登录验证成功<br>
-     *      result : String - error 登录验证失败<br>
-     *      result : String - unknown 该用户未注册<br>
-     *      id : int 用户id<br>
-     *      type : String - admin 管理员用户<br>
-     *      type : String - user 普通用户
+     * result : String - success 登录验证成功<br>
+     * result : String - error 登录验证失败<br>
+     * result : String - unknown 该用户未注册<br>
+     * id : int 用户id<br>
+     * type : String - admin 管理员用户<br>
+     * type : String - user 普通用户
      * @throws JSONException json对象异常
      */
     @ResponseBody
-    @RequestMapping(value = {"/coc/login"},method = {RequestMethod.POST})
+    @RequestMapping(value = {"/coc/login"}, method = {RequestMethod.POST})
     public String login(@RequestBody String strJson) throws JSONException {
 
         // 用户请求时上传的参数
@@ -63,10 +63,10 @@ public class LoginController {
 
             json.put("type", "admin"); // 用户类型 - 管理员
 
-            Campus campus = campusDao.isValidity(account, pwd);
-            if (campus != null) { // 验证账号密码成功
+            int campusId = campusDao.isValidity(account, pwd);
+            if (campusId != -1) { // 验证账号密码成功
 
-                json.put("id", campus.getCampusId()); // 管理员/校园ID
+                json.put("id", campusId); // 管理员/校园ID
                 json.put("result", "success"); // 验证结果 - 成功
 
             } else {
@@ -77,9 +77,9 @@ public class LoginController {
 
             json.put("type", "user"); // 用户类型 - 管理员
 
-            User user = userDao.isValidity(account, pwd);
-            if (user != null) {
-                json.put("id", user.getUserId()); // 用户ID
+            int userId = userDao.isValidity(account, pwd);
+            if (userId != -1) {
+                json.put("id", userId); // 用户ID
                 json.put("result", "success"); // 验证结果 - 成功
             } else {
                 json.put("result", "error");

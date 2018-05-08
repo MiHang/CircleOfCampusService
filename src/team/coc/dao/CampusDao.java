@@ -3,6 +3,7 @@ package team.coc.dao;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
+import org.hibernate.transform.Transformers;
 import team.coc.pojo.Campus;
 import team.coc.util.HibernateUtils;
 
@@ -10,29 +11,27 @@ import java.util.List;
 
 /**
  * 学校表操作类
+ * hibernate 获取查询结构集合时，查询全部字段可将集合封装为javabean，查询两个及以上的字段为object[], 查询一个字段为object
  */
-public class CampusDao extends CommonDao {
+public class CampusDao extends CommonDao<Campus> {
 
     /**
-     * 验证用户身份
-     * @param account - 账号（用户名）
-     * @param pwd - 密码
-     * @return 验证成功返回campus对象， 失败返回null
+     * 获取所有学校的ID和名称
+     * @return List<Object[]> <br>
+     * object[0] - id <br>
+     * object[1] - name <br>
      */
-    public Campus isValidity(String account, String pwd) {
-
+    public List<Object[]> getAllCampusNameAndId() {
         Session session = HibernateUtils.openSession();
         Transaction tx = null;
-        List<Campus> campusList = null;
+        List<Object[]> objects;
         try {
             tx = session.beginTransaction();
 
             // 查询数据库
-            String hql = "from Campus where campusAccount = ? and password = ?";
+            String hql = "select campusId, campusName from Campus";
             Query query = session.createQuery(hql);
-            query.setParameter(0, account);
-            query.setParameter(1, pwd);
-            campusList = query.list();
+            objects = query.list();
 
             tx.commit();
         } catch (RuntimeException e) {
@@ -43,10 +42,47 @@ public class CampusDao extends CommonDao {
         }
 
         // 存在结果
-        if (campusList != null && campusList.size() > 0) {
-            return campusList.get(0);
+        if (objects != null && objects.size() > 0) {
+            return objects;
         } else {
             return null;
+        }
+    }
+
+    /**
+     * 验证用户身份
+     * @param account - 账号（用户名）
+     * @param pwd - 密码
+     * @return 验证成功返回campusId， 失败返回-1
+     */
+    public int isValidity(String account, String pwd) {
+
+        Session session = HibernateUtils.openSession();
+        Transaction tx = null;
+        List<Object> objects;
+        try {
+            tx = session.beginTransaction();
+
+            // 查询数据库
+            String hql = "select campusId from Campus where campusAccount = ? and password = ?";
+            Query query = session.createQuery(hql);
+            query.setParameter(0, account);
+            query.setParameter(1, pwd);
+            objects = query.list();
+
+            tx.commit();
+        } catch (RuntimeException e) {
+            tx.rollback();
+            throw e;
+        } finally {
+            session.close();
+        }
+
+        // 存在结果
+        if (objects != null && objects.size() > 0) {
+            return (int)objects.get(0);
+        } else {
+            return -1;
         }
     }
 
@@ -59,15 +95,15 @@ public class CampusDao extends CommonDao {
 
         Session session = HibernateUtils.openSession();
         Transaction tx = null;
-        List<Campus> campusList = null;
+        List<Object> objectList;
         try {
             tx = session.beginTransaction();
 
             // 查询数据库
-            String hql = "from Campus where campusAccount = ?";
+            String hql = "select campusId from Campus where campusAccount = ?";
             Query query = session.createQuery(hql);
             query.setParameter(0, account);
-            campusList = query.list();
+            objectList = query.list();
 
             tx.commit();
         } catch (RuntimeException e) {
@@ -78,7 +114,7 @@ public class CampusDao extends CommonDao {
         }
 
         // 存在结果
-        if (campusList != null && campusList.size() > 0) {
+        if (objectList != null && objectList.size() > 0) {
             return true;
         } else {
             return false;
