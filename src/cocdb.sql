@@ -81,12 +81,12 @@
 	
 		id int primary key auto_increment,    -- 社团权限申请ID，主键，自动增长
     s_id int not null,                    -- 社团ID，外键
-    u_id int not null,                    -- 用户ID
+    u_id int not null,                    -- 用户ID, 外键
     request_reason varchar(100) not null, -- 申请理由
 	  request_time datetime not null,		    -- 申请时间
 	  result int not null,                  -- 处理结果 0未处理 1 申请成功 2 申请失败
     deal_reason varchar(50) null,         -- 处理原因
-	  deal_time datetime null,                  -- 处理时间
+	  deal_time datetime null,              -- 处理时间
 
     foreign key(u_id) references t_user(u_id),
     foreign key(s_id) references t_society(s_id)
@@ -97,7 +97,7 @@
 -- 创建好友申请表(t_good_friend_request)
 -- ----------------------------------------------
   create table t_good_friend_request(
-		
+
     id int primary key auto_increment,
 	  u1_id int not null,                   -- 好友1ID，外键
 	  u2_id int not null,                   -- 好友2ID，外键
@@ -109,8 +109,8 @@
     foreign key(u2_id) references t_user(u_id)
 
   );
-  
-  
+
+
   -- ----------------------------------------------
 -- 创建好友表(t_good_friend)
 -- ----------------------------------------------
@@ -120,7 +120,7 @@
     u2_id int not null,                    -- 好友2ID，联合主键, 外键
     u1_notice varchar(20) null,            -- 好友1备注
     u2_notice varchar(20) null,            -- 好友2备注
-	
+
     primary key(u1_id, u2_id),
     foreign key(u1_id) references t_user(u_id),
     foreign key(u2_id) references t_user(u_id)
@@ -175,12 +175,13 @@
   create table t_society_circle(
 
     id int primary key auto_increment,-- 社团圈ID，主键，自动增长
-    s_id int not null,                -- 发布者，社团ID，外键
+    u_id int not null,                -- 发布者，用户ID，外键
 	  content varchar(200) null,        -- 文本内容
     images_url varchar(200) null,     -- 图片地址，多个图片之间用分号(';')隔开
     video_url varchar(200) null,      -- 视频地址
-	  publish_time datetime not null,				    -- 发布时间
+	  publish_time datetime not null,		-- 发布时间
+    auditing int not null,            -- 审核状态，1 - 已审核，0 - 未审核
 
-    foreign key(s_id) references t_society(s_id)
+    foreign key(u_id) references t_user(u_id)
   );
 

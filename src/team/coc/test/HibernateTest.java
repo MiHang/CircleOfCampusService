@@ -12,10 +12,7 @@ public class HibernateTest {
 
     public static void main(String[]args) {
 
-        FacultyDao facultyDao = new FacultyDao();
-        Faculty faculty = facultyDao.getById(1);
-
-        System.out.println(faculty.getFacultyId() + ", " + faculty.getFacultyName());
+        init();
     }
 
     private void scu() {
@@ -53,7 +50,7 @@ public class HibernateTest {
         facultyCommonDao.save(faculty9);
     }
 
-    private void init() {
+    private static void init() {
 
         //校园表示例数据
         CommonDao<Campus> campusCommonDao = new CommonDao<Campus>();
@@ -80,51 +77,51 @@ public class HibernateTest {
         Faculty faculty5 = new Faculty("医护分院", campusList.get(0));
         facultyCommonDao.save(faculty5);
 
-//        // 查询list
-//        List<Faculty> facultyList = facultyCommonDao.findAll(Faculty.class);
-//
-//        // 用户表示例数据
-//        CommonDao<User> userCommonDao = new CommonDao<User>();
-//        User user1 = new User();
-//        user1.setUserName("李华");
-//        user1.setEmail("12345678@qq.com");
-//        user1.setPwd("123456");
-//        user1.setGender(User.MALE);
-//        user1.setBirthday("1997-12-12");
-//        user1.setFaculty(facultyList.get(0));
-//
-//        User user2 = new User();
-//        user2.setUserName("韩梅梅");
-//        user2.setEmail("87654321@qq.com");
-//        user2.setPwd("123456");
-//        user2.setGender(User.FEMALE);
-//        user2.setBirthday("1998-09-09");
-//        user2.setFaculty(facultyList.get(0));
-//
-//        userCommonDao.save(user1);
-//        userCommonDao.save(user2);
-//
-//        // 添加社团示例数据
-//        CommonDao<Society> societyCommonDao = new CommonDao<Society>();
-//        Society society1 = new Society("棋艺社", campusList.get(0));
-//        societyCommonDao.save(society1);
-//        Society society2 = new Society("羽毛球社", campusList.get(0));
-//        societyCommonDao.save(society2);
-//
-//        // 查询list
-//        List<Society> societyList = societyCommonDao.findAll(Society.class);
-//
-//        // 校园圈示例数据
-//        CommonDao<CampusCircle> campusCircleCommonDao = new CommonDao<CampusCircle>();
-//        CampusCircle campusCircle = new CampusCircle("这是一条校园圈消息",
-//                "", "", new Date(), campusList.get(0));
-//        campusCircleCommonDao.save(campusCircle);
-//
-//        // 社团圈示例数据
-//        CommonDao<SocietyCircle> societyCircleCommonDao = new CommonDao<SocietyCircle>();
-//        SocietyCircle societyCircle = new SocietyCircle("这是一条社团圈消息",
-//                "", "", new Date(), societyList.get(0));
-//        societyCircleCommonDao.save(societyCircle);
+        // 查询list
+        List<Faculty> facultyList = facultyCommonDao.findAll(Faculty.class);
+
+        // 用户表示例数据
+        CommonDao<User> userCommonDao = new CommonDao<User>();
+        User user1 = new User();
+        user1.setUserName("李华");
+        user1.setEmail("12345678@qq.com");
+        user1.setPwd("123456");
+        user1.setGender(User.MALE);
+        user1.setBirthday("1997-12-12");
+        user1.setFaculty(facultyList.get(0));
+
+        User user2 = new User();
+        user2.setUserName("韩梅梅");
+        user2.setEmail("87654321@qq.com");
+        user2.setPwd("123456");
+        user2.setGender(User.FEMALE);
+        user2.setBirthday("1998-09-09");
+        user2.setFaculty(facultyList.get(0));
+
+        userCommonDao.save(user1);
+        userCommonDao.save(user2);
+
+        // 查询list
+        List<User> userList = userCommonDao.findAll(User.class);
+
+        // 添加社团示例数据
+        CommonDao<Society> societyCommonDao = new CommonDao<Society>();
+        Society society1 = new Society("棋艺社", campusList.get(0));
+        societyCommonDao.save(society1);
+        Society society2 = new Society("羽毛球社", campusList.get(0));
+        societyCommonDao.save(society2);
+
+        // 校园圈示例数据
+        CommonDao<CampusCircle> campusCircleCommonDao = new CommonDao<CampusCircle>();
+        CampusCircle campusCircle = new CampusCircle("这是一条校园圈消息",
+                "", "", new Date(), campusList.get(0));
+        campusCircleCommonDao.save(campusCircle);
+
+        // 社团圈示例数据
+        CommonDao<SocietyCircle> societyCircleCommonDao = new CommonDao<SocietyCircle>();
+        SocietyCircle societyCircle = new SocietyCircle("这是一条社团圈消息",
+                "", "", new Date(), 0, userList.get(0));
+        societyCircleCommonDao.save(societyCircle);
 
     }
 

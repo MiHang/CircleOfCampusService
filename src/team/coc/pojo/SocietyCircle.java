@@ -1,5 +1,7 @@
 package team.coc.pojo;
 
+import com.sun.istack.internal.NotNull;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
@@ -45,22 +47,28 @@ public class SocietyCircle implements Serializable {
     private Date publishTime;
 
     /**
-     * 社团圈所属的社团信息
-     * 社团圈与社团形成单向多对一关系
-     * 既，该社团圈属于该社团，该社团可以拥有多个社团圈
+     * 审核状态，1 - 已审核，0 - 未审核
+     */
+    @NotNull
+    private int auditing;
+
+    /**
+     * 发布社团圈的用户信息
+     * 社团圈与用户形成单向多对一关系
      */
     @ManyToOne(cascade={CascadeType.ALL}, fetch=FetchType.EAGER)
-    @JoinColumn(name="s_id")
-    private Society society;
+    @JoinColumn(name="u_id")
+    private User user;
 
     public SocietyCircle() { }
 
-    public SocietyCircle(String content, String imagesUrl, String videoUrl, Date publishTime, Society society) {
+    public SocietyCircle(String content, String imagesUrl, String videoUrl, Date publishTime, int auditing, User user) {
         this.content = content;
         this.imagesUrl = imagesUrl;
         this.videoUrl = videoUrl;
         this.publishTime = publishTime;
-        this.society = society;
+        this.auditing = auditing;
+        this.user = user;
     }
 
     public int getId() {
@@ -103,11 +111,19 @@ public class SocietyCircle implements Serializable {
         this.publishTime = publishTime;
     }
 
-    public Society getSociety() {
-        return society;
+    public int getAuditing() {
+        return auditing;
     }
 
-    public void setSociety(Society society) {
-        this.society = society;
+    public void setAuditing(int auditing) {
+        this.auditing = auditing;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }
