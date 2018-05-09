@@ -185,3 +185,28 @@
     foreign key(u_id) references t_user(u_id)
   );
 
+-- ----------------------------
+-- 向校园表插入示例数据
+-- ----------------------------
+insert into `t_campus` values ('1', 'cdp', '成都职业技术学院', '简介', '123456');
+
+-- ----------------------------
+-- 向院系表插入示例数据
+-- ----------------------------
+insert into `t_faculty` values ('1', '软件分院', '1');
+insert into `t_faculty` values ('2', '财经分院', '1');
+insert into `t_faculty` values ('3', '旅游分院', '1');
+insert into `t_faculty` values ('4', '工商管理与房地产分院', '1');
+insert into `t_faculty` values ('5', '医护分院', '1');
+
+-- ----------------------------
+-- 向社团表插入示例数据
+-- ----------------------------
+insert into `t_society` values ('1', '棋艺社', '1');
+insert into `t_society` values ('2', '羽毛球社', '1');
+
+-- ----------------------------
+-- 向用户表插入示例数据
+-- ----------------------------
+insert into `t_user` values ('1', 'jaye', 'jayevip@163.com', '123456', null, 'male', null, '1');
+

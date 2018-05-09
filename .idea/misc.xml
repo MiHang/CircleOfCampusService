@@ -10,7 +10,7 @@
     </session>
   </component>
   <component name="JavadocGenerationManager">
-    <option name="OUTPUT_DIRECTORY" value="$USER_HOME$/Desktop/api" />
+    <option name="OUTPUT_DIRECTORY" value="$USER_HOME$/Desktop/coc_api_v1.0" />
     <option name="OPTION_DOCUMENT_TAG_USE" value="true" />
     <option name="OPTION_DOCUMENT_TAG_AUTHOR" value="true" />
     <option name="OPTION_DOCUMENT_TAG_VERSION" value="true" />
