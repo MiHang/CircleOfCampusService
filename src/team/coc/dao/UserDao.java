@@ -3,6 +3,7 @@ package team.coc.dao;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
+import team.coc.pojo.GoodFriendRequest;
 import team.coc.pojo.User;
 import team.coc.util.HibernateUtils;
 
@@ -12,7 +13,41 @@ import java.util.List;
  * 用户表操作类
  */
 public class UserDao extends CommonDao<User> {
+    /**
+     * 好友查询 模糊查询
+     * @param key - 账号或用户名
+     * @return List<User>
+     */
+    public List<User> getRequest(String key) {
 
+        Session session = HibernateUtils.openSession();
+        Transaction tx = null;
+        List<User> userList;
+        try {
+            tx = session.beginTransaction();
+
+            // 查询数据库
+            String hql = "from User where userName like ? or email like ?";
+            Query query = session.createQuery(hql);
+            query.setParameter(0, "%"+key+"%");
+            query.setParameter(1, "%"+key+"%");
+            userList = query.list();
+
+            tx.commit();
+        } catch (RuntimeException e) {
+            tx.rollback();
+            throw e;
+        } finally {
+            session.close();
+        }
+
+        // 存在结果
+        if (userList != null && userList.size() > 0) {
+            return userList;
+        } else {
+            return null;
+        }
+    }
     /**
      * 通过账号获取用户信息
      * @param account - 账号
