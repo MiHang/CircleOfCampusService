@@ -39,12 +39,12 @@ public class DemoController {
     /**
      * 好友搜索模糊查询
      * @param strJson 搜索关键字 用户名 或 账号
-     * @return result 结果 条数 Account  账号信息 UserName 用户名
+     * @return result 结果 条数 Account  账号信息 UserName 用户名 Sex 性别
      * @throws JSONException
      */
     @ResponseBody
     @RequestMapping(value = {"/coc/search"}, method = {RequestMethod.POST})
-    public String login(@RequestBody String strJson) throws JSONException {
+    public String search(@RequestBody String strJson) throws JSONException {
 
         JSONObject jsonObject = new JSONObject(strJson); // 用户请求时上传的参数
         UserDao dao=new UserDao();
@@ -59,6 +59,7 @@ public class DemoController {
                     JSONObject json = new JSONObject();
                     json.put("Account",u.getEmail());
                     json.put("UserName",u.getUserName());
+                    json.put("Sex",u.getGender());
                     ja.put(json.toString());
                 }
             }
