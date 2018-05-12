@@ -46,7 +46,7 @@ public class User implements Serializable {
     /**
      * 用户密码
      */
-    @Column(name = "pwd", length = 16)
+    @Column(name = "pwd", length = 50)
     private String pwd;
     /**
      * 用户性别
@@ -65,7 +65,7 @@ public class User implements Serializable {
     private String nativePlace;
     /**
      * 用户所属的院系信息
-     * 用户与院系形成双向多对一关系
+     * 用户与院系形成单向多对一关系
      */
     @ManyToOne(cascade={CascadeType.ALL}, fetch=FetchType.EAGER)
     @JoinColumn(name="f_id")

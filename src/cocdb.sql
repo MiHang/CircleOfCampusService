@@ -24,7 +24,7 @@
     campus_account varchar(10) unique not null,-- 学校账号, 唯一
     campus_name varchar(20) unique not null,   -- 学校名称, 唯一
     introduction varchar(20) null,              -- 学校简介
-	  pwd varchar(16) not null                  -- 学校管理员密码
+	  pwd varchar(50) not null                  -- 学校管理员密码
 
   );
 
@@ -64,7 +64,7 @@
     u_id int primary key auto_increment,  -- 用户ID，主键，自动增长
     user_name varchar(10) unique not null,-- 用户名, 唯一
     email varchar(50) unique not null,    -- 电子邮箱, 唯一
-    pwd varchar(16) not null,             -- 用户密码
+    pwd varchar(50) not null,             -- 用户密码
     birthday varchar(16) null,            -- 出生日期
     gender varchar(6) not null,           -- 性别(male or female)
     native_place varchar(50) null,        -- 籍贯，允许为空

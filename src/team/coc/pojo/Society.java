@@ -28,7 +28,7 @@ public class Society implements Serializable {
     private String societyName;
     /**
      * 社团所属的学校信息
-     * 社团与学校形成双向多对一关系
+     * 社团与学校形成单向多对一关系
      */
     @ManyToOne(cascade={CascadeType.ALL}, fetch=FetchType.EAGER)
     @JoinColumn(name="c_id")

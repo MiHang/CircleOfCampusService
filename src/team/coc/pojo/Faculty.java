@@ -4,7 +4,6 @@ import com.sun.istack.internal.NotNull;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.Set;
 
 /**
  * 院系
@@ -34,13 +33,6 @@ public class Faculty implements Serializable {
     @ManyToOne(cascade={CascadeType.ALL}, fetch=FetchType.EAGER)
     @JoinColumn(name="c_id")
     private Campus campus;
-    /**
-     * 用户集合
-     * 院系与用户形成双向一对多关系
-     */
-    @OneToMany(cascade= {CascadeType.ALL}, fetch=FetchType.LAZY)
-    @JoinColumn(name="f_id")
-    private Set<User> userSet;
 
     public Faculty() {}
 
@@ -77,11 +69,4 @@ public class Faculty implements Serializable {
         this.campus = campus;
     }
 
-    public Set<User> getUserSet() {
-        return userSet;
-    }
-
-    public void setUserSet(Set<User> userSet) {
-        this.userSet = userSet;
-    }
 }

@@ -42,24 +42,8 @@ public class Campus implements Serializable {
     /**
      * 学校管理员密码
      */
-    @Column(name = "pwd", length = 16)
+    @Column(name = "pwd", length = 50)
     private String password;
-    /**
-     * 院系集合
-     * 学校与院系形成双向一对多关系
-     * 一所学校拥有多个院系，一个院系只属于一个学校（一方持有多方的集合）
-     * 获取方式为懒加载 FetchType.LAZY
-     */
-    @OneToMany(cascade= {CascadeType.ALL}, fetch=FetchType.LAZY)
-    @JoinColumn(name="c_id")
-    private Set<Faculty> facultySet;
-    /**
-     * 社团集合
-     * 学校与社团形成双向一对多关系
-     */
-    @OneToMany(cascade= {CascadeType.ALL}, fetch=FetchType.LAZY)
-    @JoinColumn(name="c_id")
-    private Set<Society> societySet;
 
     public Campus(){}
 
@@ -108,21 +92,5 @@ public class Campus implements Serializable {
 
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    public Set<Faculty> getFacultySet() {
-        return facultySet;
-    }
-
-    public void setFacultySet(Set<Faculty> facultySet) {
-        this.facultySet = facultySet;
-    }
-
-    public Set<Society> getSocietySet() {
-        return societySet;
-    }
-
-    public void setSocietySet(Set<Society> societySet) {
-        this.societySet = societySet;
     }
 }
