@@ -117,7 +117,7 @@ public class CampusDao extends CommonDao<Campus> {
 
         // 存在结果
         if (objects != null && objects.size() > 0) {
-            return (int)objects.get(0);
+            return Integer.parseInt((String)objects.get(0));
         } else {
             return -1;
         }
