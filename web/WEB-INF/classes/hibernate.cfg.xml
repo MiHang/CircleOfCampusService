@@ -16,7 +16,7 @@
         <property name="connection.password">123456</property>
 
         <!-- 自动根据JavaBean对象来更新表结构 -->
-        <property name="hbm2ddl.auto">create</property>
+        <!--<property name="hbm2ddl.auto">create</property>-->
 
         <!-- 显示生成的SQL语句 -->
         <property name="hibernate.show_sql">true</property>

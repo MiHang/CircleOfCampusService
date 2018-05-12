@@ -46,7 +46,7 @@ public class User implements Serializable {
     /**
      * 用户密码
      */
-    @Column(name = "pwd", length = 50)
+    @Column(name = "pwd", length = 255)
     private String pwd;
     /**
      * 用户性别

@@ -1,6 +1,5 @@
 package team.coc.controller;
 
-import com.sun.deploy.net.HttpResponse;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -13,7 +12,6 @@ import team.coc.dao.CampusDao;
 import team.coc.dao.FacultyDao;
 import team.coc.dao.UserDao;
 import team.coc.data.Cookie;
-import team.coc.pojo.Campus;
 import team.coc.pojo.Faculty;
 import team.coc.pojo.User;
 import team.coc.util.MailUtil;
@@ -40,7 +38,7 @@ public class RegisterController {
      * 请求参数: username : String - 用户名<br>
      * 请求参数: gender : String - 性别 (男 - male, 女 - female)<br>
      * 请求参数: email : String - 邮箱<br>
-     * 请求参数: pwd : String - 密码<br>
+     * 请求参数: pwd : String - 密码, 密码请加密上传<br>
      * 请求参数: verificationCode : String - 用户输入的验证码<br>
      * 请求参数: facultyId : int - 院系ID<br>
      * @return 返回的json数据示例 {result:'success/error/no_code/code_error/timeout'}

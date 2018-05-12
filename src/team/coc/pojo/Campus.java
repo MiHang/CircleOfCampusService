@@ -42,7 +42,7 @@ public class Campus implements Serializable {
     /**
      * 学校管理员密码
      */
-    @Column(name = "pwd", length = 50)
+    @Column(name = "pwd", length = 255)
     private String password;
 
     public Campus(){}
