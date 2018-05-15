@@ -32,7 +32,7 @@ public class ForgotPwdController {
      * 请求地址URL: http://ip:8080/coc/resetPassword.do<br>
      * @param strJson - json数据<br>
      * 请求参数: email : String - 邮箱<br>
-     * 请求参数: pwd : String - 密码<br>
+     * 请求参数: pwd : String - 密码, 密码请加密上传<br>
      * 请求参数: verificationCode : String - 用户输入的验证码<br>
      * @return 返回的json数据示例 {result:'success/error/no_code/code_error/timeout'}
      * result : String - success 重置密码成功<br>

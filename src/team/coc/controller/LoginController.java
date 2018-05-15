@@ -30,7 +30,7 @@ public class LoginController {
      * 请求方式: POST<br>
      * @param strJson - json数据<br>
      * 请求参数：account : String - 账号(邮箱/用户名)<br>
-     * 请求参数：pwd : String - 密码<br>
+     * 请求参数：pwd : String - 密码, 密码请加密上传<br>
      * 示例：{"account":"jayevip@163.com", "pwd":"123456"}<br>
      * @return 返回的json数据示例 {result:'success/error/unknown', id: 1, type:"admin/user"}
      * result : String - success 登录验证成功<br>
@@ -56,37 +56,34 @@ public class LoginController {
         // 实例化Campus数据表操作对象
         CampusDao campusDao = new CampusDao();
 
-        // 实例化User数据表操作对象
-        UserDao userDao = new UserDao();
-
-        if (campusDao.hasCampus(account)) { // 该账号为学校账号
+        Campus campus = campusDao.getCampusByAccount(account);
+        if (campus != null) { // 该账号为学校账号
 
             json.put("type", "admin"); // 用户类型 - 管理员
-
-            int campusId = campusDao.isValidity(account, pwd);
-            if (campusId != -1) { // 验证账号密码成功
-
-                json.put("id", campusId); // 管理员/校园ID
-                json.put("result", "success"); // 验证结果 - 成功
-
-            } else {
-                json.put("result", "error"); // 验证结果 - 失败
-            }
-
-        } else if (userDao.hasUser(account)) { // 该账号为用户账号
-
-            json.put("type", "user"); // 用户类型 - 管理员
-
-            int userId = userDao.isValidity(account, pwd);
-            if (userId != -1) {
-                json.put("id", userId); // 用户ID
-                json.put("result", "success"); // 验证结果 - 成功
+            if (campus.getPassword().equals(pwd)) { // 验证结果 - 成功
+                json.put("id", campus.getCampusId());
+                json.put("result", "success");
             } else {
                 json.put("result", "error");
             }
+        } else { // 该账号为用户账号
 
-        } else { // 该用户未注册
-            json.put("result", "unknown");
+            // 实例化User数据表操作对象
+            UserDao userDao = new UserDao();
+            User user = userDao.getUserByAccount(account);
+
+            if (user != null) {
+                json.put("type", "user"); // 用户类型 - 管理员
+
+                if (user.getPwd().equals(pwd)) { // 验证结果 - 成功
+                    json.put("id", user.getUserId());
+                    json.put("result", "success");
+                } else {
+                    json.put("result", "error");
+                }
+            } else {
+                json.put("result", "unknown"); // 该用户未注册
+            }
         }
 
         return json.toString();

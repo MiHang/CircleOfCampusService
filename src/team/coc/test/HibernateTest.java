@@ -1,11 +1,9 @@
 package team.coc.test;
 
-import team.coc.dao.CampusDao;
+import rasencrypt.encrypt.RSAEncrypt;
 import team.coc.dao.CommonDao;
-import team.coc.dao.FacultyDao;
 import team.coc.pojo.*;
 
-import java.util.Date;
 import java.util.List;
 
 public class HibernateTest {
@@ -52,13 +50,16 @@ public class HibernateTest {
 
     private static void init() {
 
+        // RSA加密对象
+        RSAEncrypt rsaEncrypt = new RSAEncrypt();
+
         //校园表示例数据
         CommonDao<Campus> campusCommonDao = new CommonDao<Campus>();
         Campus campus = new Campus();
         campus.setCampusAccount("cdp");
         campus.setCampusName("成都职业技术学院");
         campus.setIntroduction("简介");
-        campus.setPassword("123456");
+        campus.setPassword(rsaEncrypt.encrypt("123456"));
         campusCommonDao.save(campus);
 
         // 查询list
@@ -85,21 +86,11 @@ public class HibernateTest {
         User user1 = new User();
         user1.setUserName("jaye");
         user1.setEmail("jayevip@163.com");
-        user1.setPwd("123456");
+        user1.setPwd(rsaEncrypt.encrypt("123456"));
         user1.setGender(User.MALE);
         user1.setBirthday("1997-11-09");
         user1.setFaculty(facultyList.get(0));
-
-        User user2 = new User();
-        user2.setUserName("韩梅梅");
-        user2.setEmail("87654321@qq.com");
-        user2.setPwd("123456");
-        user2.setGender(User.FEMALE);
-        user2.setBirthday("1998-09-09");
-        user2.setFaculty(facultyList.get(0));
-
         userCommonDao.save(user1);
-        userCommonDao.save(user2);
 
         // 查询list
         List<User> userList = userCommonDao.findAll(User.class);
@@ -112,16 +103,16 @@ public class HibernateTest {
         societyCommonDao.save(society2);
 
         // 校园圈示例数据
-        CommonDao<CampusCircle> campusCircleCommonDao = new CommonDao<CampusCircle>();
-        CampusCircle campusCircle = new CampusCircle("这是一条校园圈消息",
-                "", "", new Date(), campusList.get(0));
-        campusCircleCommonDao.save(campusCircle);
-
-        // 社团圈示例数据
-        CommonDao<SocietyCircle> societyCircleCommonDao = new CommonDao<SocietyCircle>();
-        SocietyCircle societyCircle = new SocietyCircle("这是一条社团圈消息",
-                "", "", new Date(), 0, userList.get(0));
-        societyCircleCommonDao.save(societyCircle);
+//        CommonDao<CampusCircle> campusCircleCommonDao = new CommonDao<CampusCircle>();
+//        CampusCircle campusCircle = new CampusCircle("这是一条校园圈消息",
+//                "", "", new Date(), campusList.get(0));
+//        campusCircleCommonDao.save(campusCircle);
+//
+//        // 社团圈示例数据
+//        CommonDao<SocietyCircle> societyCircleCommonDao = new CommonDao<SocietyCircle>();
+//        SocietyCircle societyCircle = new SocietyCircle("这是一条社团圈消息",
+//                "", "", new Date(), 0, userList.get(0));
+//        societyCircleCommonDao.save(societyCircle);
 
     }
 
