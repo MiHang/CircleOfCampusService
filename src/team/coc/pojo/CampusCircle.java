@@ -1,5 +1,7 @@
 package team.coc.pojo;
 
+import com.sun.istack.internal.NotNull;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
@@ -20,9 +22,16 @@ public class CampusCircle implements Serializable {
     private int id;
 
     /**
+     * 标题
+     */
+    @NotNull
+    @Column(length = 50)
+    private String title;
+
+    /**
      * 文本内容
      */
-    @Column(name = "content", length = 200)
+    @Column(name = "content", length = 500)
     private String content;
 
     /**
@@ -55,7 +64,10 @@ public class CampusCircle implements Serializable {
 
     public CampusCircle() { }
 
-    public CampusCircle(String content, String imagesUrl, String videoUrl, Date publishTime, Campus campus) {
+    public CampusCircle(String title, String content,
+                        String imagesUrl, String videoUrl,
+                        Date publishTime, Campus campus) {
+        this.title = title;
         this.content = content;
         this.imagesUrl = imagesUrl;
         this.videoUrl = videoUrl;
@@ -69,6 +81,14 @@ public class CampusCircle implements Serializable {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public String getContent() {

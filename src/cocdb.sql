@@ -160,10 +160,11 @@
 
     id int primary key auto_increment,-- 校园圈ID，主键，自动增长
     c_id int not null,                -- 学校ID，发布者，外键
-	  content varchar(200) null,        -- 文本内容
+    title varchar(50) not null,       -- 标题
+	  content varchar(500) null,        -- 文本内容
     images_url varchar(200) null,     -- 图片地址，多个图片之间用分号(';')隔开
     video_url varchar(200) null,      -- 视频地址
-	  publish_time datetime not null,				    -- 发布时间
+	  publish_time datetime not null,	  -- 发布时间
 
     foreign key(c_id) references t_campus(c_id)
   );
@@ -176,7 +177,8 @@
 
     id int primary key auto_increment,-- 社团圈ID，主键，自动增长
     u_id int not null,                -- 发布者，用户ID，外键
-	  content varchar(200) null,        -- 文本内容
+    title varchar(50) not null,       -- 标题
+	  content varchar(500) null,        -- 文本内容
     images_url varchar(200) null,     -- 图片地址，多个图片之间用分号(';')隔开
     video_url varchar(200) null,      -- 视频地址
 	  publish_time datetime not null,		-- 发布时间
