@@ -31,7 +31,7 @@ public class CampusCircle implements Serializable {
     /**
      * 文本内容
      */
-    @Column(name = "content", length = 200)
+    @Column(name = "content", length = 500)
     private String content;
 
     /**
