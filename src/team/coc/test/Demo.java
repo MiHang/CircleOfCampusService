@@ -42,7 +42,7 @@ public class Demo {
 
 
         //好友查询
-        List<User> l=dao.getRequest("j撒a");
+        List<User> l=dao.getUserInfo("j撒a");
         JSONObject js=new JSONObject();
         JSONArray ja=new JSONArray();
         js.put("Result",0);
@@ -76,6 +76,8 @@ public class Demo {
                 System.out.println(jsonObject.toString());
             }
 //
+       User u= dao.getUserByAccount("87654321@qq.com");
+            System.out.println(u.getUserName()+u.getGender());
 
     }
 
