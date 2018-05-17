@@ -37,11 +37,11 @@ public class CrawlerTest {
         Spider spider = Spider.create(noticeListLinksCrawler);
 
         // 添加初始的URL
-        //spider.addUrl("http://www.cdp.edu.cn/Category_1648/Index.aspx");
-        //spider.addUrl("http://www.cdp.edu.cn/Category_1648/Index_2.aspx");
-        //spider.addUrl("http://www.cdp.edu.cn/Category_1648/Index_3.aspx");
+        spider.addUrl("http://www.cdp.edu.cn/Category_1648/Index.aspx");
+        spider.addUrl("http://www.cdp.edu.cn/Category_1648/Index_2.aspx");
+        spider.addUrl("http://www.cdp.edu.cn/Category_1648/Index_3.aspx");
         spider.addUrl("http://www.cdp.edu.cn/Category_1648/Index_4.aspx");
-        //spider.addUrl("http://www.cdp.edu.cn/Category_1648/Index_5.aspx");
+        spider.addUrl("http://www.cdp.edu.cn/Category_1648/Index_5.aspx");
 
         // 开启10个线程
         spider.thread(20);
@@ -65,7 +65,8 @@ public class CrawlerTest {
                 for (CampusCircle cc : list) {
                     System.out.println("Title = " + cc.getTitle() +
                             "\nPublishTime = " + cc.getPublishTime() +
-                            "\nContent = " + cc.getContent());
+                            "\nContent = " + cc.getContent() +
+                            "\nimageUrl = " + cc.getImagesUrl());
                 }
             }
         });
