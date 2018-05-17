@@ -1,6 +1,6 @@
 package team.coc.test;
 
-import com.common.model.DataMsg;
+
 import com.common.model.Msg;
 import com.common.utils.ByteUtils;
 import org.java_websocket.client.WebSocketClient;
@@ -29,7 +29,7 @@ public class MyClient extends WebSocketClient {
 
 	public MyClient(URI serverURI) {
 		super(serverURI);
-		// TODO Auto-generated constructor stub
+
 	}
 
 	public static void main(String[] args) throws URISyntaxException {
@@ -45,8 +45,6 @@ public class MyClient extends WebSocketClient {
 		jt.setEditable(false);
 
 		jf.add(jt,BorderLayout.CENTER);
-
-
 		jtf=new JTextField();
 		jf.add(jtf,BorderLayout.SOUTH);
 
@@ -61,12 +59,11 @@ public class MyClient extends WebSocketClient {
 		jb.addMouseListener(new MouseListener() {
 			public void mouseClicked(MouseEvent e) {
 				if(client.getConnection().isOpen()){
-					DataMsg dataMsg=new DataMsg();
+					Msg dataMsg=new Msg();
 					dataMsg.setSend(send);
 					dataMsg.setReceive(Recieve);
-					Msg msg=new Msg();
-					msg.setTextMsg(jtf.getText().toString());
-					dataMsg.setSendMsg(msg);
+					dataMsg.setText(jtf.getText().toString());
+
 					client.send(utils.toByteArray(dataMsg));
 					jt.append(send+":"+jtf.getText().toString()+"\n");
 				}
@@ -121,9 +118,9 @@ public class MyClient extends WebSocketClient {
 	 */
 	@Override
 	public void onMessage(ByteBuffer bytes) {
-		DataMsg msg =utils.toT(bytes.array());
+		Msg msg =utils.toT(bytes.array());
 
-		jt.append(msg.getUserName()+":"+msg.getSendMsg().getTextMsg()+msg.getSendMsg().getDate()+"\n");
+		jt.append(msg.getUserName()+":"+msg.getText()+msg.getDate()+"\n");
 	}
 	@Override
 	public void onOpen(ServerHandshake arg0) {

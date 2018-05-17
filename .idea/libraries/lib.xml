@@ -32,6 +32,9 @@
       <root url="jar://$PROJECT_DIR$/web/WEB-INF/lib/hibernate-core-5.2.16.Final.jar!/" />
       <root url="jar://$PROJECT_DIR$/web/WEB-INF/lib/jandex-2.0.3.Final.jar!/" />
       <root url="jar://$PROJECT_DIR$/web/WEB-INF/lib/gson-2.8.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/web/WEB-INF/lib/classes.jar!/" />
+      <root url="jar://$PROJECT_DIR$/web/WEB-INF/lib/ormlite-android-5.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/web/WEB-INF/lib/ormlite-core-5.0.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />

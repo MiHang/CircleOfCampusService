@@ -1,7 +1,8 @@
 package team.coc.test;
 
 
-import com.common.model.DataMsg;
+
+import com.common.model.Msg;
 import com.common.utils.ByteUtils;
 import org.java_websocket.WebSocket;
 import org.java_websocket.handshake.ClientHandshake;
@@ -23,7 +24,7 @@ public class MyServer extends WebSocketServer {
 	byte[] doc = null;//存储文件字节
 	Map<WebSocket,String> webSockets=new HashMap<WebSocket,String>();//存储登录用户端口及账号
 	ByteUtils utils=new ByteUtils();//字节转换工具类
-	List<DataMsg> info=new ArrayList<DataMsg>();
+	List<Msg> info=new ArrayList<Msg>();
 	SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
 	public MyServer(int address) {
@@ -72,10 +73,10 @@ public class MyServer extends WebSocketServer {
 
 					System.out.println(info.size()+"新消息未接收");
 
-					for(DataMsg r:info){//判断服务器是否有该用户未接收的信息 ,有则发送
+					for(Msg r:info){//判断服务器是否有该用户未接收的信息 ,有则发送
 
 						if(r.getReceive().equals(js.getString("Account"))){
-							System.out.println("发送消息"+r.getSendMsg().getTextMsg());
+							System.out.println("发送消息"+r.getText());
 							webSocket.send(utils.toByteArray(r));
 //							info.remove(index);
 						}
@@ -110,8 +111,8 @@ public class MyServer extends WebSocketServer {
 	 */
 	@Override
 	public void onMessage(WebSocket arg0, ByteBuffer bytes) {
-		DataMsg data=utils.toT(bytes.array());
-		data.getSendMsg().setDate(sdf.format(new Date()));
+		Msg data=utils.toT(bytes.array());
+		data.setDate(sdf.format(new Date()));
 
 		//根据账号查询用户名与性别
 		UserDao dao=new UserDao();
@@ -121,13 +122,13 @@ public class MyServer extends WebSocketServer {
 
 
 
-		System.out.println(data.getSend()+":"+data.getSendMsg().getTextMsg());
+		System.out.println(data.getSend()+":"+data.getText());
 		//判断接收者是否在线
 		if(webSockets.containsValue(data.getReceive())){//在线
 			server.sendToPrivateUser(data.getReceive(),utils.toByteArray(data));
 		}else{//存储信息
 			info.add(data);
-			System.out.println("接受者用户"+data.getReceive()+"不在线,数据已储存"+data.getSendMsg().getDate());
+			System.out.println("接受者用户"+data.getReceive()+"不在线,数据已储存"+data.getDate());
 		}
 	}
 
