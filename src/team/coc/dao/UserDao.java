@@ -18,7 +18,7 @@ public class UserDao extends CommonDao<User> {
      * @param key - 账号或用户名
      * @return List<User>
      */
-    public List<User> getRequest(String key) {
+    public List<User> getUserInfo(String key) {
 
         Session session = HibernateUtils.openSession();
         Transaction tx = null;

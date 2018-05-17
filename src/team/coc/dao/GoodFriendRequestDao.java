@@ -26,7 +26,7 @@ public class GoodFriendRequestDao extends CommonDao<GoodFriendRequest> {
         return super.save(goodFriendRequest);
     }
     /**
-     * 通过账号检查是否存在此用户
+     * 通过账号检查两人是否是好友
      * @param A_user - 账号(用户名/邮箱)
      * @return 存在返回true， 不存在返回false
      */
@@ -65,7 +65,7 @@ public class GoodFriendRequestDao extends CommonDao<GoodFriendRequest> {
      * @param account - 账号
      * @return List<GoodFriendRequest>
      */
-    public List<GoodFriendRequest> getRequest(String account) {
+    public List<GoodFriendRequest> getRequestAddFriend(String account) {
 
         Session session = HibernateUtils.openSession();
         Transaction tx = null;

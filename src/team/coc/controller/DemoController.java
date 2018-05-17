@@ -1,12 +1,20 @@
 package team.coc.controller;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import team.coc.dao.CampusDao;
+import team.coc.dao.UserDao;
+import team.coc.pojo.User;
 
 import java.io.UnsupportedEncodingException;
+import java.util.List;
+
 
 /**
  * 连接测试类<br/>
@@ -27,6 +35,59 @@ public class DemoController {
         JSONObject json = new JSONObject();
         json.put("msg", "success");
         return json.toString();
+    }
+
+    /**
+     * 好友搜索模糊查询
+     * @param strJson 搜索关键字 用户名 或 账号
+     * @return result 结果 条数 Account  账号信息 UserName 用户名 Sex 性别
+     * @throws JSONException
+     */
+    @ResponseBody
+    @RequestMapping(value = {"/coc/search"}, method = {RequestMethod.POST})
+    public String search(@RequestBody String strJson) throws JSONException {
+
+        JSONObject jsonObject = new JSONObject(strJson); // 用户请求时上传的参数
+        UserDao dao=new UserDao();
+        //好友查询
+        List<User> data=dao.getUserInfo(jsonObject.getString("Search"));
+        JSONObject js=new JSONObject();
+        JSONArray ja=new JSONArray();
+        js.put("Result",0);
+            if (data!=null&&data.size()>0){
+                js.put("Result", data.size());
+                for(User u:data){
+                    JSONObject json = new JSONObject();
+                    json.put("Account",u.getEmail());
+                    json.put("UserName",u.getUserName());
+                    json.put("Sex",u.getGender());
+                    ja.put(json.toString());
+                }
+            }
+            js.put("Info",ja.toString());
+
+        return js.toString();
+    }
+
+
+    /**
+     * 根据账号获取用户表中的用户名与性别
+     * @param strJson 账号
+     * @return UserName 用户名 Sex 性别
+     * @throws JSONException
+     */
+    @ResponseBody
+    @RequestMapping(value = {"/coc/UserNameAndSexQuery"}, method = {RequestMethod.POST})
+    public String getUserNameAndSex(@RequestBody String strJson) throws JSONException {
+        JSONObject jsonObject = new JSONObject(strJson); // 用户请求时上传的参数
+        UserDao dao=new UserDao();
+        User u= dao.getUserByAccount(jsonObject.getString("Account"));
+
+        JSONObject js=new JSONObject();
+        js.put("UserName",u.getUserName());
+        js.put("Sex",u.getGender());
+        System.out.println("用户名"+js.getString("UserName")+"性别"+js.getString("Sex"));
+        return js.toString();
     }
 
     /**
