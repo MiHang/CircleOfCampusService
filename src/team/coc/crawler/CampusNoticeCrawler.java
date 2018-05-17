@@ -34,14 +34,16 @@ public class CampusNoticeCrawler implements PageProcessor {
         // 获取公告内容(带html标签)
         List<String> contents_temp = page.getHtml().css("div.conTxt").regex("<p.*>.*</p>").all();
 
-        List<String> imgUrls = page.getHtml().css("div.conTxt").regex("<img.*src=(.*?)[^>]*?>").all();
+        // 获取公告内容中的图片地址
+        List<String> imgUrls = page.getHtml().css("div.conTxt").regex("<img.*src=\"([^\"]*)\"").all();
 
-        System.out.println("-------- imgUrl");
-        for (String s : imgUrls) {
-            System.out.println(s);
+        // 在图片地址前加上域名
+        for (int i = 0; i < imgUrls.size(); i ++) {
+            String s = "http://www.cdp.edu.cn" + imgUrls.get(i);
+            imgUrls.remove(i);
+            imgUrls.add(i, s);
         }
 
-        /*
         // 保存公告内容(无html标签)
         List<String> contents = new ArrayList<String>();
 
@@ -61,6 +63,15 @@ public class CampusNoticeCrawler implements PageProcessor {
 
             // 去除前后空字符
             s = s.trim();
+
+            // 内容中有文件上传位置, 则在该文件位置前加上域名
+            if (s.indexOf("/UploadFiles") != -1) {
+
+                // 插入字符串
+                StringBuffer stringBuffer = new StringBuffer(s);
+                stringBuffer.insert(s.indexOf("/UploadFiles"), "http://www.cdp.edu.cn");
+                s = stringBuffer.toString();
+            }
 
             // 将过滤完的内容存入contents集合
             contents.add(s);
@@ -109,12 +120,23 @@ public class CampusNoticeCrawler implements PageProcessor {
             }
             campusCircle.setContent(msg);
 
+            // 此公告内有图片, 则设置图片地址
+            if (imgUrls != null && imgUrls.size() > 0) {
+                String urls = "";
+                for (int i = 0; i < imgUrls.size() - 1; i ++) {
+                    urls += imgUrls.get(i) + ";";
+                }
+                urls += imgUrls.get(imgUrls.size() - 1);
+
+                campusCircle.setImagesUrl(urls);
+            }
+
             campusCircles.add(campusCircle);
 
             if (crawlerListener != null) {
                 crawlerListener.done(campusCircles);
             }
-        }*/
+        }
 
     }
 
