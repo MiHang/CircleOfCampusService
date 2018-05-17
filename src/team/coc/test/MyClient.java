@@ -22,9 +22,8 @@ public class MyClient extends WebSocketClient {
 	public static JTextArea jt;
 	static JTextField jtf;
 	static ByteUtils utils=new ByteUtils();
-	byte[] doc=null;
 	static String send="87654321@qq.com";
-	static String Recieve="jayevip@163.com";
+	static String Receive="jayevip@163.com";
 
 
 	public MyClient(URI serverURI) {
@@ -61,7 +60,7 @@ public class MyClient extends WebSocketClient {
 				if(client.getConnection().isOpen()){
 					Msg dataMsg=new Msg();
 					dataMsg.setSend(send);
-					dataMsg.setReceive(Recieve);
+					dataMsg.setReceive(Receive);
 					dataMsg.setText(jtf.getText().toString());
 
 					client.send(utils.toByteArray(dataMsg));
