@@ -50,7 +50,7 @@ public class MyClient extends WebSocketClient {
 		JButton jb=new JButton("发送");
 		jf.add(jb,BorderLayout.EAST);
 
-		URI uri=new URI("ws://192.168.1.157:8891");
+		URI uri=new URI("ws://192.168.157.2:8891");
 		client=new MyClient(uri);
 		client.connect();
 
