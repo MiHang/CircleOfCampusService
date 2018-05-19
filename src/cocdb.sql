@@ -165,6 +165,7 @@
     images_url varchar(200) null,     -- 图片地址，多个图片之间用分号(';')隔开
     video_url varchar(200) null,      -- 视频地址
 	  publish_time datetime not null,	  -- 发布时间
+    venue varchar(50) null,           -- 活动地点
 
     foreign key(c_id) references t_campus(c_id)
   );
@@ -182,6 +183,7 @@
     images_url varchar(200) null,     -- 图片地址，多个图片之间用分号(';')隔开
     video_url varchar(200) null,      -- 视频地址
 	  publish_time datetime not null,		-- 发布时间
+    venue varchar(50) null,           -- 活动地点
     auditing int not null,            -- 审核状态，1 - 已审核，0 - 未审核
 
     foreign key(u_id) references t_user(u_id)
