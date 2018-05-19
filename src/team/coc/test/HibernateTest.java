@@ -103,8 +103,8 @@ public class HibernateTest {
         societyCommonDao.save(society2);
 
         // 校园圈示例数据
-//        CommonDao<CampusCircle> campusCircleCommonDao = new CommonDao<CampusCircle>();
-//        CampusCircle campusCircle = new CampusCircle("这是一条校园圈消息",
+//        CommonDao<CampusCircleDao> campusCircleCommonDao = new CommonDao<CampusCircleDao>();
+//        CampusCircleDao campusCircle = new CampusCircleDao("这是一条校园圈消息",
 //                "", "", new Date(), campusList.get(0));
 //        campusCircleCommonDao.save(campusCircle);
 //
