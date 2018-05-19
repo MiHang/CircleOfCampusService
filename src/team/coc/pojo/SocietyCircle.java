@@ -60,6 +60,12 @@ public class SocietyCircle implements Serializable {
     private String venue;
 
     /**
+     * 活动时间
+     */
+    @Column(name = "activity_time", length = 50)
+    private String activityTime;
+
+    /**
      * 审核状态，1 - 已审核，0 - 未审核
      */
     @NotNull
@@ -78,13 +84,15 @@ public class SocietyCircle implements Serializable {
     public SocietyCircle(String title, String content,
                          String imagesUrl, String videoUrl,
                          Date publishTime, String venue,
-                         int auditing, User user) {
+                         String activityTime, int auditing,
+                         User user) {
         this.title = title;
         this.content = content;
         this.imagesUrl = imagesUrl;
         this.videoUrl = videoUrl;
         this.publishTime = publishTime;
         this.venue = venue;
+        this.activityTime = activityTime;
         this.auditing = auditing;
         this.user = user;
     }
@@ -143,6 +151,14 @@ public class SocietyCircle implements Serializable {
 
     public void setVenue(String venue) {
         this.venue = venue;
+    }
+
+    public String getActivityTime() {
+        return activityTime;
+    }
+
+    public void setActivityTime(String activityTime) {
+        this.activityTime = activityTime;
     }
 
     public int getAuditing() {

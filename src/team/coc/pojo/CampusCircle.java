@@ -60,6 +60,12 @@ public class CampusCircle implements Serializable {
     private String venue;
 
     /**
+     * 活动时间
+     */
+    @Column(name = "activity_time", length = 50)
+    private String activityTime;
+
+    /**
      * 校园圈所属的校园信息
      * 校园圈与校园形成单向多对一关系
      * 既，该校园圈属于该校园，该校园可以拥有多个校园圈
@@ -73,13 +79,14 @@ public class CampusCircle implements Serializable {
     public CampusCircle(String title, String content,
                         String imagesUrl, String videoUrl,
                         Date publishTime, String venue,
-                        Campus campus) {
+                        String activityTime, Campus campus) {
         this.title = title;
         this.content = content;
         this.imagesUrl = imagesUrl;
         this.videoUrl = videoUrl;
         this.publishTime = publishTime;
         this.venue = venue;
+        this.activityTime = activityTime;
         this.campus = campus;
     }
 
@@ -137,6 +144,14 @@ public class CampusCircle implements Serializable {
 
     public void setVenue(String venue) {
         this.venue = venue;
+    }
+
+    public String getActivityTime() {
+        return activityTime;
+    }
+
+    public void setActivityTime(String activityTime) {
+        this.activityTime = activityTime;
     }
 
     public Campus getCampus() {
