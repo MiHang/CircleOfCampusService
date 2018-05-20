@@ -32,12 +32,12 @@ public class Campus implements Serializable {
      * 学校名称， 唯一约束
      */
     @NotNull
-    @Column(name = "campus_name", length = 20)
+    @Column(name = "campus_name", length = 50)
     private String campusName;
     /**
      * 学校简介
      */
-    @Column(name = "introduction", length = 20)
+    @Column(name = "introduction", length = 50)
     private String introduction;
     /**
      * 学校管理员密码

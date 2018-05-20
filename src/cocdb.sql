@@ -22,8 +22,8 @@
 
     c_id int primary key auto_increment,       -- 学校ID，主键，自动增长
     campus_account varchar(10) unique not null,-- 学校账号, 唯一
-    campus_name varchar(20) unique not null,   -- 学校名称, 唯一
-    introduction varchar(20) null,              -- 学校简介
+    campus_name varchar(50) unique not null,   -- 学校名称, 唯一
+    introduction varchar(50) null,              -- 学校简介
 	  pwd varchar(255) not null                  -- 学校管理员密码
 
   );
