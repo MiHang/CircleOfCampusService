@@ -19,6 +19,8 @@ import java.util.List;
  */
 public class CampusCircleController {
 
+
+
     /**
      * 分页获取校园圈信息<br>
      * 请求地址URL: http://ip:8080/coc/getCampusCircle.do<br>
@@ -31,6 +33,7 @@ public class CampusCircleController {
      * @return 返回的json数组示例<br>
      * [{ <br>
      *     id: 1, <br>
+     *     cover: '/upload/1234.png' <br>
      *     title: 'title', <br>
      *     content: 'content', <br>
      *     imagesUrl: '', <br>
@@ -40,6 +43,7 @@ public class CampusCircleController {
      *     activityTime: '2018年5月20号' <br>
      * }] <br>
      * id : int - 校园圈ID <br>
+     * cover : String - 校园圈信息封面 <br>
      * title : String - 校园圈标题 <br>
      * content : String - 校园圈内容 <br>
      * imagesUrl : String - 校园圈内容之图片地址 <br>
@@ -80,6 +84,7 @@ public class CampusCircleController {
                     // 将每条记录存入json对象中
                     JSONObject jsonObject = new JSONObject();
                     jsonObject.put("id", campusCircle.getId());
+                    jsonObject.put("cover", campusCircle.getCover());
                     jsonObject.put("title", campusCircle.getTitle());
                     jsonObject.put("content", campusCircle.getContent());
                     jsonObject.put("imagesUrl", campusCircle.getImagesUrl());
@@ -138,5 +143,4 @@ public class CampusCircleController {
 
         return json.toString();
     }
-
 }
