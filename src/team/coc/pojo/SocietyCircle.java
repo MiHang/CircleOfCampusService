@@ -22,6 +22,12 @@ public class SocietyCircle implements Serializable {
     private int id;
 
     /**
+     * 封面图片路径
+     */
+    @Column(length = 50)
+    private String cover;
+
+    /**
      * 标题
      */
     @NotNull
@@ -81,11 +87,12 @@ public class SocietyCircle implements Serializable {
 
     public SocietyCircle() { }
 
-    public SocietyCircle(String title, String content,
-                         String imagesUrl, String videoUrl,
-                         Date publishTime, String venue,
-                         String activityTime, int auditing,
-                         User user) {
+    public SocietyCircle(String cover, String title,
+                         String content, String imagesUrl,
+                         String videoUrl, Date publishTime,
+                         String venue, String activityTime,
+                         int auditing, User user) {
+        this.cover = cover;
         this.title = title;
         this.content = content;
         this.imagesUrl = imagesUrl;
@@ -103,6 +110,14 @@ public class SocietyCircle implements Serializable {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public String getCover() {
+        return cover;
+    }
+
+    public void setCover(String cover) {
+        this.cover = cover;
     }
 
     public String getTitle() {

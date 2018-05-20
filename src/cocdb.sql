@@ -160,6 +160,7 @@
 
     id int primary key auto_increment,-- 校园圈ID，主键，自动增长
     c_id int not null,                -- 学校ID，发布者，外键
+    cover varchar(50),                -- 封面图片路径
     title varchar(50) not null,       -- 标题
 	  content varchar(500) null,        -- 文本内容
     images_url varchar(200) null,     -- 图片地址，多个图片之间用分号(';')隔开
@@ -179,6 +180,7 @@
 
     id int primary key auto_increment,-- 社团圈ID，主键，自动增长
     u_id int not null,                -- 发布者，用户ID，外键
+    cover varchar(50),                -- 封面图片路径
     title varchar(50) not null,       -- 标题
 	  content varchar(500) null,        -- 文本内容
     images_url varchar(200) null,     -- 图片地址，多个图片之间用分号(';')隔开
