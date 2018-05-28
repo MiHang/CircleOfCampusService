@@ -12,6 +12,8 @@ import team.coc.dao.CampusDao;
 import team.coc.dao.UserDao;
 import team.coc.pojo.User;
 
+import javax.servlet.http.HttpServletRequest;
+import java.io.File;
 import java.io.UnsupportedEncodingException;
 import java.util.List;
 
@@ -31,9 +33,10 @@ public class DemoController {
      */
     @ResponseBody
     @RequestMapping(value = {"/coc/test"})
-    public String test1() throws JSONException {
+    public String test1(HttpServletRequest request) throws JSONException {
         JSONObject json = new JSONObject();
         json.put("msg", "success");
+
         return json.toString();
     }
 

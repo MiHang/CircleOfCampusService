@@ -18,6 +18,41 @@ import java.util.List;
 public class CampusDao extends CommonDao<Campus> {
 
     /**
+     * 通过ID获取学校信息
+     * @param id - ID
+     * @return Campus
+     */
+    public Campus getCampusById(int id) {
+
+        Session session = HibernateUtils.openSession();
+        Transaction tx = null;
+        List<Campus> campuses;
+        try {
+            tx = session.beginTransaction();
+
+            // 查询数据库
+            String hql = "from Campus where id = ?";
+            Query query = session.createQuery(hql);
+            query.setParameter(0, id);
+            campuses = query.list();
+
+            tx.commit();
+        } catch (RuntimeException e) {
+            tx.rollback();
+            throw e;
+        } finally {
+            session.close();
+        }
+
+        // 存在结果
+        if (campuses != null && campuses.size() > 0) {
+            return campuses.get(0);
+        } else {
+            return null;
+        }
+    }
+
+    /**
      * 获取所有学校的ID和名称
      * @return List<Object[]> <br>
      * object[0] - id <br>

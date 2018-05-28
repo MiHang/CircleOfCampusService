@@ -7,12 +7,15 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import team.coc.dao.CampusCircleDao;
+import team.coc.dao.CampusDao;
 import team.coc.dao.UserDao;
+import team.coc.pojo.Campus;
 import team.coc.pojo.CampusCircle;
 import team.coc.pojo.User;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.*;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -23,10 +26,17 @@ import java.util.UUID;
 public class CampusCircleController {
 
     /**
-     * 新增一条校园圈信息
-     * @param param
+     * 新增一条校园圈信息 <br>
+     * 请求地址URL: http://ip:8080/coc/addCampusCircle.do <br>
+     * 请求方式: POST<br>
+     * @param param - json数据
+     *      请求参数：cId : int - 校园ID <br>
+     *      请求参数：title : String - 标题 <br>
+     *      请求参数：content : String - 用户ID <br>
+     *      请求参数：venue : String - 活动地点 <br>
+     *      请求参数：activityTime : String - 活动时间 <br>
      * @param images - MultipartFile[] 上传的图片
-     * @return
+     * @return {result:'success/error'}
      * @throws JSONException
      */
     @ResponseBody
@@ -47,9 +57,15 @@ public class CampusCircleController {
             System.out.println("创建路径：" + path);
         }
 
+        // 返回数据用JSON对象
+        JSONObject json = new JSONObject();
+
         // 保存图片
         if (images != null) {
-            String imagesPath = "";
+
+            // 储存图片地址的JSON数组
+            JSONArray imageUrlArr = new JSONArray();
+
             for (MultipartFile img : images) {
                 // 生成32位uuid通用唯一识别码作为图片的名称, 全小写
                 String uuid = UUID.randomUUID().toString().replace("-", "").toLowerCase();
@@ -65,12 +81,35 @@ public class CampusCircleController {
                 fos.write(bytes);
                 fos.close();
 
-                imagesPath += "res/upload/campus_circle/" + uuid + ";";
+                // 将该图片地址存入json数组
+                JSONObject jsonObject = new JSONObject();
+                jsonObject.put("url", "res/upload/campus_circle/" + uuid);
+                imageUrlArr.put(jsonObject);
             }
-            System.out.println("imagesPath = " + imagesPath);
+
+            JSONObject jsonParam = new JSONObject(param);
+            int cId = jsonParam.getInt("cId"); // 校园ID
+            String title = jsonParam.getString("title"); // 标题
+            String content = jsonParam.getString("content"); // 内容
+            String venue = jsonParam.getString("venue"); // 活动地点
+            String activityTime = jsonParam.getString("activityTime"); // 活动时间
+
+            CampusDao campusDao = new CampusDao();
+            CampusCircleDao campusCircleDao = new CampusCircleDao();
+
+            Campus campus = campusDao.getCampusById(cId);
+            CampusCircle campusCircle = new CampusCircle(title, content,
+                    imageUrlArr.toString(), new Date(), venue, activityTime, campus);
+            boolean isSave = campusCircleDao.save(campusCircle);
+
+            if (isSave) {
+                json.put("result", "success");
+            } else {
+                json.put("result", "error");
+            }
         }
 
-        return "{'result': 'success'}";
+        return json.toString();
     }
 
     /**
@@ -88,7 +127,6 @@ public class CampusCircleController {
      *     title: 'title', <br>
      *     content: 'content', <br>
      *     imagesUrl: '', <br>
-     *     videoUrl: '', <br>
      *     publishTime: '2018-05-19', <br>
      *     venue: '体育馆', <br>
      *     activityTime: '2018年5月20号' <br>
@@ -97,7 +135,6 @@ public class CampusCircleController {
      * title : String - 校园圈标题 <br>
      * content : String - 校园圈内容 <br>
      * imagesUrl : String - 校园圈内容之图片地址 <br>
-     * videoUrl : String - 校园圈内容之视频地址 <br>
      * publishTime : String - 校园圈发布时间 <br>
      * venue : String - 活动地址 <br>
      * activityTime : String - 活动时间 <br><br>
@@ -137,7 +174,6 @@ public class CampusCircleController {
                     jsonObject.put("title", campusCircle.getTitle());
                     jsonObject.put("content", campusCircle.getContent());
                     jsonObject.put("imagesUrl", campusCircle.getImagesUrl());
-                    jsonObject.put("videoUrl", campusCircle.getVideoUrl());
                     jsonObject.put("publishTime", campusCircle.getPublishTime());
                     jsonObject.put("venue", campusCircle.getVenue());
                     jsonObject.put("activityTime", campusCircle.getActivityTime());
