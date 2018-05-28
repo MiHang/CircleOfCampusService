@@ -35,16 +35,10 @@ public class SocietyCircle implements Serializable {
     private String content;
 
     /**
-     * 图片地址，多个图片之间用分号(';')隔开
+     * 图片地址
      */
     @Column(name = "images_url", length = 1000)
     private String imagesUrl;
-
-    /**
-     * 视频地址
-     */
-    @Column(name = "video_url", length = 1000)
-    private String videoUrl;
 
     /**
      * 发布时间
@@ -81,15 +75,13 @@ public class SocietyCircle implements Serializable {
 
     public SocietyCircle() { }
 
-    public SocietyCircle(String title,
-                         String content, String imagesUrl,
-                         String videoUrl, Date publishTime,
+    public SocietyCircle(String title, String content,
+                         String imagesUrl, Date publishTime,
                          String venue, String activityTime,
                          int auditing, User user) {
         this.title = title;
         this.content = content;
         this.imagesUrl = imagesUrl;
-        this.videoUrl = videoUrl;
         this.publishTime = publishTime;
         this.venue = venue;
         this.activityTime = activityTime;
@@ -127,14 +119,6 @@ public class SocietyCircle implements Serializable {
 
     public void setImagesUrl(String imagesUrl) {
         this.imagesUrl = imagesUrl;
-    }
-
-    public String getVideoUrl() {
-        return videoUrl;
-    }
-
-    public void setVideoUrl(String videoUrl) {
-        this.videoUrl = videoUrl;
     }
 
     public Date getPublishTime() {

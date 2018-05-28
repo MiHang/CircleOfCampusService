@@ -1,16 +1,20 @@
 package team.coc.test;
 
+import org.json.JSONException;
+import org.json.JSONObject;
 import rasencrypt.encrypt.RSAEncrypt;
+import team.coc.controller.SocietyCircleController;
 import team.coc.dao.CommonDao;
+import team.coc.dao.SocietyCircleDao;
 import team.coc.pojo.*;
 
 import java.util.List;
 
 public class HibernateTest {
 
-    public static void main(String[]args) {
+    public static void main(String[]args) throws JSONException {
 
-        init();
+        //init();
     }
 
     private void scu() {
