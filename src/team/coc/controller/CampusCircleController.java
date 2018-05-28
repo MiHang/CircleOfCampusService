@@ -3,23 +3,75 @@ package team.coc.controller;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import team.coc.dao.CampusCircleDao;
 import team.coc.dao.UserDao;
 import team.coc.pojo.CampusCircle;
 import team.coc.pojo.User;
 
+import javax.servlet.http.HttpServletRequest;
+import java.io.*;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * 获取校园圈的相关信息的控制器
  */
+@Controller
 public class CampusCircleController {
 
+    /**
+     * 新增一条校园圈信息
+     * @param param
+     * @param images - MultipartFile[] 上传的图片
+     * @return
+     * @throws JSONException
+     */
+    @ResponseBody
+    @RequestMapping(value = {"/coc/addCampusCircle"}, method = {RequestMethod.POST})
+    public String addCampusCircle(@RequestParam String param,
+                                  @RequestParam MultipartFile[] images,
+                                  HttpServletRequest request)
+            throws JSONException, IOException {
 
+        // 项目部署的根路径(绝对路径)
+        String path = request.getSession().getServletContext().getRealPath("/");
+
+        // 如果存放校园圈图片的文件夹不存则创建
+        path += "res\\upload\\campus_circle\\"; // 保存校园圈图片的根路径
+        File file = new File(path);
+        if (!file.exists() && !file.isDirectory()) {
+            file.mkdirs();
+            System.out.println("创建路径：" + path);
+        }
+
+        // 保存图片
+        if (images != null) {
+            String imagesPath = "";
+            for (MultipartFile img : images) {
+                // 生成32位uuid通用唯一识别码作为图片的名称, 全小写
+                String uuid = UUID.randomUUID().toString().replace("-", "").toLowerCase();
+
+                // 将InputStream转为byte[]
+                InputStream is = img.getInputStream();
+                byte[] bytes = new byte[is.available()];
+                is.read(bytes);
+                is.close();
+
+                // 写入文件
+                FileOutputStream fos = new FileOutputStream(path + uuid);
+                fos.write(bytes);
+                fos.close();
+
+                imagesPath += "res/upload/campus_circle/" + uuid + ";";
+            }
+            System.out.println("imagesPath = " + imagesPath);
+        }
+
+        return "{'result': 'success'}";
+    }
 
     /**
      * 分页获取校园圈信息<br>
@@ -33,7 +85,6 @@ public class CampusCircleController {
      * @return 返回的json数组示例<br>
      * [{ <br>
      *     id: 1, <br>
-     *     cover: '/upload/1234.png' <br>
      *     title: 'title', <br>
      *     content: 'content', <br>
      *     imagesUrl: '', <br>
@@ -43,7 +94,6 @@ public class CampusCircleController {
      *     activityTime: '2018年5月20号' <br>
      * }] <br>
      * id : int - 校园圈ID <br>
-     * cover : String - 校园圈信息封面 <br>
      * title : String - 校园圈标题 <br>
      * content : String - 校园圈内容 <br>
      * imagesUrl : String - 校园圈内容之图片地址 <br>
@@ -84,7 +134,6 @@ public class CampusCircleController {
                     // 将每条记录存入json对象中
                     JSONObject jsonObject = new JSONObject();
                     jsonObject.put("id", campusCircle.getId());
-                    jsonObject.put("cover", campusCircle.getCover());
                     jsonObject.put("title", campusCircle.getTitle());
                     jsonObject.put("content", campusCircle.getContent());
                     jsonObject.put("imagesUrl", campusCircle.getImagesUrl());

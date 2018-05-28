@@ -66,6 +66,7 @@
           <element id="file-copy" path="$PROJECT_DIR$/web/WEB-INF/lib/webmagic-core-0.7.3.jar" />
           <element id="file-copy" path="$PROJECT_DIR$/web/WEB-INF/lib/webmagic-extension-0.7.3.jar" />
           <element id="file-copy" path="$PROJECT_DIR$/web/WEB-INF/lib/commons-collections-3.2.2.jar" />
+          <element id="file-copy" path="$PROJECT_DIR$/web/WEB-INF/lib/commons-fileupload-1.2.2.jar" />
         </element>
       </element>
     </root>

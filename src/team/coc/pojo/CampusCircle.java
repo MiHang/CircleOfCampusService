@@ -22,12 +22,6 @@ public class CampusCircle implements Serializable {
     private int id;
 
     /**
-     * 封面图片路径
-     */
-    @Column(length = 50)
-    private String cover;
-
-    /**
      * 标题
      */
     @NotNull
@@ -43,13 +37,13 @@ public class CampusCircle implements Serializable {
     /**
      * 图片地址，多个图片之间用分号(';')隔开
      */
-    @Column(name = "images_url", length = 200)
+    @Column(name = "images_url", length = 1000)
     private String imagesUrl;
 
     /**
      * 视频地址
      */
-    @Column(name = "video_url")
+    @Column(name = "video_url", length = 1000)
     private String videoUrl;
 
     /**
@@ -82,12 +76,10 @@ public class CampusCircle implements Serializable {
 
     public CampusCircle() { }
 
-    public CampusCircle(String cover, String title,
-                        String content, String imagesUrl,
-                        String videoUrl, Date publishTime,
-                        String venue, String activityTime,
-                        Campus campus) {
-        this.cover = cover;
+    public CampusCircle(String title, String content,
+                        String imagesUrl, String videoUrl,
+                        Date publishTime, String venue,
+                        String activityTime, Campus campus) {
         this.title = title;
         this.content = content;
         this.imagesUrl = imagesUrl;
@@ -104,14 +96,6 @@ public class CampusCircle implements Serializable {
 
     public void setId(int id) {
         this.id = id;
-    }
-
-    public String getCover() {
-        return cover;
-    }
-
-    public void setCover(String cover) {
-        this.cover = cover;
     }
 
     public String getTitle() {
