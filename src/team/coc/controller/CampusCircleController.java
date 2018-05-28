@@ -50,7 +50,8 @@ public class CampusCircleController {
         String path = request.getSession().getServletContext().getRealPath("/");
 
         // 如果存放校园圈图片的文件夹不存则创建
-        path += "res\\upload\\campus_circle\\"; // 保存校园圈图片的根路径
+        path = path.replace("\\ROOT", "");
+        path += "coc\\campus_circle\\"; // 保存校园圈图片的根路径
         File file = new File(path);
         if (!file.exists() && !file.isDirectory()) {
             file.mkdirs();
@@ -83,7 +84,7 @@ public class CampusCircleController {
 
                 // 将该图片地址存入json数组
                 JSONObject jsonObject = new JSONObject();
-                jsonObject.put("url", "res/upload/campus_circle/" + uuid);
+                jsonObject.put("url", "coc/campus_circle/" + uuid);
                 imageUrlArr.put(jsonObject);
             }
 
