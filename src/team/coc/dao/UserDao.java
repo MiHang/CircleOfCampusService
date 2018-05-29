@@ -18,7 +18,7 @@ public class UserDao extends CommonDao<User> {
      * @param key - 账号或用户名
      * @return List<User>
      */
-    public List<User> getUserInfo(String key) {
+    public List<User> getUserInfoByUserNameOrAccount(String key) {
 
         Session session = HibernateUtils.openSession();
         Transaction tx = null;
@@ -62,10 +62,9 @@ public class UserDao extends CommonDao<User> {
             tx = session.beginTransaction();
 
             // 查询数据库
-            String hql = "from User where userName = ? or email = ?";
+            String hql = "from User where email = ?";
             Query query = session.createQuery(hql);
             query.setParameter(0, account);
-            query.setParameter(1, account);
             userList = query.list();
 
             tx.commit();

@@ -22,6 +22,56 @@ import java.util.List;
  */
 @Controller
 public class UserController {
+    /**
+     * 通过用户账号获取某用户的相关信息<br>
+     * 请求地址URL: http://ip:8080/coc/getUserInfo.do<br>
+     * 请求方式: POST <br>
+     * @param strJson - json数据 <br>
+     * 请求参数：Account : String - 用户账号 <br>
+     * @return - 返回的json对象示例 <br>
+     * {result:'success/error', userId: 1, userName: 'jaye', email:'jayevip@163.com', gender:'male',
+     * campusId:1, campusName: '成都职业技术学院',facultyId:1, facultyName:'软件分院'} <br>
+     * result : String - 请求结果状态(success/error) <br>
+     * userId : int - 用户ID <br>
+     * userName : String - 用户名 <br>
+     * email : String - 用户邮箱 <br>
+     * gender : String - 用户性别 <br>
+     * campusId : int - 学校ID <br>
+     * campusName : String - 学校名称 <br>
+     * facultyId : int - 院系ID <br>
+     * facultyName : String - 院系名称 <br>
+     * @throws JSONException json对象异常
+     */
+    @ResponseBody
+    @RequestMapping(value = {"/coc/getUserInfoByAccount"}, method = {RequestMethod.POST})
+    public String getUserAllInfo(@RequestBody String strJson) throws JSONException {
+
+        // 接收用户传来的 json 数据
+        JSONObject jsonParam = new JSONObject(strJson);
+        String account = jsonParam.getString("account");
+
+        // 返回数据的JSON数组
+        JSONObject json = new JSONObject();
+
+        UserDao userDao = new UserDao();
+        User user = userDao.getUserByAccount(account);
+        if (user != null) {
+            json.put("result", "success");
+            json.put("uId", user.getUserId());
+            json.put("userName", user.getUserName());
+            json.put("email", user.getEmail());
+            json.put("gender", user.getGender());
+            json.put("campusId", user.getFaculty().getCampus().getCampusId());
+            json.put("campusName", user.getFaculty().getCampus().getCampusName());
+            json.put("facultyId", user.getFaculty().getFacultyId());
+            json.put("facultyName", user.getFaculty().getFacultyName());
+        } else {
+            json.put("result", "error");
+        }
+
+        return json.toString();
+    }
+
 
     /**
      * 获取某用户的相关信息<br>

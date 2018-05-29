@@ -42,18 +42,18 @@ public class DemoController {
 
     /**
      * 好友搜索模糊查询
-     * @param strJson 搜索关键字 用户名 或 账号
-     * @return result 结果 条数 Account  账号信息 UserName 用户名 Sex 性别
+     * @param strJson 搜索关键字 用户名 或 账号 与 查询模式
+     * @return result 返回结果 条数 Account  账号信息 UserName 用户名 Sex 性别 ;
      * @throws JSONException
      */
     @ResponseBody
-    @RequestMapping(value = {"/coc/search"}, method = {RequestMethod.POST})
+    @RequestMapping(value = {"/coc/unclearSearch"}, method = {RequestMethod.POST})
     public String search(@RequestBody String strJson) throws JSONException {
 
         JSONObject jsonObject = new JSONObject(strJson); // 用户请求时上传的参数
         UserDao dao=new UserDao();
         //好友查询
-        List<User> data=dao.getUserInfo(jsonObject.getString("Search"));
+        List<User> data=dao.getUserInfoByUserNameOrAccount(jsonObject.getString("Search"));
         JSONObject js=new JSONObject();
         JSONArray ja=new JSONArray();
         js.put("Result",0);
