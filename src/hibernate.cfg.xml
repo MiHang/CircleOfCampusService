@@ -15,6 +15,8 @@
         <property name="connection.username">root</property>
         <property name="connection.password">123456</property>
 
+        <property name="hibernate.event.merge.entity_copy_observer">allow</property>
+
         <!-- 自动根据JavaBean对象来更新表结构 -->
         <!--<property name="hbm2ddl.auto">create</property>-->
 

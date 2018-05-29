@@ -1,6 +1,7 @@
 package team.coc.pojo;
 
 import com.sun.istack.internal.NotNull;
+import org.hibernate.annotations.Cascade;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -59,7 +60,7 @@ public class SocietyRequest implements Serializable {
      * 社团权限申请
      * 社团与社团权限申请表形成单向一对一
      */
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn(name="s_id")
     private Society society;
 
@@ -67,7 +68,7 @@ public class SocietyRequest implements Serializable {
      * 用户信息
      * 用户与社团权限申请表形成单向一对一
      */
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn(name="u_id")
     private User user;
 
