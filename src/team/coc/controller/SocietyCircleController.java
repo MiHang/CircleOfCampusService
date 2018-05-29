@@ -6,12 +6,8 @@ import org.json.JSONObject;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import team.coc.dao.CampusCircleDao;
-import team.coc.dao.CampusDao;
 import team.coc.dao.SocietyCircleDao;
 import team.coc.dao.UserDao;
-import team.coc.pojo.Campus;
-import team.coc.pojo.CampusCircle;
 import team.coc.pojo.SocietyCircle;
 import team.coc.pojo.User;
 
@@ -37,7 +33,7 @@ public class SocietyCircleController {
      * @param param - json数据
      *      请求参数：uId : int - 用户ID <br>
      *      请求参数：title : String - 标题 <br>
-     *      请求参数：content : String - 用户ID <br>
+     *      请求参数：content : String - 社团圈内容 <br>
      *      请求参数：venue : String - 活动地点 <br>
      *      请求参数：activityTime : String - 活动时间 <br>
      * @param images - MultipartFile[] 上传的图片
@@ -105,7 +101,7 @@ public class SocietyCircleController {
 
             User user = userDao.getById(uId);
             SocietyCircle societyCircle = new SocietyCircle(title, content,
-                    imageUrlArr.toString(), new Date(), venue, activityTime, 0, user);
+                    imageUrlArr.toString(), new Date(), venue, activityTime, 1, user);
             boolean isSave = societyCircleDao.save(societyCircle);
 
             if (isSave) {
