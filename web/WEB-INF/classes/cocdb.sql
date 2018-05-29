@@ -65,9 +65,7 @@
     user_name varchar(10) unique not null,-- 用户名, 唯一
     email varchar(50) unique not null,    -- 电子邮箱, 唯一
     pwd varchar(255) not null,            -- 用户密码
-    birthday varchar(16) null,            -- 出生日期
     gender enum('male','female') null,    -- 性别(male or female or null)
-    native_place varchar(50) null,        -- 籍贯，允许为空
     f_id int not null,                    -- 院系ID, 外键
 
     foreign key(f_id) references t_faculty(f_id)

@@ -210,5 +210,5 @@ insert into `t_society` values (2, '羽毛球社', '1');
 -- ----------------------------
 -- 向用户表插入示例数据
 -- ----------------------------
-insert into `t_user` values (1, 'jaye', 'jaye@163.com', '62da1e5d9d212e0ebd318c6182af760ef1c5de6b5c9ae4130f4f402f5bf8ac9df87e2654023c1ca36ae8f4ed89139a5db1baa72781190d22d2192bcd798de4bd', null, 'male', null, '1');
-insert into `t_user` values (2, 'demo', 'demo@163.com', '62da1e5d9d212e0ebd318c6182af760ef1c5de6b5c9ae4130f4f402f5bf8ac9df87e2654023c1ca36ae8f4ed89139a5db1baa72781190d22d2192bcd798de4bd', null, null, null, '1');
+insert into `t_user` values (1, 'jaye', 'jaye@163.com', '62da1e5d9d212e0ebd318c6182af760ef1c5de6b5c9ae4130f4f402f5bf8ac9df87e2654023c1ca36ae8f4ed89139a5db1baa72781190d22d2192bcd798de4bd', 'male', '1');
+insert into `t_user` values (2, 'demo', 'demo@163.com', '62da1e5d9d212e0ebd318c6182af760ef1c5de6b5c9ae4130f4f402f5bf8ac9df87e2654023c1ca36ae8f4ed89139a5db1baa72781190d22d2192bcd798de4bd', null, '1');
