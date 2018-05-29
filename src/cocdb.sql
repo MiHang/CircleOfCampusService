@@ -35,9 +35,9 @@
   create table t_faculty(
 
     f_id int primary key auto_increment,  -- 院系ID，主键，自动增长
-    faculty_name varchar(20) not null,    -- 院系名
+    faculty_name varchar(50) not null,    -- 院系名
     c_id int not null,                    -- 学校ID, 外键
-		
+
     foreign key(c_id) references t_campus(c_id)
   );
 
@@ -47,7 +47,7 @@
 -- 社团表(t_society)
 -- ----------------------------------------------
   create table t_society(
-	
+
     s_id int primary key auto_increment,-- 社团ID，主键，自动增长
     society_name varchar(20) not null,	-- 社团名称
     c_id int not null,                  -- 学校ID, 外键
@@ -64,9 +64,9 @@
     u_id int primary key auto_increment,  -- 用户ID，主键，自动增长
     user_name varchar(10) unique not null,-- 用户名, 唯一
     email varchar(50) unique not null,    -- 电子邮箱, 唯一
-    pwd varchar(255) not null,             -- 用户密码
+    pwd varchar(255) not null,            -- 用户密码
     birthday varchar(16) null,            -- 出生日期
-    gender varchar(6) not null,           -- 性别(male or female)
+    gender enum('male','female') null,    -- 性别(male or female or null)
     native_place varchar(50) null,        -- 籍贯，允许为空
     f_id int not null,                    -- 院系ID, 外键
 
@@ -78,7 +78,7 @@
 -- 社团权限申请表(t_society_request)
 -- ----------------------------------------------
   create table t_society_request(
-	
+
 		id int primary key auto_increment,    -- 社团权限申请ID，主键，自动增长
     s_id int not null,                    -- 社团ID，外键
     u_id int not null,                    -- 用户ID, 外键
@@ -192,25 +192,25 @@
 -- ----------------------------
 -- 向校园表插入示例数据
 -- ----------------------------
-insert into `t_campus` values ('1', 'cdp', '成都职业技术学院', '简介', '62da1e5d9d212e0ebd318c6182af760ef1c5de6b5c9ae4130f4f402f5bf8ac9df87e2654023c1ca36ae8f4ed89139a5db1baa72781190d22d2192bcd798de4bd');
+insert into `t_campus` values (1, 'cdp', '成都职业技术学院', '简介', '62da1e5d9d212e0ebd318c6182af760ef1c5de6b5c9ae4130f4f402f5bf8ac9df87e2654023c1ca36ae8f4ed89139a5db1baa72781190d22d2192bcd798de4bd');
 
 -- ----------------------------
 -- 向院系表插入示例数据
 -- ----------------------------
-insert into `t_faculty` values ('1', '软件分院', '1');
-insert into `t_faculty` values ('2', '财经分院', '1');
-insert into `t_faculty` values ('3', '旅游分院', '1');
-insert into `t_faculty` values ('4', '工商管理与房地产分院', '1');
-insert into `t_faculty` values ('5', '医护分院', '1');
+insert into `t_faculty` values (1, '软件分院', '1');
+insert into `t_faculty` values (2, '财经分院', '1');
+insert into `t_faculty` values (3, '旅游分院', '1');
+insert into `t_faculty` values (4, '工商管理与房地产分院', '1');
+insert into `t_faculty` values (5, '医护分院', '1');
 
 -- ----------------------------
 -- 向社团表插入示例数据
 -- ----------------------------
-insert into `t_society` values ('1', '棋艺社', '1');
-insert into `t_society` values ('2', '羽毛球社', '1');
+insert into `t_society` values (1, '棋艺社', '1');
+insert into `t_society` values (2, '羽毛球社', '1');
 
 -- ----------------------------
 -- 向用户表插入示例数据
 -- ----------------------------
-insert into `t_user` values ('1', 'jaye', 'jayevip@163.com', '62da1e5d9d212e0ebd318c6182af760ef1c5de6b5c9ae4130f4f402f5bf8ac9df87e2654023c1ca36ae8f4ed89139a5db1baa72781190d22d2192bcd798de4bd', null, 'male', null, '1');
-
+insert into `t_user` values (1, 'jaye', 'jaye@163.com', '62da1e5d9d212e0ebd318c6182af760ef1c5de6b5c9ae4130f4f402f5bf8ac9df87e2654023c1ca36ae8f4ed89139a5db1baa72781190d22d2192bcd798de4bd', null, 'male', null, '1');
+insert into `t_user` values (2, 'demo', 'demo@163.com', '62da1e5d9d212e0ebd318c6182af760ef1c5de6b5c9ae4130f4f402f5bf8ac9df87e2654023c1ca36ae8f4ed89139a5db1baa72781190d22d2192bcd798de4bd', null, null, null, '1');
