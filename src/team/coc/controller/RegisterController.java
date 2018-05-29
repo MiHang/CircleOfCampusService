@@ -36,7 +36,6 @@ public class RegisterController {
      * 请求地址URL: http://ip:8080/coc/register.do<br>
      * @param strJson - json数据<br>
      * 请求参数: username : String - 用户名<br>
-     * 请求参数: gender : String - 性别 (男 - male, 女 - female)<br>
      * 请求参数: email : String - 邮箱<br>
      * 请求参数: pwd : String - 密码, 密码请加密上传<br>
      * 请求参数: verificationCode : String - 用户输入的验证码<br>
@@ -58,7 +57,6 @@ public class RegisterController {
         String username = jsonParam.getString("username");
         String email = jsonParam.getString("email");
         String pwd = jsonParam.getString("pwd");
-        String gender = jsonParam.getString("gender");
         String verificationCode = jsonParam.getString("verificationCode");
         int facultyId = jsonParam.getInt("facultyId");
 
@@ -83,7 +81,7 @@ public class RegisterController {
                 UserDao userDao = new UserDao();
 
                 // 生成用户对象
-                User user = new User(username, email, pwd, gender, null, null, faculty);
+                User user = new User(username, email, pwd, null, null, null, faculty);
 
                 // 将用户对象保存到数据库中
                 if (userDao.save(user)) {
