@@ -81,7 +81,7 @@ public class RegisterController {
                 UserDao userDao = new UserDao();
 
                 // 生成用户对象
-                User user = new User(username, email, pwd, null, null, null, faculty);
+                User user = new User(username, email, pwd, null, faculty);
 
                 // 将用户对象保存到数据库中
                 if (userDao.save(user)) {

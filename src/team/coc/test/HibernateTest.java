@@ -92,7 +92,6 @@ public class HibernateTest {
         user1.setEmail("jayevip@163.com");
         user1.setPwd(rsaEncrypt.encrypt("123456"));
         user1.setGender(User.MALE);
-        user1.setBirthday("1997-11-09");
         user1.setFaculty(facultyList.get(0));
         userCommonDao.save(user1);
 

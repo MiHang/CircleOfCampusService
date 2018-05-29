@@ -53,16 +53,7 @@ public class User implements Serializable {
      */
     @Column(name = "gender", length = 6)
     private String gender;
-    /**
-     * 出生日期
-     */
-    @Column(name = "birthday", length = 10)
-    private String birthday;
-    /**
-     * 籍贯
-     */
-    @Column(name = "native_place")
-    private String nativePlace;
+
     /**
      * 用户所属的院系信息
      * 用户与院系形成单向多对一关系
@@ -73,13 +64,13 @@ public class User implements Serializable {
 
     public User() { }
 
-    public User(String userName, String email, String pwd, String gender, String birthday, String nativePlace, Faculty faculty) {
+    public User(String userName, String email,
+                String pwd, String gender,
+                Faculty faculty) {
         this.userName = userName;
         this.email = email;
         this.pwd = pwd;
         this.gender = gender;
-        this.birthday = birthday;
-        this.nativePlace = nativePlace;
         this.faculty = faculty;
     }
 
@@ -123,27 +114,11 @@ public class User implements Serializable {
         this.gender = gender;
     }
 
-    public String getNativePlace() {
-        return nativePlace;
-    }
-
-    public void setNativePlace(String nativePlace) {
-        this.nativePlace = nativePlace;
-    }
-
     public Faculty getFaculty() {
         return faculty;
     }
 
     public void setFaculty(Faculty faculty) {
         this.faculty = faculty;
-    }
-
-    public String getBirthday() {
-        return birthday;
-    }
-
-    public void setBirthday(String birthday) {
-        this.birthday = birthday;
     }
 }
