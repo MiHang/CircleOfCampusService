@@ -22,8 +22,8 @@ public class MyClient extends WebSocketClient {
 	public static JTextArea jt;
 	static JTextField jtf;
 	static ByteUtils utils=new ByteUtils();
-	static String send="jayevip@163.com";
-	static String Receive="87654321@qq.com";
+	static String send="87654321@qq.com";
+	static String Receive="jayevip@163.com";
 
 
 	public MyClient(URI serverURI) {

@@ -42,7 +42,7 @@ public class Demo {
 
 
         //好友查询
-        List<User> l=dao.getUserInfoByUserNameOrAccount("j撒a");
+        List<User> l=dao.getUserInfoByUserNameOrAccount("ja");
         JSONObject js=new JSONObject();
         JSONArray ja=new JSONArray();
         js.put("Result",0);
@@ -76,8 +76,27 @@ public class Demo {
                 System.out.println(jsonObject.toString());
             }
 //
-           User u= dao.getUserByAccount("87654321@qq.com");
+           User u= dao.getUserByAccount("jaye@163.com");
             System.out.println(u.getUserName()+u.getGender());
+
+            //请求添加好友
+        GoodFriendRequest goodFriendRequest=new GoodFriendRequest();
+        UserDao userDao=new UserDao();
+        User user1=userDao.getUserByAccount("jaye@163.com");
+
+        goodFriendRequest.setUser1(user1);
+        goodFriendRequest.setRequestReason("你好");
+        goodFriendRequest.setRequestTime(new Date());
+        User user2=userDao.getUserByAccount("demo@163.com");
+        goodFriendRequest.setUser1(user2);
+        GoodFriendRequestDao goodFriendRequestDao=new GoodFriendRequestDao();
+
+        if (goodFriendRequestDao.hasRequest(user1.getEmail(),user2.getEmail())){
+            System.out.println("你们已是好友");
+        }else{
+            goodFriendRequestDao.save(goodFriendRequest);
+            System.out.println("发起成功");
+        }
 
     }
 
