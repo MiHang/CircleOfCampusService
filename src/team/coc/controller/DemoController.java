@@ -9,12 +9,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import team.coc.dao.CampusDao;
+import team.coc.dao.GoodFriendRequestDao;
 import team.coc.dao.UserDao;
+import team.coc.pojo.GoodFriendRequest;
 import team.coc.pojo.User;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.UnsupportedEncodingException;
+import java.util.Date;
 import java.util.List;
 
 
@@ -40,6 +43,13 @@ public class DemoController {
         return json.toString();
     }
 
+    @ResponseBody
+    @RequestMapping(value = {"/coc/demo"}, method = {RequestMethod.POST})
+    public String demo(@RequestBody String strJson) throws JSONException {
+        System.out.println("strJson");
+        return "{result:'666666'}";
+    }
+
     /**
      * 好友搜索模糊查询
      * @param strJson 搜索关键字 用户名 或 账号 与 查询模式
@@ -48,7 +58,7 @@ public class DemoController {
      */
     @ResponseBody
     @RequestMapping(value = {"/coc/unclearSearch"}, method = {RequestMethod.POST})
-    public String search(@RequestBody String strJson) throws JSONException {
+    public String unclearSearch(@RequestBody String strJson) throws JSONException {
 
         JSONObject jsonObject = new JSONObject(strJson); // 用户请求时上传的参数
         UserDao dao=new UserDao();
@@ -68,6 +78,83 @@ public class DemoController {
                 }
             }
             js.put("Info",ja.toString());
+
+        return js.toString();
+    }
+    /**
+     * 请求添加好友
+     * @param strJson user1用户1 user2用户2 reason 申请理由
+     * {result:'success/error',deal } deal 0 重复提交
+     * @return result
+     * @throws JSONException
+     */
+    @ResponseBody
+    @RequestMapping(value = {"/coc/requestAddFriend"}, method = {RequestMethod.POST})
+    public String requestAddFriend(@RequestBody String strJson) throws JSONException {
+
+        JSONObject jsonObject = new JSONObject(strJson); // 用户请求时上传的参数
+        JSONObject js=new JSONObject();
+        GoodFriendRequest goodFriendRequest=new GoodFriendRequest();
+        UserDao userDao=new UserDao();
+
+        js.put("result", "error");
+        if (jsonObject.has("reason")&&jsonObject.getString("reason")!=null){
+            User user1=userDao.getUserByAccount(jsonObject.getString("user1"));
+            goodFriendRequest.setUser1(user1);
+
+            goodFriendRequest.setRequestReason(jsonObject.getString("reason"));
+            goodFriendRequest.setRequestTime(new Date());
+
+            User user2=userDao.getUserByAccount(jsonObject.getString("user2"));
+            goodFriendRequest.setUser2(user2);
+            GoodFriendRequestDao goodFriendRequestDao=new GoodFriendRequestDao();
+
+            if (!goodFriendRequestDao.hasRequest(user1.getEmail(),user2.getEmail())){
+                goodFriendRequestDao.save(goodFriendRequest);//储存申请信息
+                js.put("result", "success");
+                js.put("deal",1);
+            }else{
+                js.put("deal",0);
+            }
+        }
+
+        return js.toString();
+    }
+
+    /**
+     * 查询是否有用户请求添加好友
+     * @param strJson account
+     * {result: result
+     * @return result 申请结果条数 request 申请者 reason 申请理由 time 申请时间
+     * @throws JSONException
+     */
+    @ResponseBody
+    @RequestMapping(value = {"/coc/QueryRequestAddFriendInfo"}, method = {RequestMethod.POST})
+    public String QueryRequestAddFriendInfo(@RequestBody String strJson) throws JSONException {
+
+        JSONObject jsonObject = new JSONObject(strJson); // 用户请求时上传的参数
+        GoodFriendRequestDao dao=new GoodFriendRequestDao();
+        JSONObject js=new JSONObject();
+        JSONArray ja=new JSONArray();
+        List<GoodFriendRequest> data= dao.getRequestAddFriendInfo(jsonObject.getString("account"));
+        if (data.size()==0){
+            System.out.println("无申请信息");
+            js.put("result",0);
+        } else{
+            js.put("result",data.size());
+            for(GoodFriendRequest g:data ){
+                JSONObject json = new JSONObject();
+                json.put("request",g.getUser1());
+                json.put("reason",g.getRequestReason());
+                json.put("time",g.getRequestTime());
+                ja.put(json.toString());
+//                System.out.println(g.getUser1()+"向您发起请求信息");
+//                System.out.println("申请理由"+g.getRequestReason()+"申请时间"+g.getRequestTime());
+//                System.out.println("您的处理结果"+g.getResult());
+            }
+            js.put("Info",ja.toString());
+        }
+
 
         return js.toString();
     }

@@ -7,6 +7,7 @@ import team.coc.pojo.GoodFriendRequest;
 import team.coc.pojo.User;
 import team.coc.util.HibernateUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -14,17 +15,7 @@ import java.util.List;
  */
 public class GoodFriendRequestDao extends CommonDao<GoodFriendRequest> {
 
-    /**
-     * 保存好友申请表
-     * @param goodFriendRequest
-     * @return
-     */
-    @Override
-    public boolean save(GoodFriendRequest goodFriendRequest) {
-        goodFriendRequest.getUser1().setFaculty(null);
-        goodFriendRequest.getUser2().setFaculty(null);
-        return super.save(goodFriendRequest);
-    }
+
     /**
      * 通过账号检查两人是否是好友
      * @param A_user - 账号(用户名/邮箱)
@@ -65,11 +56,11 @@ public class GoodFriendRequestDao extends CommonDao<GoodFriendRequest> {
      * @param account - 账号
      * @return List<GoodFriendRequest>
      */
-    public List<GoodFriendRequest> getRequestAddFriend(String account) {
+    public List<GoodFriendRequest> getRequestAddFriendInfo(String account) {
 
         Session session = HibernateUtils.openSession();
         Transaction tx = null;
-        List<GoodFriendRequest> userList;
+        List<GoodFriendRequest> userList=new ArrayList<>();
         try {
             tx = session.beginTransaction();
 
@@ -88,11 +79,7 @@ public class GoodFriendRequestDao extends CommonDao<GoodFriendRequest> {
             session.close();
         }
 
-        // 存在结果
-        if (userList != null && userList.size() > 0) {
-            return userList;
-        } else {
-            return null;
-        }
+        return userList;
+
     }
 }

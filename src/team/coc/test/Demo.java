@@ -18,29 +18,6 @@ public class Demo {
         //校园表示例数据
         UserDao dao=new UserDao();
 
-//        GoodFriendRequestDao goodFriendRequestDao = new GoodFriendRequestDao();
-//        GoodFriendRequest campus = new GoodFriendRequest();
-//        campus.setRequestTime(new Date());
-//        campus.setRequestReason("认识一下");
-//        campus.setUser1(dao.getUserByAccount("87654321@qq.com"));
-//        campus.setUser2(dao.getUserByAccount("jayevip@163.com"));
-//        campus.setResult(0);
-//
-//
-//        GoodFriendRequestDao goodFriendRequest=new GoodFriendRequestDao();
-//       if(! goodFriendRequest.hasRequest("87654321@qq.com","jayevip@163.com")){
-//           goodFriendRequestDao.save(campus);
-//        }else{
-//                   System.out.println("您已发起过申请信息");
-//               }
-//        List<GoodFriendRequest> data=goodFriendRequest.getRequest("jayevip@163.com");
-//        if (data!=null){
-//            System.out.println(data.get(0).getUser1().getUserName()+"请求添加"+data.get(0).getUser2().getUserName()+"为好友");
-//        }else{
-//            System.out.println("无好友申请信息");
-//        }
-
-
         //好友查询
         List<User> l=dao.getUserInfoByUserNameOrAccount("ja");
         JSONObject js=new JSONObject();
@@ -79,6 +56,7 @@ public class Demo {
            User u= dao.getUserByAccount("jaye@163.com");
             System.out.println(u.getUserName()+u.getGender());
 
+
             //请求添加好友
         GoodFriendRequest goodFriendRequest=new GoodFriendRequest();
         UserDao userDao=new UserDao();
@@ -88,16 +66,30 @@ public class Demo {
         goodFriendRequest.setRequestReason("你好");
         goodFriendRequest.setRequestTime(new Date());
         User user2=userDao.getUserByAccount("demo@163.com");
-        goodFriendRequest.setUser1(user2);
+        goodFriendRequest.setUser2(user2);
         GoodFriendRequestDao goodFriendRequestDao=new GoodFriendRequestDao();
 
         if (goodFriendRequestDao.hasRequest(user1.getEmail(),user2.getEmail())){
-            System.out.println("你们已是好友");
+            System.out.println("你已向该用户发起申请");
         }else{
             goodFriendRequestDao.save(goodFriendRequest);
             System.out.println("发起成功");
         }
 
+
+//         //查询是否有用户请求添加好友
+//        List<GoodFriendRequest> goodFriendRequests= goodFriendRequestDao.getRequestAddFriendInfo("demo@163.com");
+//        if (goodFriendRequests.size()==0){
+//            System.out.println("无申请信息");
+//
+//        } else{
+//            for(GoodFriendRequest g:goodFriendRequests ){
+//                System.out.println(g.getUser1()+"向您发起请求信息");
+//                System.out.println("申请理由"+g.getRequestReason()+"申请时间"+g.getRequestTime());
+//                System.out.println("您的处理结果"+g.getResult());
+//            }
+//
+//        }
     }
 
 }
