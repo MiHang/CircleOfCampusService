@@ -60,7 +60,7 @@ public class GoodFriendRequestDao extends CommonDao<GoodFriendRequest> {
 
         Session session = HibernateUtils.openSession();
         Transaction tx = null;
-        List<GoodFriendRequest> userList=new ArrayList<>();
+        List<GoodFriendRequest> userList= new ArrayList<GoodFriendRequest>();
         try {
             tx = session.beginTransaction();
 

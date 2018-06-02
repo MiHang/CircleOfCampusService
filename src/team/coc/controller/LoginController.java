@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import rasencrypt.encrypt.RSAEncrypt;
 import team.coc.dao.CampusDao;
 import team.coc.dao.CommonDao;
 import team.coc.dao.UserDao;
@@ -30,7 +31,7 @@ public class LoginController {
      * 请求方式: POST<br>
      * @param strJson - json数据<br>
      * 请求参数：account : String - 账号(邮箱/用户名)<br>
-     * 请求参数：pwd : String - 密码, 密码请加密上传<br>
+     * 请求参数：pwd : String - 密码<br>
      * 示例：{"account":"jayevip@163.com", "pwd":"123456"}<br>
      * @return 返回的json数据示例 {result:'success/error/unknown', id: 1, type:"admin/user"}
      * result : String - success 登录验证成功<br>
@@ -53,6 +54,9 @@ public class LoginController {
         // 返回数据的JSON对象
         JSONObject json = new JSONObject();
 
+        // 实例化RSA加密对象
+        RSAEncrypt rsaEncrypt = new RSAEncrypt();
+
         // 实例化Campus数据表操作对象
         CampusDao campusDao = new CampusDao();
 
@@ -60,7 +64,8 @@ public class LoginController {
         if (campus != null) { // 该账号为学校账号
 
             json.put("type", "admin"); // 用户类型 - 管理员
-            if (campus.getPassword().equals(pwd)) { // 验证结果 - 成功
+            String password = rsaEncrypt.decrypt(campus.getPassword());
+            if (password.equals(pwd)) { // 验证结果 - 成功
                 json.put("id", campus.getCampusId());
                 json.put("result", "success");
             } else {
@@ -74,8 +79,8 @@ public class LoginController {
 
             if (user != null) {
                 json.put("type", "user"); // 用户类型 - 管理员
-
-                if (user.getPwd().equals(pwd)) { // 验证结果 - 成功
+                String password = rsaEncrypt.decrypt(user.getPwd());
+                if (password.equals(pwd)) { // 验证结果 - 成功
                     json.put("id", user.getUserId());
                     json.put("result", "success");
                 } else {

@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import rasencrypt.encrypt.RSAEncrypt;
 import team.coc.dao.CampusDao;
 import team.coc.dao.UserDao;
 import team.coc.data.Cookie;
@@ -32,7 +33,7 @@ public class ForgotPwdController {
      * 请求地址URL: http://ip:8080/coc/resetPassword.do<br>
      * @param strJson - json数据<br>
      * 请求参数: email : String - 邮箱<br>
-     * 请求参数: pwd : String - 密码, 密码请加密上传<br>
+     * 请求参数: pwd : String - 密码<br>
      * 请求参数: verificationCode : String - 用户输入的验证码<br>
      * @return 返回的json数据示例 {result:'success/error/no_code/code_error/timeout'}
      * result : String - success 重置密码成功<br>
@@ -65,6 +66,9 @@ public class ForgotPwdController {
             } else if (cookie.getName().equals(email) &&
                     cookie.getValue().equals(verificationCode)) { // 验证码在有效期内并且邮箱和验证码正确
 
+                // 实例化RSA加密对象
+                RSAEncrypt rsaEncrypt = new RSAEncrypt();
+
                 // 实例化用户操作对象
                 UserDao userDao = new UserDao();
 
@@ -72,7 +76,7 @@ public class ForgotPwdController {
                 User user = userDao.getUserByAccount(email);
 
                 // 重置用户密码
-                user.setPwd(pwd);
+                user.setPwd(rsaEncrypt.encrypt(pwd));
 
                 // 更新用户数据
                 if (userDao.update(user)) {

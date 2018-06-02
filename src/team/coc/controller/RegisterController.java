@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import rasencrypt.encrypt.RSAEncrypt;
 import team.coc.dao.CampusDao;
 import team.coc.dao.FacultyDao;
 import team.coc.dao.UserDao;
@@ -36,8 +37,9 @@ public class RegisterController {
      * 请求地址URL: http://ip:8080/coc/register.do<br>
      * @param strJson - json数据<br>
      * 请求参数: username : String - 用户名<br>
+     * 请求参数: gender : String - 性别(male or female)<br>
      * 请求参数: email : String - 邮箱<br>
-     * 请求参数: pwd : String - 密码, 密码请加密上传<br>
+     * 请求参数: pwd : String - 密码<br>
      * 请求参数: verificationCode : String - 用户输入的验证码<br>
      * 请求参数: facultyId : int - 院系ID<br>
      * @return 返回的json数据示例 {result:'success/error/no_code/code_error/timeout'}
@@ -55,6 +57,7 @@ public class RegisterController {
         // 接收用户传来的 json 数据
         JSONObject jsonParam = new JSONObject(strJson);
         String username = jsonParam.getString("username");
+        String gender = jsonParam.getString("gender");
         String email = jsonParam.getString("email");
         String pwd = jsonParam.getString("pwd");
         String verificationCode = jsonParam.getString("verificationCode");
@@ -73,6 +76,9 @@ public class RegisterController {
             } else if (cookie.getName().equals(email) &&
                     cookie.getValue().equals(verificationCode)) { // 验证码在有效期内并且邮箱和验证码正确
 
+                // 实例化RSA加密对象
+                RSAEncrypt rsaEncrypt = new RSAEncrypt();
+
                 // 获取院系信息
                 FacultyDao facultyDao = new FacultyDao();
                 Faculty faculty = facultyDao.getById(facultyId);
@@ -81,7 +87,7 @@ public class RegisterController {
                 UserDao userDao = new UserDao();
 
                 // 生成用户对象
-                User user = new User(username, email, pwd, null, faculty);
+                User user = new User(username, email, rsaEncrypt.encrypt(pwd), gender, faculty);
 
                 // 将用户对象保存到数据库中
                 if (userDao.save(user)) {
