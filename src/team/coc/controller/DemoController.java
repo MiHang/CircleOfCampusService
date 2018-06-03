@@ -9,8 +9,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import team.coc.dao.CampusDao;
+import team.coc.dao.GoodFriendDao;
 import team.coc.dao.GoodFriendRequestDao;
 import team.coc.dao.UserDao;
+import team.coc.pojo.GoodFriend;
 import team.coc.pojo.GoodFriendRequest;
 import team.coc.pojo.User;
 
@@ -81,6 +83,8 @@ public class DemoController {
 
         return js.toString();
     }
+
+
     /**
      * 请求添加好友
      * @param strJson user1用户1 user2用户2 reason 申请理由
@@ -121,6 +125,82 @@ public class DemoController {
         return js.toString();
     }
 
+
+    /**
+     * 查询两人是否是好友
+     * @param strJson user1,user2
+     * {result: result
+     * @return result yes 是好友 no 不是好友
+     * @throws JSONException
+     */
+    @ResponseBody
+    @RequestMapping(value = {"/coc/queryIsFriend"}, method = {RequestMethod.POST})
+    public String QueryIsFriend(@RequestBody String strJson) throws JSONException {
+
+        JSONObject jsonObject = new JSONObject(strJson); // 用户请求时上传的参数
+        JSONObject js=new JSONObject();
+        GoodFriendDao dao1=new GoodFriendDao();
+        if (dao1.isFriend(jsonObject.getString("user1"),jsonObject.getString("user2"))){
+            js.put("result","yes");
+        }else{
+            js.put("result","no");
+        }
+
+        return js.toString();
+    }
+
+
+    /**
+     * 查询好友信息
+     * @param strJson account 账号
+     * result: result 好友数量, account 账号 ,nickName 绰号/用户名 sex 性别
+     * @return
+     * @throws JSONException
+     */
+    @ResponseBody
+    @RequestMapping(value = {"/coc/queryFriendInfo"}, method = {RequestMethod.POST})
+    public String queryFriendInfo(@RequestBody String strJson) throws JSONException {
+
+        JSONObject jsonObject = new JSONObject(strJson); // 用户请求时上传的参数
+        JSONObject js=new JSONObject();
+        GoodFriendDao dao=new GoodFriendDao();
+        JSONArray ja=new JSONArray();
+        //好友查询
+        String account=jsonObject.getString("account");
+        List<GoodFriend> data=dao.getFriendRelative(account);
+        if(data.size()==0){
+            js.put("result",0);//无好友
+        } else{
+            js.put("result",data.size());//无好友
+            for(GoodFriend g:data){
+                JSONObject json = new JSONObject();
+                if (account.equals(g.getUser1().getEmail())){
+                    if (g.getU2Notice()==null||g.getU2Notice().equals("")){//备注名称为空
+                        json.put("nickName",g.getUser2().getUserName());
+                    }else{
+                        json.put("nickName",g.getU2Notice());
+                    }
+                    json.put("sex",g.getUser2().getGender());
+                    json.put("account",g.getUser2().getEmail());
+
+                }else  if (account.equals(g.getUser2().getEmail())){
+
+                    if (g.getU1Notice()==null||g.getU1Notice().equals("")){//备注名称为空
+                        json.put("nickName",g.getUser1().getUserName());
+                    }else{
+                        json.put("nickName",g.getU1Notice());
+                    }
+                    json.put("sex",g.getUser1().getGender());
+                    json.put("account",g.getUser1().getEmail());
+
+                }
+                ja.put(json.toString());
+
+            }
+        }
+        js.put("Info",ja.toString());
+        return js.toString();
+    }
     /**
      * 查询是否有用户请求添加好友
      * @param strJson account
