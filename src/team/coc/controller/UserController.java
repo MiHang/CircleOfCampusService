@@ -22,6 +22,52 @@ import java.util.List;
  */
 @Controller
 public class UserController {
+
+    /**
+     * 更新用户信息<br>
+     * 请求地址URL: http://ip:8080/coc/updateUserInfo.do<br>
+     * 请求方式: POST <br>
+     * @param strJson - json数据 <br>
+     * 请求参数：uId : String - 用户ID <br>
+     * 请求参数：userName : String - 用户名 <br>
+     * 请求参数：gender : String - 用户性别 <br>
+     * @return - 返回的json对象示例 <br>
+     * {result:'success/error'} <br>
+     * result : String - 请求结果状态(success/error) <br>
+     * @throws JSONException json对象异常
+     */
+    @ResponseBody
+    @RequestMapping(value = {"/coc/updateUserInfo"}, method = {RequestMethod.POST})
+    public String updateUserInfo(@RequestBody String strJson) throws JSONException {
+
+        // 接收用户传来的 json 数据
+        JSONObject jsonParam = new JSONObject(strJson);
+        int uId = jsonParam.getInt("uId");
+        String userName = jsonParam.getString("userName");
+        String gender = jsonParam.getString("gender");
+
+        // 返回数据的JSON对象
+        JSONObject json = new JSONObject();
+
+        UserDao userDao = new UserDao();
+        User user = userDao.getById(uId);
+        if (user != null) {
+            user.setUserName(userName);
+            user.setGender(gender);
+            boolean isSuccess = userDao.update(user);
+            if (isSuccess) {
+                json.put("result", "success");
+            } else {
+                json.put("result", "error");
+            }
+        } else {
+            json.put("result", "error");
+        }
+
+        return json.toString();
+    }
+
+
     /**
      * 通过用户账号获取某用户的相关信息<br>
      * 请求地址URL: http://ip:8080/coc/getUserInfo.do<br>
