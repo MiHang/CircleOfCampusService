@@ -17,29 +17,28 @@ import java.util.List;
 
 public class Demo {
     public static void main(String[]args) throws JSONException {
-        //校园表示例数据
-        UserDao dao=new UserDao();
-        GoodFriendDao d=new GoodFriendDao();
-
-        //好友查询
-        String account="jaye@163.com";
-        List<GoodFriend> data=d.getFriendRelative(account);
-        if(data.size()==0){
-            System.out.println("无好友");
-        } else{
-            for(GoodFriend g:data){
-                if (account.equals(g.getUser1().getEmail())){
-                    System.out.println("你的好友"+g.getUser2().getUserName());
-                    System.out.println("绰号"+g.getU2Notice());
-                }else  if (account.equals(g.getUser2().getEmail())){
-                    System.out.println("你的好友"+g.getUser1().getUserName());
-                    System.out.println("绰号"+g.getU1Notice());
-
-                }
-
-            }
-        }
-
+//        //校园表示例数据
+//        UserDao dao=new UserDao();
+//        GoodFriendDao d=new GoodFriendDao();
+//
+//        //好友查询
+//        String account="jaye@163.com";
+//        List<GoodFriend> data=d.getFriendRelative(account);
+//        if(data.size()==0){
+//            System.out.println("无好友");
+//        } else{
+//            for(GoodFriend g:data){
+//                if (account.equals(g.getUser1().getEmail())){
+//                    System.out.println("你的好友"+g.getUser2().getUserName());
+//                    System.out.println("绰号"+g.getU2Notice());
+//                }else  if (account.equals(g.getUser2().getEmail())){
+//                    System.out.println("你的好友"+g.getUser1().getUserName());
+//                    System.out.println("绰号"+g.getU1Notice());
+//
+//                }
+//
+//            }
+//        }
 
 
             //请求添加好友
@@ -78,20 +77,13 @@ public class Demo {
 
         //查询好友关系
         GoodFriendDao dao1=new GoodFriendDao();
-        if (dao1.isFriend("jaye@163.com","demo@163.com")){
+        if (dao1.isFriend("jaye@163.com","5085")){
             System.out.println("已是好友");
         }else{
             System.out.println("不是好友");
         }
-        //修改好友备注
-//        GoodFriendDao dao1=new GoodFriendDao();
-//        if (dao1.isFriend("jaye@163.com","demo@163.com")){
-//            System.out.println("已是好友");
-//        }else{
-//            System.out.println("不是好友");
-//        }
-        //修改好友备注
-            dao1.updateLabel("jaye@163.com","demo@163.com","巴萨是");
+//        //修改好友备注
+//            dao1.updateLabel("jaye@163.com","demo@163.com","巴萨是");
     }
 
 }

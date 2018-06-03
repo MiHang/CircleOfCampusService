@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import team.coc.dao.GoodFriendDao;
+import team.coc.dao.UserDao;
 import team.coc.pojo.GoodFriend;
 
 /**
@@ -76,8 +77,10 @@ public class FriendController {
 
         // 接收用户传来的 json 数据
         JSONObject jsonParam = new JSONObject(strJson);
-        int userId = jsonParam.getInt("userId");
-        int friendId = jsonParam.getInt("friendId");
+        UserDao userDao=new UserDao();
+
+        int userId =  userDao.getUserByAccount(jsonParam.getString("user1")).getUserId();
+        int friendId = userDao.getUserByAccount(jsonParam.getString("user2")).getUserId();
         String note = jsonParam.getString("note");
 
         // 返回数据的JSON对象
