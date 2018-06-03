@@ -28,7 +28,7 @@ public class UserController {
      * 请求地址URL: http://ip:8080/coc/updateUserInfo.do<br>
      * 请求方式: POST <br>
      * @param strJson - json数据 <br>
-     * 请求参数：uId : int - 用户ID <br>
+     * 请求参数：uId : String - 用户ID <br>
      * 请求参数：userName : String - 用户名 <br>
      * 请求参数：gender : String - 用户性别 <br>
      * @return - 返回的json对象示例 <br>
@@ -66,7 +66,6 @@ public class UserController {
 
         return json.toString();
     }
-
 
     /**
      * 通过用户账号获取某用户的相关信息<br>

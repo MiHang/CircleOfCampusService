@@ -122,7 +122,7 @@ public class MyServer extends WebSocketServer {
 
 
 
-		System.out.println(data.getSend()+":"+data.getText());
+		System.out.println(data.getSend()+":"+data.getText()+"性别"+data.getSex());
 		//判断接收者是否在线
 		if(webSockets.containsValue(data.getReceive())){//在线
 			server.sendToPrivateUser(data.getReceive(),utils.toByteArray(data));

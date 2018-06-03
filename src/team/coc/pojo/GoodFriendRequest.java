@@ -39,7 +39,7 @@ public class GoodFriendRequest implements Serializable {
      * 好友申请所属的用户信息
      * 好友申请与用户形成单向多对一关系
      */
-    @ManyToOne(cascade={CascadeType.ALL}, fetch=FetchType.EAGER)
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch=FetchType.EAGER)
     @JoinColumn(name="u1_id")
     private User user1;
 
@@ -47,7 +47,7 @@ public class GoodFriendRequest implements Serializable {
      * 好友申请所属的用户信息
      * 好友申请与用户形成单向多对一关系
      */
-    @ManyToOne(cascade={CascadeType.ALL}, fetch=FetchType.EAGER)
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch=FetchType.EAGER)
     @JoinColumn(name="u2_id")
     private User user2;
 

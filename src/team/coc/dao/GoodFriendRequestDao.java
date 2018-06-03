@@ -17,7 +17,7 @@ public class GoodFriendRequestDao extends CommonDao<GoodFriendRequest> {
 
 
     /**
-     * 通过账号检查两人是否是好友
+     * 通过账号检查两人是否提交过好友申请
      * @param A_user - 账号(用户名/邮箱)
      * @return 存在返回true， 不存在返回false
      */
@@ -51,6 +51,7 @@ public class GoodFriendRequestDao extends CommonDao<GoodFriendRequest> {
             return false;
         }
     }
+
     /**
      * 根据账号查询好友申请信息
      * @param account - 账号

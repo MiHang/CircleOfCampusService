@@ -156,4 +156,5 @@ public class UserDao extends CommonDao<User> {
             return false;
         }
     }
+
 }
