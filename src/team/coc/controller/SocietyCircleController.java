@@ -51,7 +51,6 @@ public class SocietyCircleController {
         String path = request.getSession().getServletContext().getRealPath("/");
 
         // 如果存放校园圈图片的文件夹不存则创建
-        path = path.replace("\\ROOT", "");
         path += "coc\\society_circle\\"; // 保存校园圈图片的根路径
         File file = new File(path);
         if (!file.exists() && !file.isDirectory()) {
