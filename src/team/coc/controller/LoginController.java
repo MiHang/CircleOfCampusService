@@ -46,6 +46,8 @@ public class LoginController {
     @RequestMapping(value = {"/coc/login"}, method = {RequestMethod.POST})
     public String login(@RequestBody String strJson) throws JSONException {
 
+        System.out.println("#############进入login#############");
+
         // 用户请求时上传的参数
         JSONObject jsonParam = new JSONObject(strJson);
         String account = jsonParam.getString("account"); // 账号
@@ -80,7 +82,6 @@ public class LoginController {
             if (user != null) {
                 json.put("type", "user"); // 用户类型 - 管理员
                 String password = rsaEncrypt.decrypt(user.getPwd());
-                System.out.println("password = " + password + "; pwd = " + pwd);
                 if (password.equals(pwd)) { // 验证结果 - 成功
                     json.put("id", user.getUserId());
                     json.put("result", "success");
@@ -91,7 +92,7 @@ public class LoginController {
                 json.put("result", "unknown"); // 该用户未注册
             }
         }
-
+        System.out.println("#############return:"+ json.toString() + "#############");
         return json.toString();
     }
 
