@@ -48,6 +48,7 @@ public class UserDao extends CommonDao<User> {
             return null;
         }
     }
+
     /**
      * 通过账号获取用户信息
      * @param account - 账号
@@ -62,9 +63,10 @@ public class UserDao extends CommonDao<User> {
             tx = session.beginTransaction();
 
             // 查询数据库
-            String hql = "from User where email = ?";
+            String hql = "from User where email = ? or userName = ?";
             Query query = session.createQuery(hql);
             query.setParameter(0, account);
+            query.setParameter(1, account);
             userList = query.list();
 
             tx.commit();

@@ -80,6 +80,7 @@ public class LoginController {
             if (user != null) {
                 json.put("type", "user"); // 用户类型 - 管理员
                 String password = rsaEncrypt.decrypt(user.getPwd());
+                System.out.println("password = " + password + "; pwd = " + pwd);
                 if (password.equals(pwd)) { // 验证结果 - 成功
                     json.put("id", user.getUserId());
                     json.put("result", "success");
