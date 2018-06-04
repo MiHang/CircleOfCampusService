@@ -60,18 +60,19 @@ public class GoodFriendDao extends CommonDao<GoodFriend> {
 
         Session session = HibernateUtils.openSession();
         Transaction tx = null;
-        List<Object> objectList;
+        List<GoodFriend> goodFriends;
         try {
             tx = session.beginTransaction();
 
             // 查询数据库
-            String hql = " from GoodFriend where  user1.email= ? or user2.email = ? and user2.email = ? or user1.email= ? ";
+            String hql = " from GoodFriend where  (user1.email= ? and user2.email = ?) " +
+                    "or (user2.email = ? or user1.email= ? )";
             Query query = session.createQuery(hql);
             query.setParameter(0, A_user);
-            query.setParameter(1, A_user);
-            query.setParameter(2, B_user);
+            query.setParameter(1, B_user);
+            query.setParameter(2, A_user);
             query.setParameter(3, B_user);
-            objectList = query.list();
+            goodFriends = query.list();
 
             tx.commit();
         } catch (RuntimeException e) {
@@ -82,7 +83,7 @@ public class GoodFriendDao extends CommonDao<GoodFriend> {
         }
 
         // 存在结果
-        if (objectList != null && objectList.size() > 0) {
+        if (goodFriends != null && goodFriends.size() > 0) {
             return true;
         } else {
             return false;
