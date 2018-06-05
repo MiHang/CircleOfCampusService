@@ -46,7 +46,7 @@ public class LoginController {
     @RequestMapping(value = {"/coc/login"}, method = {RequestMethod.POST})
     public String login(@RequestBody String strJson) throws JSONException {
 
-        System.out.println("#############进入login#############");
+        System.out.println("############# 进入login #############");
 
         // 用户请求时上传的参数
         JSONObject jsonParam = new JSONObject(strJson);
@@ -92,7 +92,7 @@ public class LoginController {
                 json.put("result", "unknown"); // 该用户未注册
             }
         }
-        System.out.println("#############return:"+ json.toString() + "#############");
+        System.out.println("############# login return:"+ json.toString() + " #############");
         return json.toString();
     }
 

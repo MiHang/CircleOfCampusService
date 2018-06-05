@@ -40,6 +40,8 @@ public class SocietyCircleRequestController {
     @RequestMapping(value = {"/coc/addSocietyCircleRequest"}, method = {RequestMethod.POST})
     public String addSocietyCircleRequest(@RequestBody String strJson) throws JSONException {
 
+        System.out.println("############# 进入 addSocietyCircleRequest #############");
+
         // 接收用户传来的 json 数据
         JSONObject jsonParam = new JSONObject(strJson);
         int uId = jsonParam.getInt("uId");
@@ -70,6 +72,8 @@ public class SocietyCircleRequestController {
         } else {
             json.put("result", "error");
         }
+
+        System.out.println("############# addSocietyCircleRequest return:"+ json.toString() + " #############");
         return json.toString();
     }
 

@@ -47,6 +47,8 @@ public class ForgotPwdController {
     @RequestMapping(value = {"/coc/resetPassword"}, method = {RequestMethod.POST})
     public String resetPassword(@RequestBody String strJson) throws JSONException {
 
+        System.out.println("############# 进入 resetPassword #############");
+
         // 接收用户传来的 json 数据
         JSONObject jsonParam = new JSONObject(strJson);
         String email = jsonParam.getString("email");
@@ -95,7 +97,7 @@ public class ForgotPwdController {
         } else { // 未获取注册验证码
             json.put("result", "no_code");
         }
-
+        System.out.println("############# resetPassword return:"+ json.toString() + " #############");
         return json.toString();
     }
 
@@ -115,6 +117,8 @@ public class ForgotPwdController {
     @ResponseBody
     @RequestMapping(value = {"/coc/getForgotPwdCode"}, method = {RequestMethod.POST})
     public String getForgotPwdCode(@RequestBody String strJson) throws JSONException {
+
+        System.out.println("############# 进入 getForgotPwdCode #############");
 
         // 接收用户传来的 json 数据
         JSONObject jsonParam = new JSONObject(strJson);
@@ -147,7 +151,7 @@ public class ForgotPwdController {
             Cookie cookie = new Cookie(email, verificationCode, System.currentTimeMillis());
             cookieMap.put(email, cookie);
         }
-
+        System.out.println("############# getForgotPwdCode return:"+ json.toString() + " #############");
         return json.toString();
     }
 
@@ -166,6 +170,8 @@ public class ForgotPwdController {
     @ResponseBody
     @RequestMapping(value = {"/coc/isExistUser"}, method = {RequestMethod.POST})
     public String isExistUser(@RequestBody String strJson) throws JSONException {
+
+        System.out.println("############# 进入 isExistUser #############");
 
         // 用户请求时上传的参数
         JSONObject jsonParam = new JSONObject(strJson);
@@ -186,6 +192,7 @@ public class ForgotPwdController {
             json.put("result", "unregistered");
         }
 
+        System.out.println("############# isExistUser return:"+ json.toString() + " #############");
         return json.toString();
     }
 }

@@ -46,6 +46,8 @@ public class CampusCircleController {
                                   HttpServletRequest request)
             throws JSONException, IOException {
 
+        System.out.println("############# 进入addCampusCircle #############");
+
         // 项目部署的根路径(绝对路径)
         String path = request.getSession().getServletContext().getRealPath("/");
 
@@ -108,7 +110,7 @@ public class CampusCircleController {
                 json.put("result", "error");
             }
         }
-
+        System.out.println("############# addCampusCircle return:"+ json.toString() + " #############");
         return json.toString();
     }
 
@@ -144,6 +146,8 @@ public class CampusCircleController {
     @ResponseBody
     @RequestMapping(value = {"/coc/getCampusCircle"}, method = {RequestMethod.POST})
     public String getCampusCircle(@RequestBody String strJson) throws JSONException {
+
+        System.out.println("############# 进入 getCampusCircle #############");
 
         // 用户请求时上传的参数
         JSONObject jsonParam = new JSONObject(strJson);
@@ -187,6 +191,7 @@ public class CampusCircleController {
             json.put(jsonObject);
         }
 
+        System.out.println("############# getCampusCircle return:"+ json.toString() + " #############");
         return json.toString();
     }
 
@@ -207,6 +212,8 @@ public class CampusCircleController {
     @RequestMapping(value = {"/coc/getCampusCircleSize"}, method = {RequestMethod.POST})
     public String getCampusCircleSize(@RequestBody String strJson) throws JSONException {
 
+        System.out.println("############# 进入 getCampusCircleSize #############");
+
         // 用户请求时上传的参数
         JSONObject jsonParam = new JSONObject(strJson);
         int uId = jsonParam.getInt("uId"); // 用户ID
@@ -226,6 +233,7 @@ public class CampusCircleController {
             json.put("result", "error");
         }
 
+        System.out.println("############# getCampusCircleSize return:"+ json.toString() + " #############");
         return json.toString();
     }
 }

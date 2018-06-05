@@ -47,6 +47,8 @@ public class SocietyCircleController {
                                   HttpServletRequest request)
             throws JSONException, IOException {
 
+        System.out.println("############# 进入 addSocietyCircle #############");
+
         // 项目部署的根路径(绝对路径)
         String path = request.getSession().getServletContext().getRealPath("/");
 
@@ -110,6 +112,7 @@ public class SocietyCircleController {
             }
         }
 
+        System.out.println("############# addSocietyCircle return:"+ json.toString() + " #############");
         return json.toString();
     }
 
@@ -147,6 +150,8 @@ public class SocietyCircleController {
     @ResponseBody
     @RequestMapping(value = {"/coc/getMyPublishSocietyCircle"}, method = {RequestMethod.POST})
     public String getMyPublishSocietyCircle(@RequestBody String strJson) throws JSONException {
+
+        System.out.println("############# 进入 getMyPublishSocietyCircle #############");
 
         // 用户请求时上传的参数
         JSONObject jsonParam = new JSONObject(strJson);
@@ -190,7 +195,7 @@ public class SocietyCircleController {
             jsonObject.put("result", "error");
             json.put(jsonObject);
         }
-
+        System.out.println("############# getMyPublishSocietyCircle return:"+ json.toString() + " #############");
         return json.toString();
     }
 
@@ -228,6 +233,8 @@ public class SocietyCircleController {
     @ResponseBody
     @RequestMapping(value = {"/coc/getSocietyCircle"}, method = {RequestMethod.POST})
     public String getSocietyCircle(@RequestBody String strJson) throws JSONException {
+
+        System.out.println("############# 进入 getSocietyCircle #############");
 
         // 用户请求时上传的参数
         JSONObject jsonParam = new JSONObject(strJson);
@@ -272,6 +279,7 @@ public class SocietyCircleController {
             json.put(jsonObject);
         }
 
+        System.out.println("############# getSocietyCircle return:"+ json.toString() + " #############");
         return json.toString();
     }
 
@@ -292,6 +300,8 @@ public class SocietyCircleController {
     @RequestMapping(value = {"/coc/getMyPublishSocietyCircleSize"}, method = {RequestMethod.POST})
     public String getMyPublishSocietyCircleSize(@RequestBody String strJson) throws JSONException {
 
+        System.out.println("############# 进入 getMyPublishSocietyCircleSize #############");
+
         // 用户请求时上传的参数
         JSONObject jsonParam = new JSONObject(strJson);
         int uId = jsonParam.getInt("uId"); // 用户ID
@@ -310,6 +320,7 @@ public class SocietyCircleController {
             json.put("result", "error");
         }
 
+        System.out.println("############# getMyPublishSocietyCircleSize return:"+ json.toString() + " #############");
         return json.toString();
     }
 
@@ -330,6 +341,8 @@ public class SocietyCircleController {
     @RequestMapping(value = {"/coc/getSocietyCircleSize"}, method = {RequestMethod.POST})
     public String getSocietyCircleSize(@RequestBody String strJson) throws JSONException {
 
+        System.out.println("############# 进入 getSocietyCircleSize #############");
+
         // 用户请求时上传的参数
         JSONObject jsonParam = new JSONObject(strJson);
         int uId = jsonParam.getInt("uId"); // 用户ID
@@ -349,6 +362,7 @@ public class SocietyCircleController {
             json.put("result", "error");
         }
 
+        System.out.println("############# getSocietyCircleSize return:"+ json.toString() + " #############");
         return json.toString();
     }
 

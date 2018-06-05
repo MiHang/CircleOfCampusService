@@ -34,6 +34,8 @@ public class FriendController {
     @RequestMapping(value = {"/coc/getFriendNote"}, method = {RequestMethod.POST})
     public String getFriendNote(@RequestBody String strJson) throws JSONException {
 
+        System.out.println("############# 进入 getFriendNote #############");
+
         // 接收用户传来的 json 数据
         JSONObject jsonParam = new JSONObject(strJson);
         int userId = jsonParam.getInt("userId");
@@ -54,7 +56,7 @@ public class FriendController {
         } else {
             json.put("result", "error");
         }
-
+        System.out.println("############# getFriendNote return:"+ json.toString() + " #############");
         return json.toString();
     }
 
@@ -74,6 +76,8 @@ public class FriendController {
     @ResponseBody
     @RequestMapping(value = {"/coc/updateFriendNote"}, method = {RequestMethod.POST})
     public String updateFriendNote(@RequestBody String strJson) throws JSONException {
+
+        System.out.println("############# 进入 updateFriendNote #############");
 
         // 接收用户传来的 json 数据
         JSONObject jsonParam = new JSONObject(strJson);
@@ -102,7 +106,7 @@ public class FriendController {
         } else {
             json.put("result", "error");
         }
-
+        System.out.println("############# updateFriendNote return:"+ json.toString() + " #############");
         return json.toString();
     }
 

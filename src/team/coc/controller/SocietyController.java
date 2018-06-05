@@ -38,6 +38,8 @@ public class SocietyController {
     @RequestMapping(value = {"/coc/getAllSociety"}, method = {RequestMethod.POST})
     public String getAllSociety(@RequestBody String strJson) throws JSONException {
 
+        System.out.println("############# 进入 getAllSociety #############");
+
         // 接收用户传来的 json 数据
         JSONObject jsonParam = new JSONObject(strJson);
         int uId = jsonParam.getInt("uId");
@@ -68,6 +70,7 @@ public class SocietyController {
             }
         }
 
+        System.out.println("############# getAllSociety return:"+ json.toString() + " #############");
         return json.toString();
     }
 

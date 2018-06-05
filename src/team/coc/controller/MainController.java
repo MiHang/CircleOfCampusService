@@ -27,7 +27,7 @@ public class MainController {
     @ResponseBody
     @RequestMapping(value = "/coc/startup")
     public String startService() {
-
+        System.out.println("############# 进入startup #############");
         if (!isStartup) {
             isStartup = true;
 
@@ -59,10 +59,15 @@ public class MainController {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-
+            System.out.println("############# startup return:" +
+                    "<pre style='font-size:18px;'>" + noBug +
+                    "\n\n" + str + "</pre>" + " #############");
             return ("<pre style='font-size:18px;'>" + noBug + "\n\n" + str + "</pre>");
         }
 
+        System.out.println("############# startup return:"+
+                "<br/><p>------ Circle Of Campus Service Started. Don't start again! ------</p>"
+                + " #############");
         return "<br/><p>------ Circle Of Campus Service Started. Don't start again! ------</p>";
     }
 

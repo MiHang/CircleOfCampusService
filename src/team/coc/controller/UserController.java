@@ -40,6 +40,8 @@ public class UserController {
     @RequestMapping(value = {"/coc/updateUserInfo"}, method = {RequestMethod.POST})
     public String updateUserInfo(@RequestBody String strJson) throws JSONException {
 
+        System.out.println("############# 进入 updateUserInfo #############");
+
         // 接收用户传来的 json 数据
         JSONObject jsonParam = new JSONObject(strJson);
         int uId = jsonParam.getInt("uId");
@@ -64,6 +66,7 @@ public class UserController {
             json.put("result", "error");
         }
 
+        System.out.println("############# updateUserInfo return:"+ json.toString() + " #############");
         return json.toString();
     }
 
@@ -91,6 +94,8 @@ public class UserController {
     @RequestMapping(value = {"/coc/getUserInfoByAccount"}, method = {RequestMethod.POST})
     public String getUserAllInfo(@RequestBody String strJson) throws JSONException {
 
+        System.out.println("############# 进入 getUserInfoByAccount #############");
+
         // 接收用户传来的 json 数据
         JSONObject jsonParam = new JSONObject(strJson);
         String account = jsonParam.getString("account");
@@ -114,6 +119,7 @@ public class UserController {
             json.put("result", "error");
         }
 
+        System.out.println("############# getUserInfoByAccount return:"+ json.toString() + " #############");
         return json.toString();
     }
 
@@ -142,6 +148,8 @@ public class UserController {
     @RequestMapping(value = {"/coc/getUserInfo"}, method = {RequestMethod.POST})
     public String getUserInfo(@RequestBody String strJson) throws JSONException {
 
+        System.out.println("############# 进入 getUserInfo #############");
+
         // 接收用户传来的 json 数据
         JSONObject jsonParam = new JSONObject(strJson);
         int uId = jsonParam.getInt("uId");
@@ -165,6 +173,7 @@ public class UserController {
             json.put("result", "error");
         }
 
+        System.out.println("############# getUserInfo return:"+ json.toString() + " #############");
         return json.toString();
     }
 

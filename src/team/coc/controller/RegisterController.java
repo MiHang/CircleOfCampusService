@@ -54,6 +54,8 @@ public class RegisterController {
     @RequestMapping(value = {"/coc/register"}, method = {RequestMethod.POST})
     public String register(@RequestBody String strJson) throws JSONException {
 
+        System.out.println("############# 进入 register #############");
+
         // 接收用户传来的 json 数据
         JSONObject jsonParam = new JSONObject(strJson);
         String username = jsonParam.getString("username");
@@ -107,6 +109,7 @@ public class RegisterController {
             json.put("result", "no_code");
         }
 
+        System.out.println("############# register return:"+ json.toString() + " #############");
         return json.toString();
     }
 
@@ -125,6 +128,8 @@ public class RegisterController {
     @ResponseBody
     @RequestMapping(value = {"/coc/getFaculties"}, method = {RequestMethod.POST})
     public String getFaculties(@RequestBody String strJson) throws JSONException {
+
+        System.out.println("############# 进入 getFaculties #############");
 
         // 接收用户传来的 json 数据
         JSONObject jsonParam = new JSONObject(strJson);
@@ -147,6 +152,7 @@ public class RegisterController {
             }
         }
 
+        System.out.println("############# getFaculties return:"+ json.toString() + " #############");
         return json.toString();
     }
 
@@ -163,6 +169,8 @@ public class RegisterController {
     @ResponseBody
     @RequestMapping(value = {"/coc/getCampuses"}, method = {RequestMethod.POST})
     public String getCampuses() throws JSONException {
+
+        System.out.println("############# 进入 getCampuses #############");
 
         // 返回数据的JSON数组
         JSONArray json = new JSONArray();
@@ -181,6 +189,7 @@ public class RegisterController {
             }
         }
 
+        System.out.println("############# getCampuses return:"+ json.toString() + " #############");
         return json.toString();
     }
 
@@ -203,6 +212,8 @@ public class RegisterController {
     @ResponseBody
     @RequestMapping(value = {"/coc/getRegisterCode"}, method = {RequestMethod.POST})
     public String getRegisterCode(@RequestBody String strJson) throws JSONException {
+
+        System.out.println("############# 进入 getRegisterCode #############");
 
         // 接收用户传来的 json 数据
         JSONObject jsonParam = new JSONObject(strJson);
@@ -244,6 +255,7 @@ public class RegisterController {
             cookieMap.put(email, cookie);
         }
 
+        System.out.println("############# getRegisterCode return:"+ json.toString() + " #############");
         return json.toString();
     }
 
@@ -262,6 +274,8 @@ public class RegisterController {
     @ResponseBody
     @RequestMapping(value = {"/coc/isUsableName"}, method = {RequestMethod.POST})
     public String isUsableName(@RequestBody String strJson) throws JSONException {
+
+        System.out.println("############# 进入 isUsableName #############");
 
         // 接收用户传来的 json 数据
         JSONObject jsonParam = new JSONObject(strJson);
@@ -282,6 +296,7 @@ public class RegisterController {
             json.put("result", "free");
         }
 
+        System.out.println("############# isUsableName return:"+ json.toString() + " #############");
         return json.toString();
     }
 
