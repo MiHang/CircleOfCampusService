@@ -39,17 +39,11 @@ public class DemoController {
     @ResponseBody
     @RequestMapping(value = {"/coc/test"})
     public String test1(HttpServletRequest request) throws JSONException {
+        System.out.println("############# 进入 test #############");
         JSONObject json = new JSONObject();
         json.put("msg", "success");
-
+        System.out.println("############# test return:"+ json.toString() + " #############");
         return json.toString();
-    }
-
-    @ResponseBody
-    @RequestMapping(value = {"/coc/demo"}, method = {RequestMethod.POST})
-    public String demo(@RequestBody String strJson) throws JSONException {
-        System.out.println("strJson");
-        return "{result:'666666'}";
     }
 
     /**
@@ -61,6 +55,8 @@ public class DemoController {
     @ResponseBody
     @RequestMapping(value = {"/coc/unclearSearch"}, method = {RequestMethod.POST})
     public String unclearSearch(@RequestBody String strJson) throws JSONException {
+
+        System.out.println("############# 进入 unclearSearch #############");
 
         JSONObject jsonObject = new JSONObject(strJson); // 用户请求时上传的参数
         UserDao dao=new UserDao();
@@ -81,6 +77,7 @@ public class DemoController {
             }
             js.put("Info",ja.toString());
 
+        System.out.println("############# unclearSearch return:"+ js.toString() + " #############");
         return js.toString();
     }
 
@@ -95,6 +92,8 @@ public class DemoController {
     @ResponseBody
     @RequestMapping(value = {"/coc/requestAddFriend"}, method = {RequestMethod.POST})
     public String requestAddFriend(@RequestBody String strJson) throws JSONException {
+
+        System.out.println("############# 进入 requestAddFriend #############");
 
         JSONObject jsonObject = new JSONObject(strJson); // 用户请求时上传的参数
         JSONObject js=new JSONObject();
@@ -122,6 +121,7 @@ public class DemoController {
             }
         }
 
+        System.out.println("############# requestAddFriend return:"+ js.toString() + " #############");
         return js.toString();
     }
 
@@ -137,6 +137,7 @@ public class DemoController {
     @RequestMapping(value = {"/coc/queryIsFriend"}, method = {RequestMethod.POST})
     public String QueryIsFriend(@RequestBody String strJson) throws JSONException {
 
+        System.out.println("############# 进入 queryIsFriend #############");
         JSONObject jsonObject = new JSONObject(strJson); // 用户请求时上传的参数
         JSONObject js=new JSONObject();
         GoodFriendDao dao1=new GoodFriendDao();
@@ -146,6 +147,7 @@ public class DemoController {
             js.put("result","no");
         }
 
+        System.out.println("############# queryIsFriend return:"+ js.toString() + " #############");
         return js.toString();
     }
 
@@ -161,6 +163,7 @@ public class DemoController {
     @RequestMapping(value = {"/coc/queryFriendInfo"}, method = {RequestMethod.POST})
     public String queryFriendInfo(@RequestBody String strJson) throws JSONException {
 
+        System.out.println("############# 进入 queryFriendInfo #############");
         JSONObject jsonObject = new JSONObject(strJson); // 用户请求时上传的参数
         JSONObject js=new JSONObject();
         GoodFriendDao dao=new GoodFriendDao();
@@ -199,6 +202,7 @@ public class DemoController {
             }
         }
         js.put("Info",ja.toString());
+        System.out.println("############# queryFriendInfo return:"+ js.toString() + " #############");
         return js.toString();
     }
     /**
@@ -212,6 +216,7 @@ public class DemoController {
     @RequestMapping(value = {"/coc/QueryRequestAddFriendInfo"}, method = {RequestMethod.POST})
     public String QueryRequestAddFriendInfo(@RequestBody String strJson) throws JSONException {
 
+        System.out.println("############# 进入 QueryRequestAddFriendInfo #############");
         JSONObject jsonObject = new JSONObject(strJson); // 用户请求时上传的参数
         GoodFriendRequestDao dao=new GoodFriendRequestDao();
         JSONObject js=new JSONObject();
@@ -235,7 +240,7 @@ public class DemoController {
             js.put("Info",ja.toString());
         }
 
-
+        System.out.println("############# QueryRequestAddFriendInfo return:"+ js.toString() + " #############");
         return js.toString();
     }
 
@@ -249,6 +254,9 @@ public class DemoController {
     @ResponseBody
     @RequestMapping(value = {"/coc/UserNameAndSexQuery"}, method = {RequestMethod.POST})
     public String getUserNameAndSex(@RequestBody String strJson) throws JSONException {
+
+        System.out.println("############# 进入 UserNameAndSexQuery #############");
+
         JSONObject jsonObject = new JSONObject(strJson); // 用户请求时上传的参数
         UserDao dao=new UserDao();
         User u= dao.getUserByAccount(jsonObject.getString("Account"));
@@ -256,7 +264,8 @@ public class DemoController {
         JSONObject js=new JSONObject();
         js.put("UserName",u.getUserName());
         js.put("Sex",u.getGender());
-        System.out.println("用户名"+js.getString("UserName")+"性别"+js.getString("Sex"));
+
+        System.out.println("############# UserNameAndSexQuery return:"+ js.toString() + " #############");
         return js.toString();
     }
 
@@ -268,6 +277,7 @@ public class DemoController {
     @RequestMapping(value = {"/coc/testByte"})
     public byte[] test2() throws JSONException, UnsupportedEncodingException {
 
+        System.out.println("############# 进入 testByte #############");
         /*
         File file = new File("D:/Picture/Saved Pictures/000.jpg");
         FileInputStream fileInputStream = new FileInputStream(file);
@@ -281,6 +291,7 @@ public class DemoController {
 
         JSONObject json = new JSONObject();
         json.put("msg", "success");
+        System.out.println("############# testByte return:"+ json.toString() + " #############");
         return json.toString().getBytes("UTF-8");
     }
 
