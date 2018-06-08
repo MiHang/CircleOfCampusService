@@ -77,12 +77,16 @@ public class ForgotPwdController {
                 // 通过email获取相关用户
                 User user = userDao.getUserByAccount(email);
 
-                // 重置用户密码
-                user.setPwd(rsaEncrypt.encrypt(pwd));
+                if (user != null) {
+                    // 重置用户密码
+                    user.setPwd(rsaEncrypt.encrypt(pwd));
 
-                // 更新用户数据
-                if (userDao.update(user)) {
-                    json.put("result", "success");
+                    // 更新用户数据
+                    if (userDao.update(user)) {
+                        json.put("result", "success");
+                    } else {
+                        json.put("result", "error");
+                    }
                 } else {
                     json.put("result", "error");
                 }
