@@ -8,7 +8,7 @@
         <!-- 方言(连接的数据库类型) -->
         <property name="dialect">org.hibernate.dialect.MySQL5InnoDBDialect</property>
         <!-- 连接的数据库名 -->
-        <property name="connection.url">jdbc:mysql:///circle_of_campus</property>
+        <property name="connection.url">jdbc:mysql:///circle_of_campus?useUnicode=true&amp;characterEncoding=utf-8</property>
         <!-- 连接数据库的驱动 -->
         <property name="connection.driver_class">com.mysql.jdbc.Driver</property>
         <!-- 用户名及密码 -->

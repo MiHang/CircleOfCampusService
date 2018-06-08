@@ -25,7 +25,7 @@ public class CampusCircle implements Serializable {
      * 标题
      */
     @NotNull
-    @Column(length = 50)
+    @Column(length = 100)
     private String title;
 
     /**
@@ -50,7 +50,7 @@ public class CampusCircle implements Serializable {
     /**
      * 活动地点
      */
-    @Column(length = 50)
+    @Column(length = 100)
     private String venue;
 
     /**
