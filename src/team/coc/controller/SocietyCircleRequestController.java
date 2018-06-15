@@ -95,7 +95,7 @@ public class SocietyCircleRequestController {
     @RequestMapping(value = {"/coc/hasSocietyCircleAuthority"}, method = {RequestMethod.POST})
     public String hasSocietyCircleAuthority(@RequestBody String strJson) throws JSONException {
 
-        System.out.println("############# 进入 addSocietyCircleRequest #############");
+        System.out.println("############# 进入 hasSocietyCircleAuthority #############");
 
         // 接收用户传来的 json 数据
         JSONObject jsonParam = new JSONObject(strJson);
