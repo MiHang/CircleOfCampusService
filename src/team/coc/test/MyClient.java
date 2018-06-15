@@ -22,8 +22,8 @@ public class MyClient extends WebSocketClient {
 	public static JTextArea jt;
 	static JTextField jtf;
 	static ByteUtils utils=new ByteUtils();
-	static String send="demo@163.com";
-	static String Receive="jayevip@163.com";
+	static String send="5085";
+	static String Receive="jaye@163.com";
 
 
 	public MyClient(URI serverURI) {
@@ -50,7 +50,7 @@ public class MyClient extends WebSocketClient {
 		JButton jb=new JButton("发送");
 		jf.add(jb,BorderLayout.EAST);
 
-		URI uri=new URI("ws://172.17.166.197:8891");
+		URI uri=new URI("ws://172.17.170.53:8891");
 		client=new MyClient(uri);
 		client.connect();
 

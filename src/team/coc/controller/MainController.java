@@ -4,6 +4,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import team.coc.service.WebSocketService;
+import team.coc.test.WebSocketServerTest;
 
 import java.io.*;
 
@@ -31,9 +32,13 @@ public class MainController {
         if (!isStartup) {
             isStartup = true;
 
-            int port = 8887; // 监听端口8887
-            WebSocketService server = new WebSocketService(port);
+//            int port = 8887; // 监听端口8887
+//            WebSocketService server = new WebSocketService(port);
+//            server.start();
+            WebSocketServerTest server=new WebSocketServerTest(8891);
             server.start();
+            System.out.println("服务器已启动,等待用户连接中");
+
 
             String noBug = "";
             String str = "------ Circle Of Campus Service Startup Success -------";
