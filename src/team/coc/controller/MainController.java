@@ -35,7 +35,7 @@ public class MainController {
 //            int port = 8887; // 监听端口8887
 //            WebSocketService server = new WebSocketService(port);
 //            server.start();
-            WebSocketServerTest server=new WebSocketServerTest(8891);
+            WebSocketService server=new WebSocketService(8891);
             server.start();
             System.out.println("服务器已启动,等待用户连接中");
 

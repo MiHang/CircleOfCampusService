@@ -117,6 +117,7 @@ public class WebSocketServerTest extends WebSocketServer {
 		User u= dao.getUserByAccount(data.getSend());
 		data.setUserName(u.getUserName());
 		data.setSex(u.getGender());
+		System.out.println(	"yonghum"+u.getUserName()+"性别"+u.getGender());
 
 
 		//判断接收者是否在线
