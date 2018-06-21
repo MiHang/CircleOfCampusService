@@ -27,7 +27,7 @@ public class SocietyCircleDao extends CommonDao<SocietyCircle> {
             tx = session.beginTransaction();
 
             // 查询数据库
-            String hql = "from SocietyCircle where user.id = ?";
+            String hql = "from SocietyCircle where user.id = ? order by convert(publishTime, datetime) desc";
             Query query = session.createQuery(hql);
             query.setParameter(0, uId);
             query.setFirstResult(start);
@@ -66,7 +66,7 @@ public class SocietyCircleDao extends CommonDao<SocietyCircle> {
             tx = session.beginTransaction();
 
             // 查询数据库
-            String hql = "from SocietyCircle where user.faculty.campus.id = ?";
+            String hql = "from SocietyCircle where user.faculty.campus.id = ? order by convert(publishTime, datetime) desc";
             Query query = session.createQuery(hql);
             query.setParameter(0, campusId);
             query.setFirstResult(start);

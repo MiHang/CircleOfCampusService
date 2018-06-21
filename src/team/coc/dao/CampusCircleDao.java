@@ -26,7 +26,7 @@ public class CampusCircleDao extends CommonDao<CampusCircle> {
             tx = session.beginTransaction();
 
             // 查询数据库
-            String hql = "from CampusCircle where campus.campusId = ?";
+            String hql = "from CampusCircle where campus.campusId = ? order by convert(publishTime, datetime) desc";
             Query query = session.createQuery(hql);
             query.setParameter(0, campusId);
             query.setFirstResult(start);
