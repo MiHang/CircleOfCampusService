@@ -26,6 +26,53 @@ import java.util.UUID;
 public class CampusCircleController {
 
     /**
+     * 获取校园公告的详情
+     * 请求地址URL: http://ip:8080/coc/getCampusCircleDetail.do<br>
+     * 请求方式: POST<br>
+     * @param strJson - json数据<br>
+     * 请求参数：id : int - 校园公告ID<br>
+     * @return 返回的json数据示例<br>
+     * 成功 {"publishTime":"","imagesUrl":"[]","publisherIco":"","publisher":"","title":"","content":""} <br>
+     * 失败 {result: 'error'} <br>
+     * publishTime : String - 发布时间 <br>
+     * imagesUrl : String - 公告图片 <br>
+     * publisherIco : String - 学校图标 <br>
+     * publisher : String - 发布学校 <br>
+     * title : String - 公告标题 <br>
+     * content : String - 公告内容 <br>
+     * result : String - 请求结果 <br>
+     * @throws JSONException - json异常
+     */
+    @ResponseBody
+    @RequestMapping(value = {"/coc/getCampusCircleDetail"}, method = {RequestMethod.POST})
+    public String getCampusCircleDetail(@RequestBody String strJson) throws JSONException {
+
+        System.out.println("############# 进入 getCampusCircleDetail #############");
+
+        // 用户请求时上传的参数
+        JSONObject jsonParam = new JSONObject(strJson);
+        int id = jsonParam.getInt("id"); // 校园公告ID
+
+        // 返回结果使用的JSON对象
+        JSONObject json = new JSONObject();
+
+        CampusCircleDao campusCircleDao = new CampusCircleDao();
+        CampusCircle campusCircle = campusCircleDao.getById(id);
+        if (campusCircle != null) {
+            json.put("publisher", campusCircle.getCampus().getCampusName());
+            json.put("publisherIco", "res/img/ico_campus_" + campusCircle.getCampus().getCampusAccount());
+            json.put("publishTime", campusCircle.getPublishTime());
+            json.put("title", campusCircle.getTitle());
+            json.put("content", campusCircle.getContent());
+            json.put("imagesUrl", campusCircle.getImagesUrl());
+        } else {
+            json.put("result","error");
+        }
+        System.out.println("###### getCampusCircleDetail return:"+ json.toString() + " ######");
+        return json.toString();
+    }
+
+    /**
      * 新增一条校园圈信息 <br>
      * 请求地址URL: http://ip:8080/coc/addCampusCircle.do <br>
      * 请求方式: POST<br>
@@ -236,4 +283,5 @@ public class CampusCircleController {
         System.out.println("############# getCampusCircleSize return:"+ json.toString() + " #############");
         return json.toString();
     }
+
 }

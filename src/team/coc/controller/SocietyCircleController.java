@@ -7,8 +7,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import team.coc.dao.SocietyCircleDao;
+import team.coc.dao.SocietyRequestDao;
 import team.coc.dao.UserDao;
+import team.coc.pojo.Society;
 import team.coc.pojo.SocietyCircle;
+import team.coc.pojo.SocietyRequest;
 import team.coc.pojo.User;
 
 import javax.servlet.http.HttpServletRequest;
@@ -25,6 +28,60 @@ import java.util.UUID;
  */
 @Controller
 public class SocietyCircleController {
+
+    /**
+     * 获取校园公告的详情
+     * 请求地址URL: http://ip:8080/coc/getCampusCircleDetail.do<br>
+     * 请求方式: POST<br>
+     * @param strJson - json数据<br>
+     * 请求参数：id : int - 社团公告ID<br>
+     * @return 返回的json数据示例<br>
+     * 成功 {"publishTime":"","imagesUrl":"[]","publisherIco":"","publisher":"","title":"","content":""} <br>
+     * 失败 {result: 'error'} <br>
+     * publishTime : String - 发布时间 <br>
+     * imagesUrl : String - 公告图片 <br>
+     * publisherIco : String - 社团图标 <br>
+     * publisher : String - 发布社团 <br>
+     * title : String - 公告标题 <br>
+     * content : String - 公告内容 <br>
+     * result : String - 请求结果 <br>
+     * @throws JSONException - json异常
+     */
+    @ResponseBody
+    @RequestMapping(value = {"/coc/getSocietyCircleDetail"}, method = {RequestMethod.POST})
+    public String getSocietyCircleDetail(@RequestBody String strJson) throws JSONException {
+
+        System.out.println("############# 进入 getSocietyCircleDetail #############");
+
+        // 用户请求时上传的参数
+        JSONObject jsonParam = new JSONObject(strJson);
+        int id = jsonParam.getInt("id"); // 社团公告ID
+
+        // 返回结果使用的JSON对象
+        JSONObject json = new JSONObject();
+        json.put("result","error");
+
+        SocietyCircleDao societyCircleDao = new SocietyCircleDao();
+        SocietyCircle societyCircle = societyCircleDao.getById(id);
+        if (societyCircle != null) {
+            SocietyRequestDao societyRequestDao = new SocietyRequestDao();
+            SocietyRequest societyRequest = societyRequestDao.getSocietyRequestByUid(societyCircle.getUser().getUserId());
+            if (societyRequest != null) {
+                Society society = societyRequest.getSociety();
+                json.put("publisher", society.getSocietyName());
+                json.put("publisherIco", "res/img/ico_society_"+society.getSocietyId());
+                json.put("publishTime", societyCircle.getPublishTime());
+                json.put("title", societyCircle.getTitle());
+                json.put("content", societyCircle.getContent());
+                json.put("imagesUrl", societyCircle.getImagesUrl());
+                json.remove("result");
+            }
+        }
+
+        System.out.println("###### getSocietyCircleDetail return:"+ json.toString() + " ######");
+        return json.toString();
+    }
+
 
     /**
      * 新增一条社团圈信息 <br>
