@@ -84,7 +84,7 @@ public class CampusCircleController {
      *      请求参数：activityTime : String - 活动时间 <br>
      * @param images - MultipartFile[] 上传的图片
      * @return {result:'success/error'}
-     * @throws JSONException
+     * @throws JSONException - json异常
      */
     @ResponseBody
     @RequestMapping(value = {"/coc/addCampusCircle"}, method = {RequestMethod.POST})
@@ -253,7 +253,7 @@ public class CampusCircleController {
      * 失败 {result: 'error'}<br>
      * size : int - 校园圈记录大小(数量) <br>
      * result : String - 请求结果
-     * @throws JSONException
+     * @throws JSONException - json异常
      */
     @ResponseBody
     @RequestMapping(value = {"/coc/getCampusCircleSize"}, method = {RequestMethod.POST})
