@@ -68,7 +68,7 @@ public class UserController {
      * 修改用户头像<br>
      * 请求地址URL: http://ip:8080/coc/alterAvatar.do<br>
      * 请求方式: POST <br>
-     * @param strJson - json数据 <br>
+     * @param param - json数据 <br>
      * 请求参数：uId : String - 用户ID <br>
      * @param avatar File - 图片文件
      * @return - 返回的json对象示例 <br>
@@ -79,14 +79,14 @@ public class UserController {
      */
     @ResponseBody
     @RequestMapping(value = {"/coc/alterAvatar"}, method = {RequestMethod.POST})
-    public String alterAvatar(@RequestBody String strJson,
+    public String alterAvatar(@RequestParam String param,
                               @RequestParam MultipartFile avatar,
                               HttpServletRequest request) throws JSONException, IOException {
 
         System.out.println("############# 进入alterAvatar #############");
 
         // 接收用户传来的参数
-        JSONObject jsonParam = new JSONObject(strJson);
+        JSONObject jsonParam = new JSONObject(param);
         int uId = jsonParam.getInt("uId"); // 用户ID
 
         // 返回数据用JSON对象
@@ -121,7 +121,7 @@ public class UserController {
             FileOutputStream fos = new FileOutputStream(path + user.getUserName());
             fos.write(bytes);
             fos.close();
-
+System.out.println("图片路径"+path + user.getUserName());
             json.put("result", "success");
             json.put("url", "res/img/" + user.getUserName());
         }

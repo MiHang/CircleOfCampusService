@@ -42,23 +42,23 @@ public class Demo {
 
 
             //请求添加好友
-        GoodFriendRequest goodFriendRequest=new GoodFriendRequest();
-        UserDao userDao=new UserDao();
-        User user1=userDao.getUserByAccount("123@163.com");
-
-        goodFriendRequest.setUser1(user1);
-        goodFriendRequest.setRequestReason("你好");
-        goodFriendRequest.setRequestTime(new Date());
-        User user2=userDao.getUserByAccount("demo@163.com");
-        goodFriendRequest.setUser2(user2);
-        GoodFriendRequestDao goodFriendRequestDao=new GoodFriendRequestDao();
-
-        if (goodFriendRequestDao.hasRequest(user1.getEmail(),user2.getEmail())){
-            System.out.println("你已向该用户发起申请");
-        }else{
-            goodFriendRequestDao.save(goodFriendRequest);
-            System.out.println("发起成功");
-        }
+//        GoodFriendRequest goodFriendRequest=new GoodFriendRequest();
+//        UserDao userDao=new UserDao();
+//        User user1=userDao.getUserByAccount("123@163.com");
+//
+//        goodFriendRequest.setUser1(user1);
+//        goodFriendRequest.setRequestReason("你好");
+//        goodFriendRequest.setRequestTime(new Date());
+//        User user2=userDao.getUserByAccount("demo@163.com");
+//        goodFriendRequest.setUser2(user2);
+//        GoodFriendRequestDao goodFriendRequestDao=new GoodFriendRequestDao();
+//
+//        if (goodFriendRequestDao.hasRequest(user1.getEmail(),user2.getEmail())){
+//            System.out.println("你已向该用户发起申请");
+//        }else{
+//            goodFriendRequestDao.save(goodFriendRequest);
+//            System.out.println("发起成功");
+//        }
 
 
 //         //查询是否有用户请求添加好友
@@ -84,6 +84,18 @@ public class Demo {
 //        }
 //        //修改好友备注
 //            dao1.updateLabel("jaye@163.com","demo@163.com","巴萨是");
+                //查询好友关系
+        UserDao userDao=new UserDao();
+        GoodFriendDao dao1=new GoodFriendDao();
+        if (dao1.isFriend("demo@163.com","123@163.com")){
+            System.out.println("已是好友");
+        }else{
+            GoodFriend goodFriend=new GoodFriend();
+            goodFriend.setUser1(userDao.getUserByAccount("demo@163.com"));
+            goodFriend.setUser2(userDao.getUserByAccount("123@163.com"));
+            dao1.save(goodFriend);
+            System.out.println("添加成功");
+        }
     }
 
 }

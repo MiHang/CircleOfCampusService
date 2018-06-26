@@ -12,6 +12,10 @@ import org.json.JSONObject;
 import team.coc.dao.UserDao;
 import team.coc.pojo.User;
 
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.nio.ByteBuffer;
 import java.text.SimpleDateFormat;
@@ -114,6 +118,9 @@ public class MyServer extends WebSocketServer {
 		User u= dao.getUserByAccount(data.getSend());
 		data.setUserName(u.getUserName());
 		data.setSex(u.getGender());
+		if (data.getAudio()!=null){
+            addFile(data.getAudio(),"D:/123.wav");
+        }
 
 
 		//判断接收者是否在线
@@ -131,8 +138,41 @@ public class MyServer extends WebSocketServer {
 
 	}
 
-
-	/**
+    public static void addFile(byte[] bfile, String fileURI) {
+        BufferedOutputStream bos = null;
+        FileOutputStream fos = null;
+        File file = null;
+        File dir = null;
+        try {
+            System.out.println(fileURI.substring(0,fileURI.lastIndexOf("/")));
+            dir = new File(fileURI.substring(0,fileURI.lastIndexOf("/")+1).replace("/", "\\"));
+            if(!dir.exists()&&dir.isDirectory()){//判断文件目录是否存在
+                dir.mkdirs();
+            }
+            file = new File(fileURI);
+            fos = new FileOutputStream(file);
+            bos = new BufferedOutputStream(fos);
+            bos.write(bfile);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (bos != null) {
+                try {
+                    bos.close();
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                }
+            }
+            if (fos != null) {
+                try {
+                    fos.close();
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                }
+            }
+        }
+    }
+    /**
 	 * 转发二进制数据信息(私发)
 	 * @param bytes
 	 */

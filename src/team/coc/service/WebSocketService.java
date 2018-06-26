@@ -7,18 +7,10 @@ import org.java_websocket.handshake.ClientHandshake;
 import org.java_websocket.server.WebSocketServer;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
 import team.coc.dao.UserDao;
 import team.coc.pojo.User;
-import team.coc.test.WebSocketServerTest;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
 import java.net.InetSocketAddress;
-import java.net.UnknownHostException;
 import java.nio.ByteBuffer;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -28,7 +20,7 @@ import java.util.*;
  */
 public class WebSocketService  extends WebSocketServer {
 
-    static WebSocketServerTest server;//服务器
+    static WebSocketService server;//服务器
     Map<WebSocket,String> webSockets=new HashMap<WebSocket,String>();//存储登录用户端口及账号
     ByteUtils utils=new ByteUtils();//字节转换工具类
     List<Msg> info=new ArrayList<Msg>();
@@ -40,7 +32,7 @@ public class WebSocketService  extends WebSocketServer {
     }
 
     public static void main(String[] args) {
-        server=new WebSocketServerTest(8891);
+        server=new WebSocketService(8891);
         server.start();
         System.out.println("服务器已启动,等待用户连接中");
 
@@ -85,7 +77,6 @@ public class WebSocketService  extends WebSocketServer {
                             info.remove(r);
                         }
                     }
-
                 }else{
                     System.out.println("已登录");
                 }
@@ -96,7 +87,6 @@ public class WebSocketService  extends WebSocketServer {
                         if(entry.getValue() != null&&entry.getValue().equals(js.getString("Account"))){
                             webSockets.remove(entry.getKey());
                         }
-
                     }
 
                     System.out.println("处理后"+webSockets.size());
@@ -120,17 +110,18 @@ public class WebSocketService  extends WebSocketServer {
         //根据账号查询用户名与性别
         UserDao dao=new UserDao();
         User u= dao.getUserByAccount(data.getSend());
-        data.setUserName(u.getUserName());
-        data.setSex(u.getGender());
-        System.out.println(	"yonghum"+u.getUserName()+"性别"+u.getGender());
+        if(u!=null) {
+            data.setUserName(u.getUserName());
+            data.setSex(u.getGender());
 
 
-        //判断接收者是否在线
-        if(webSockets.containsValue(data.getReceive())){//在线
-            server.sendToPrivateUser(data.getReceive(),utils.toByteArray(data));
-        }else{//存储信息
-            info.add(data);
-            System.out.println("用户:"+data.getUserName()+"向"+data.getReceive()+"发送信息,该用户不在线,数据已储存"+data.getDate());
+            //判断接收者是否在线
+            if (webSockets.containsValue(data.getReceive())) {//在线
+                server.sendToPrivateUser(data.getReceive(), utils.toByteArray(data));
+            } else {//存储信息
+                info.add(data);
+                System.out.println("用户:" + data.getUserName() + "向" + data.getReceive() + "发送信息,该用户不在线,数据已储存" + data.getDate());
+            }
         }
     }
 
