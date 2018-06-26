@@ -121,7 +121,6 @@ public class UserController {
             FileOutputStream fos = new FileOutputStream(path + user.getUserName());
             fos.write(bytes);
             fos.close();
-System.out.println("图片路径"+path + user.getUserName());
             json.put("result", "success");
             json.put("url", "res/img/" + user.getUserName());
         }
@@ -139,8 +138,9 @@ System.out.println("图片路径"+path + user.getUserName());
      * 请求参数：userName : String - 用户名 <br>
      * 请求参数：gender : String - 用户性别 <br>
      * @return - 返回的json对象示例 <br>
-     * {result:'success/error'} <br>
+     * {result:'success/error/occupy'} <br>
      * result : String - 请求结果状态(success/error) <br>
+     * result - occupy : String - 用户名已被占用 <br>
      * @throws JSONException json对象异常
      */
     @ResponseBody
@@ -161,13 +161,17 @@ System.out.println("图片路径"+path + user.getUserName());
         UserDao userDao = new UserDao();
         User user = userDao.getById(uId);
         if (user != null) {
-            user.setUserName(userName);
-            user.setGender(gender);
-            boolean isSuccess = userDao.update(user);
-            if (isSuccess) {
-                json.put("result", "success");
+            if (user.getUserName().equals(userName) || !userDao.hasUser(userName)) {
+                user.setUserName(userName);
+                user.setGender(gender);
+                boolean isSuccess = userDao.saveOrUpdate(user);
+                if (isSuccess) {
+                    json.put("result", "success");
+                } else {
+                    json.put("result", "error");
+                }
             } else {
-                json.put("result", "error");
+                json.put("result", "occupy");
             }
         } else {
             json.put("result", "error");

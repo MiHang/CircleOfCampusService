@@ -4,6 +4,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import rasencrypt.encrypt.RSAEncrypt;
 import team.coc.controller.SocietyCircleController;
+import team.coc.controller.UserController;
 import team.coc.dao.CommonDao;
 import team.coc.dao.SocietyCircleDao;
 import team.coc.pojo.*;
