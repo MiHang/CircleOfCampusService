@@ -29,7 +29,30 @@ import java.util.List;
  */
 @Controller
 public class DemoController {
-
+    /**
+     * 一键添加好友,无需申请
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value = {"/coc/addFriendByQr"})
+    public String addFriend(@RequestBody String strJson) throws JSONException, UnsupportedEncodingException {
+        JSONObject js = new JSONObject(strJson);
+        JSONObject json = new JSONObject();
+        UserDao userDao=new UserDao();
+        GoodFriendDao dao=new GoodFriendDao();
+        if (dao.isFriend(js.getString("user1"),js.getString("user2"))){
+            System.out.println("已是好友");
+            json.put("result","error");
+        }else{
+            GoodFriend goodFriend=new GoodFriend();
+            goodFriend.setUser1(userDao.getUserByAccount(js.getString("user1")));
+            goodFriend.setUser2(userDao.getUserByAccount(js.getString("user2")));
+            dao.save(goodFriend);
+            System.out.println("添加成功");
+            json.put("result","success");
+        }
+        return json.toString();
+    }
     /**
      * 获取json数据测试方法
      * @ResponseBody 表明将返回的结果输出到Response的输出对象out中
