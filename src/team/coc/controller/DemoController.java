@@ -198,9 +198,10 @@ public class DemoController {
             js.put("result",0);//无好友
         } else{
             js.put("result",data.size());//无好友
-            for(GoodFriend g:data){
+            for(GoodFriend g : data){
                 JSONObject json = new JSONObject();
-                if (account.equals(g.getUser1().getEmail())){
+                if (account.equals(g.getUser1().getEmail()) || account.equals(g.getUser1().getUserName())){
+
                     if (g.getU2Notice()==null||g.getU2Notice().equals("")){//备注名称为空
                         json.put("nickName",g.getUser2().getUserName());
                     }else{
@@ -209,7 +210,7 @@ public class DemoController {
                     json.put("sex",g.getUser2().getGender());
                     json.put("account",g.getUser2().getEmail());
 
-                }else  if (account.equals(g.getUser2().getEmail())){
+                }else  if (account.equals(g.getUser2().getEmail()) || account.equals(g.getUser2().getUserName())){
 
                     if (g.getU1Notice()==null||g.getU1Notice().equals("")){//备注名称为空
                         json.put("nickName",g.getUser1().getUserName());
