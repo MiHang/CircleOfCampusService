@@ -78,10 +78,14 @@ public class MyServer extends WebSocketServer {
 						if(r.getReceive().equals(js.getString("Account"))){
 							System.out.println("发送消息"+r.getText());
 							webSocket.send(utils.toByteArray(r));
+
+						}
+					}
+					for(Msg r:info){
+						if(r.getReceive().equals(js.getString("Account"))){
 							info.remove(r);
 						}
 					}
-
 				}else{
 					System.out.println("已登录");
 				}

@@ -74,6 +74,11 @@ public class WebSocketService  extends WebSocketServer {
                         if(r.getReceive().equals(js.getString("Account"))){
                             System.out.println("发送消息"+r.getText());
                             webSocket.send(utils.toByteArray(r));
+
+                        }
+                    }
+                    for(Msg r:info){
+                        if(r.getReceive().equals(js.getString("Account"))){
                             info.remove(r);
                         }
                     }
@@ -139,7 +144,7 @@ public class WebSocketService  extends WebSocketServer {
             for (Map.Entry<WebSocket,String> entry : webSockets.entrySet()) {
                 if(entry.getValue().equals(Receive))
                     entry.getKey().send(bytes);
-                i++;
+                    i++;
 
             }
             System.out.println("私发:"+i+"人在线"+"转发"+i+"人");
