@@ -18,8 +18,6 @@ public class MainController {
      */
     private static boolean isStartup = false;
 
-    private static WebSocketService server;
-
     /**
      * 启动CircleOfCampusService服务<br>
      * 部署项目后请手动访问一次该地址以启动WebSocket服务<br>
@@ -33,12 +31,9 @@ public class MainController {
         if (!isStartup) {
             isStartup = true;
 
-//            int port = 8887; // 监听端口8887
-//            WebSocketService server = new WebSocketService(port);
+            WebSocketService.startupWebSocketService();
+//            server = new WebSocketService(8888);
 //            server.start();
-            server = new WebSocketService(8888);
-            server.start();
-            System.out.println("服务器已启动,等待用户连接中");
 
 
             String noBug = "";
@@ -65,9 +60,7 @@ public class MainController {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            System.out.println("############# startup return:" +
-                    "<pre style='font-size:18px;'>" + noBug +
-                    "\n\n" + str + "</pre>" + " #############");
+
             return ("<pre style='font-size:18px;'>" + noBug + "\n\n" + str + "</pre>");
         }
 

@@ -25,7 +25,7 @@ import java.util.*;
  */
 public class WebSocketService extends WebSocketServer {
     UserDao dao=new UserDao();
-    static MyServer server;//服务器
+    static WebSocketService server;//服务器
     Map<WebSocket,String> webSockets=new HashMap<WebSocket,String>();//存储登录用户端口及账号
     ByteUtils utils=new ByteUtils();//字节转换工具类
     List<Msg> info=new ArrayList<Msg>();
@@ -33,14 +33,18 @@ public class WebSocketService extends WebSocketServer {
 
     public WebSocketService(int address) {
         super(new InetSocketAddress(address));
+    }
 
+    public static void startupWebSocketService() {
+        server = new WebSocketService(8888);
+        server.start();
+        System.out.println("服务器已启动,等待用户连接中");
     }
 
     public static void main(String[] args) {
-        server=new MyServer(8888);
+        server = new WebSocketService(8888);
         server.start();
         System.out.println("服务器已启动,等待用户连接中");
-
     }
 
     @Override
