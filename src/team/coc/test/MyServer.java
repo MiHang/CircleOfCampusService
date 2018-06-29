@@ -36,7 +36,7 @@ public class MyServer extends WebSocketServer {
 	}
 
 	public static void main(String[] args) {
-		server=new MyServer(8891);
+		server=new MyServer(8888);
 		server.start();
 		System.out.println("服务器已启动,等待用户连接中");
 

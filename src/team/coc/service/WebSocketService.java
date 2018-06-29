@@ -32,7 +32,7 @@ public class WebSocketService  extends WebSocketServer {
     }
 
     public static void main(String[] args) {
-        server=new WebSocketService(8891);
+        server=new WebSocketService(8888);
         server.start();
         System.out.println("服务器已启动,等待用户连接中");
 
@@ -124,13 +124,10 @@ public class WebSocketService  extends WebSocketServer {
             }
         }
     }
-
     @Override
     public void onOpen(WebSocket arg0, ClientHandshake arg1) {
         System.out.println("当前连接人数"+webSockets.size());
-
     }
-
 
     /**
      * 转发二进制数据信息(私发)
