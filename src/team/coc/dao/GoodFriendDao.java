@@ -4,7 +4,6 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 import team.coc.pojo.GoodFriend;
-import team.coc.pojo.GoodFriendRequest;
 import team.coc.pojo.User;
 import team.coc.util.HibernateUtils;
 
@@ -22,6 +21,40 @@ public class GoodFriendDao extends CommonDao<GoodFriend> {
      * @param id2
      * @return
      */
+    public boolean removeGoodFriendById(int id1, int id2) {
+        Session session = HibernateUtils.openSession();
+        Transaction tx = null;
+        List<GoodFriend> goodFriends;
+        try {
+            tx = session.beginTransaction();
+
+            // 删除数据
+            String hql = "delete from GoodFriend where (user1.id = ? and user2.id = ?) " +
+                    "or (user2.id = ? and user1.id = ?)";
+            Query query = session.createQuery(hql);
+            query.setParameter(0, id1);
+            query.setParameter(1, id2);
+            query.setParameter(2, id1);
+            query.setParameter(3, id2);
+            query.executeUpdate();
+            tx.commit();
+
+            return true;
+        } catch (RuntimeException e) {
+            tx.rollback();
+            e.printStackTrace();
+        } finally {
+            session.close();
+        }
+        return false;
+    }
+
+    /**
+     * 通过ID获取GoodFriend对象
+     * @param id1
+     * @param id2
+     * @return
+     */
     public GoodFriend getGoodFriendById(int id1, int id2) {
         Session session = HibernateUtils.openSession();
         Transaction tx = null;
@@ -30,10 +63,13 @@ public class GoodFriendDao extends CommonDao<GoodFriend> {
             tx = session.beginTransaction();
 
             // 查询数据库
-            String hql = "from GoodFriend where user1.id = ? and user2.id = ?";
+            String hql = "from GoodFriend where (user1.id = ? and user2.id = ?) " +
+                    "or (user2.id = ? and user1.id = ?)";
             Query query = session.createQuery(hql);
             query.setParameter(0, id1);
             query.setParameter(1, id2);
+            query.setParameter(2, id1);
+            query.setParameter(3, id2);
             goodFriends = query.list();
 
             tx.commit();

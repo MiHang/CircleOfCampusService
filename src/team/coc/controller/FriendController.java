@@ -10,12 +10,57 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import team.coc.dao.GoodFriendDao;
 import team.coc.dao.UserDao;
 import team.coc.pojo.GoodFriend;
+import team.coc.pojo.User;
+
+import java.io.UnsupportedEncodingException;
 
 /**
  * 好友控制器
  */
 @Controller
 public class FriendController {
+
+    /**
+     * 删除好友<br>
+     * 请求地址URL: http://ip:8080/coc/removeFriend.do<br>
+     * 请求方式: POST <br>
+     * @param strJson - json数据 <br>
+     * 请求参数：userAccount : String - 用户账号 <br>
+     * 请求参数：friendAccount : String - 好友账号 <br>
+     * @return - 返回的json对象示例 <br>
+     * {result:'success/error'} <br>
+     * result : String - 请求结果状态(success/error) <br>
+     * @throws JSONException json对象异常
+     */
+    @ResponseBody
+    @RequestMapping(value = {"/coc/removeFriend"})
+    public String removeFriend(@RequestBody String strJson)
+            throws JSONException {
+
+        System.out.println("############# 进入 removeFriend #############");
+
+        // 接收用户传来的 json 数据
+        JSONObject jsonParam = new JSONObject(strJson);
+        String userAccount = jsonParam.getString("userAccount");
+        String friendAccount = jsonParam.getString("friendAccount");
+
+        // 返回数据的JSON对象
+        JSONObject json = new JSONObject();
+        json.put("result", "error");
+
+        UserDao userDao = new UserDao();
+        User userA = userDao.getUserByAccount(userAccount);
+        User userB = userDao.getUserByAccount(friendAccount);
+        if (userA != null && userB != null) {
+            GoodFriendDao goodFriendDao = new GoodFriendDao();
+            if (goodFriendDao.removeGoodFriendById(userA.getUserId(), userB.getUserId())) {
+                json.put("result", "success");
+            }
+        }
+
+        System.out.println("############# removeFriend return:"+ json.toString() + " #############");
+        return json.toString();
+    }
 
     /**
      * 获取好友备注<br>
@@ -56,6 +101,7 @@ public class FriendController {
         } else {
             json.put("result", "error");
         }
+
         System.out.println("############# getFriendNote return:"+ json.toString() + " #############");
         return json.toString();
     }
