@@ -18,6 +18,8 @@ public class MainController {
      */
     private static boolean isStartup = false;
 
+    private static WebSocketService server;
+
     /**
      * 启动CircleOfCampusService服务<br>
      * 部署项目后请手动访问一次该地址以启动WebSocket服务<br>
@@ -34,7 +36,7 @@ public class MainController {
 //            int port = 8887; // 监听端口8887
 //            WebSocketService server = new WebSocketService(port);
 //            server.start();
-            WebSocketService server=new WebSocketService(8888);
+            server = new WebSocketService(8888);
             server.start();
             System.out.println("服务器已启动,等待用户连接中");
 
