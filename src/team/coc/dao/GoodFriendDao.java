@@ -64,14 +64,18 @@ public class GoodFriendDao extends CommonDao<GoodFriend> {
         try {
             tx = session.beginTransaction();
 
+            UserDao userDao = new UserDao();
+            User userA = userDao.getUserByAccount(A_user);
+            User userB = userDao.getUserByAccount(B_user);
+
             // 查询数据库
-            String hql = " from GoodFriend where  (user1.email= ? and user2.email = ?) " +
-                    "or (user2.email = ? or user1.email= ? )";
+            String hql = " from GoodFriend where (user1.id= ? and user2.id = ?) " +
+                    "or (user2.id = ? and user1.id= ? )";
             Query query = session.createQuery(hql);
-            query.setParameter(0, A_user);
-            query.setParameter(1, B_user);
-            query.setParameter(2, A_user);
-            query.setParameter(3, B_user);
+            query.setParameter(0, userA.getUserId());
+            query.setParameter(1, userB.getUserId());
+            query.setParameter(2, userA.getUserId());
+            query.setParameter(3, userB.getUserId());
             goodFriends = query.list();
 
             tx.commit();
