@@ -31,12 +31,9 @@ public class MainController {
         if (!isStartup) {
             isStartup = true;
 
-//            int port = 8887; // 监听端口8887
-//            WebSocketService server = new WebSocketService(port);
+            WebSocketService.startupWebSocketService();
+//            server = new WebSocketService(8888);
 //            server.start();
-            WebSocketService server=new WebSocketService(8888);
-            server.start();
-            System.out.println("服务器已启动,等待用户连接中");
 
 
             String noBug = "";
@@ -63,9 +60,7 @@ public class MainController {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            System.out.println("############# startup return:" +
-                    "<pre style='font-size:18px;'>" + noBug +
-                    "\n\n" + str + "</pre>" + " #############");
+
             return ("<pre style='font-size:18px;'>" + noBug + "\n\n" + str + "</pre>");
         }
 

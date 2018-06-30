@@ -132,10 +132,10 @@ public class GoodFriendDao extends CommonDao<GoodFriend> {
 
     /**
      * 根据账号查询好友备注
-     * @param account - 账号
+     * @param uId - 用户ID
      * @return List<GoodFriend>
      */
-    public List<GoodFriend> getFriendRelative(String account) {
+    public List<GoodFriend> getFriendRelative(int uId) {
 
         Session session = HibernateUtils.openSession();
         Transaction tx = null;
@@ -144,12 +144,10 @@ public class GoodFriendDao extends CommonDao<GoodFriend> {
             tx = session.beginTransaction();
 
             // 查询数据库
-            String hql = "from GoodFriend where user1.email = ? or user1.userName = ? or user2.email = ? or user2.userName = ?";
+            String hql = "from GoodFriend where user1.id = ? or user2.id = ?";
             Query query = session.createQuery(hql);
-            query.setParameter(0, account);
-            query.setParameter(1, account);
-            query.setParameter(2, account);
-            query.setParameter(3, account);
+            query.setParameter(0, uId);
+            query.setParameter(1, uId);
             userList = query.list();
 
             tx.commit();

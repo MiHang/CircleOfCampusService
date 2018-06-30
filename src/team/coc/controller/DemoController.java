@@ -188,44 +188,57 @@ public class DemoController {
 
         System.out.println("############# 进入 queryFriendInfo #############");
         JSONObject jsonObject = new JSONObject(strJson); // 用户请求时上传的参数
+
         JSONObject js=new JSONObject();
-        GoodFriendDao dao=new GoodFriendDao();
+        js.put("result", 0); // 无好友
+
         JSONArray ja=new JSONArray();
-        //好友查询
+
+        // 判斷是否有此用戶
         String account=jsonObject.getString("account");
-        List<GoodFriend> data=dao.getFriendRelative(account);
-        if(data.size()==0){
-            js.put("result",0);//无好友
-        } else{
-            js.put("result",data.size());//无好友
-            for(GoodFriend g : data){
-                JSONObject json = new JSONObject();
-                if (account.equals(g.getUser1().getEmail()) || account.equals(g.getUser1().getUserName())){
+        UserDao userDao = new UserDao();
+        User user = userDao.getUserByAccount(account);
+        if (user != null) {
 
-                    if (g.getU2Notice()==null||g.getU2Notice().equals("")){//备注名称为空
-                        json.put("nickName",g.getUser2().getUserName());
-                    }else{
-                        json.put("nickName",g.getU2Notice());
+            GoodFriendDao dao=new GoodFriendDao();
+
+            // 好友查询
+            List<GoodFriend> data = dao.getFriendRelative(user.getUserId());
+            if(data.size() > 0) {
+
+                js.put("result", data.size()); // 存在好友
+
+                for (GoodFriend g : data) {
+
+                    JSONObject json = new JSONObject();
+                    if (user.getUserId() == g.getUser1().getUserId()) { // user2是好友
+
+                        if (g.getU2Notice() == null || g.getU2Notice().equals("")) {//备注名称为空
+                            json.put("nickName", g.getUser2().getUserName());
+                        } else {
+                            json.put("nickName", g.getU2Notice());
+                        }
+
+                        json.put("sex", g.getUser2().getGender());
+                        json.put("account", g.getUser2().getEmail());
+                    } else if (user.getUserId() == g.getUser2().getUserId()) { // user1是好友
+
+                        if (g.getU1Notice() == null || g.getU1Notice().equals("")) {//备注名称为空
+                            json.put("nickName", g.getUser1().getUserName());
+                        } else {
+                            json.put("nickName", g.getU1Notice());
+                        }
+                        json.put("sex", g.getUser1().getGender());
+                        json.put("account", g.getUser1().getEmail());
                     }
-                    json.put("sex",g.getUser2().getGender());
-                    json.put("account",g.getUser2().getEmail());
-
-                }else  if (account.equals(g.getUser2().getEmail()) || account.equals(g.getUser2().getUserName())){
-
-                    if (g.getU1Notice()==null||g.getU1Notice().equals("")){//备注名称为空
-                        json.put("nickName",g.getUser1().getUserName());
-                    }else{
-                        json.put("nickName",g.getU1Notice());
-                    }
-                    json.put("sex",g.getUser1().getGender());
-                    json.put("account",g.getUser1().getEmail());
+                    ja.put(json.toString());
 
                 }
-                ja.put(json.toString());
-
             }
+
+            js.put("Info",ja.toString());
         }
-        js.put("Info",ja.toString());
+
         System.out.println("############# queryFriendInfo return:"+ js.toString() + " #############");
         return js.toString();
     }
