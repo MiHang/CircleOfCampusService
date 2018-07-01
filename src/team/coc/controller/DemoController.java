@@ -221,6 +221,7 @@ public class DemoController {
 
                         json.put("sex", g.getUser2().getGender());
                         json.put("account", g.getUser2().getEmail());
+                        json.put("username", g.getUser2().getUserName());
                     } else if (user.getUserId() == g.getUser2().getUserId()) { // user1是好友
 
                         if (g.getU1Notice() == null || g.getU1Notice().equals("")) {//备注名称为空
@@ -230,6 +231,7 @@ public class DemoController {
                         }
                         json.put("sex", g.getUser1().getGender());
                         json.put("account", g.getUser1().getEmail());
+                        json.put("username", g.getUser1().getUserName());
                     }
                     ja.put(json.toString());
 
