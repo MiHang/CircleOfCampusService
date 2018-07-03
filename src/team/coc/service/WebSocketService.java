@@ -81,32 +81,32 @@ public class WebSocketService extends WebSocketServer {
 
                     System.out.println(info.size()+"新消息未接收");
 
-                    for(Msg r:info){//判断服务器是否有该用户未接收的信息 ,有则发送
-                        if(r.getReceive().equals(u.getUserName())){
-                            System.out.println("发送消息"+r.getText());
-                            webSocket.send(utils.toByteArray(r));
+                    Iterator<Msg> iterator = info.iterator();   //为了更好的跟踪程序的运行过程
+                    while(iterator.hasNext())                      //我将上面的增强for循环改为这里的iterator来实现，本质和
+                    {                                              //上面的循环是一样的
+                        Msg m=iterator.next();             //可以发现remove被执行后modCount和expectedModCount的值不一样
+                        if (m.getReceive().equals(u.getUserName()))
+                            System.out.println("发送消息"+m.getText());
+                        webSocket.send(utils.toByteArray(m));
+                        info.remove(m);
 
-                        }
-                    }
-                    for(Msg r:info){
-                        if(r.getReceive().equals(u.getUserName())){
-                            info.remove(r);
-                        }
                     }
                 }else{
                     System.out.println("已登录");
                 }
 
-            }else{//处理下线信息
+            }else if(js.getString("Request").equals("Offline")){//处理下线信息
                 if(webSockets.containsValue(u.getUserName())){
                     for(Map.Entry<WebSocket, String> entry:webSockets.entrySet()){
                         if(entry.getValue() != null&&entry.getValue().equals(u.getUserName())){
                             webSockets.remove(entry.getKey());
+                            System.out.println(entry.getValue()+"下线");
+                            break;
                         }
 
                     }
 
-                    System.out.println("处理后"+webSockets.size());
+                    System.out.println("处理后连接数量为:"+webSockets.size());
                 }
             }
         } catch (JSONException e) {
@@ -132,7 +132,7 @@ public class WebSocketService extends WebSocketServer {
         if (data.getAudio()!=null){
             addFile(data.getAudio(),"D:/123.wav");
         }
-
+       System.out.println("用户"+data.getSend()+"性别"+data.getSex());
         User receive= dao.getUserByAccount(data.getReceive());
         //判断接收者是否在线
         if(webSockets.containsValue(receive.getUserName())){//在线
