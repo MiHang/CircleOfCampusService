@@ -1,6 +1,6 @@
 package team.coc.service;
 
-import com.common.model.Msg;
+import com.common.model.Message;
 import com.common.utils.ByteUtils;
 import org.java_websocket.WebSocket;
 import org.java_websocket.handshake.ClientHandshake;
@@ -9,8 +9,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import team.coc.dao.UserDao;
 import team.coc.pojo.User;
-import team.coc.test.MyServer;
-
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -28,7 +26,7 @@ public class WebSocketService extends WebSocketServer {
     static WebSocketService server;//服务器
     Map<WebSocket,String> webSockets=new HashMap<WebSocket,String>();//存储登录用户端口及账号
     ByteUtils utils=new ByteUtils();//字节转换工具类
-    List<Msg> info=new ArrayList<Msg>();
+    List<Message> info=new ArrayList<Message>();
     SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
     public WebSocketService(int address) {
@@ -74,26 +72,23 @@ public class WebSocketService extends WebSocketServer {
 
             User u= dao.getUserByAccount(js.getString("Account"));
             if(js.getString("Request").equals("Login")){
-                if(!webSockets.containsValue(u.getUserName())){
 
                     webSockets.put(webSocket,u.getUserName());//存储登录信息
                     System.out.println(u.getUserName()+"登录信息已储存");
 
                     System.out.println(info.size()+"新消息未接收");
 
-                    Iterator<Msg> iterator = info.iterator();   //为了更好的跟踪程序的运行过程
+                    Iterator<Message> iterator = info.iterator();   //为了更好的跟踪程序的运行过程
                     while(iterator.hasNext())                      //我将上面的增强for循环改为这里的iterator来实现，本质和
                     {                                              //上面的循环是一样的
-                        Msg m=iterator.next();             //可以发现remove被执行后modCount和expectedModCount的值不一样
+                        Message m=iterator.next();             //可以发现remove被执行后modCount和expectedModCount的值不一样
                         if (m.getReceive().equals(u.getUserName()))
                             System.out.println("发送消息"+m.getText());
-                        webSocket.send(utils.toByteArray(m));
-                        info.remove(m);
+                           webSocket.send(utils.toByteArray(m));
+                           info.remove(m);
 
                     }
-                }else{
-                    System.out.println("已登录");
-                }
+
 
             }else if(js.getString("Request").equals("Offline")){//处理下线信息
                 if(webSockets.containsValue(u.getUserName())){
@@ -121,7 +116,7 @@ public class WebSocketService extends WebSocketServer {
      */
     @Override
     public void onMessage(WebSocket arg0, ByteBuffer bytes) {
-        Msg data=utils.toT(bytes.array());
+        Message data=utils.toT(bytes.array());
         data.setDate(sdf.format(new Date()));
 
         //根据账号查询用户名与性别

@@ -1,7 +1,7 @@
 package team.coc.test;
 
 
-import com.common.model.Msg;
+import com.common.model.Message;
 import com.common.utils.ByteUtils;
 import org.java_websocket.client.WebSocketClient;
 import org.java_websocket.handshake.ServerHandshake;
@@ -50,7 +50,7 @@ public class MyClient extends WebSocketClient {
 		JButton jb=new JButton("发送");
 		jf.add(jb,BorderLayout.EAST);
 
-		URI uri=new URI("ws://192.168.43.70:8888");
+		URI uri=new URI("ws://192.168.1.157:8888");
 		client=new MyClient(uri);
 		client.connect();
 
@@ -58,7 +58,7 @@ public class MyClient extends WebSocketClient {
 		jb.addMouseListener(new MouseListener() {
 			public void mouseClicked(MouseEvent e) {
 				if(client.getConnection().isOpen()){
-					Msg dataMsg=new Msg();
+					Message dataMsg=new Message();
 					dataMsg.setSend(send);
 					dataMsg.setReceive(Receive);
 					dataMsg.setText(jtf.getText().toString());
@@ -117,7 +117,7 @@ public class MyClient extends WebSocketClient {
 	 */
 	@Override
 	public void onMessage(ByteBuffer bytes) {
-		Msg msg =utils.toT(bytes.array());
+		Message msg =utils.toT(bytes.array());
 
 		jt.append(msg.getUserName()+":"+msg.getText()+msg.getDate()+"\n");
 	}
